@@ -1,11 +1,11 @@
 Class {
-	#name : #BaselineOfFamixFortran77,
+	#name : #BaselineOfFamixFortran,
 	#superclass : #BaselineOf,
 	#category : #BaselineOfFamixFortran
 }
 
 { #category : #baselines }
-BaselineOfFamixFortran77 >> baseline: spec [
+BaselineOfFamixFortran >> baseline: spec [
 	<baseline>
 	spec
 		for: #common
@@ -16,14 +16,14 @@ BaselineOfFamixFortran77 >> baseline: spec [
 ]
 
 { #category : #baselines }
-BaselineOfFamixFortran77 >> defineDependencies: spec [
+BaselineOfFamixFortran >> defineDependencies: spec [
 	spec
 		baseline: 'Famix' with: [ spec repository: 'github://moosetechnology/Famix' ];
 		baseline: 'NeoJSON' with: [ spec repository: 'github://svenvc/NeoJSON' ]
 ]
 
 { #category : #baselines }
-BaselineOfFamixFortran77 >> definePackages: spec [
+BaselineOfFamixFortran >> definePackages: spec [
 	spec
 		repository: 'github://moosetechnology/Famix-Fortran';
 		package: 'Famix-Fortran77-Entities' with: [ spec requires: #(Famix) ] ;
