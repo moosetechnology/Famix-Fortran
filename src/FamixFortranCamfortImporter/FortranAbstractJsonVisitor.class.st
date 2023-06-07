@@ -73,7 +73,7 @@ FortranAbstractJsonVisitor >> visitArguments: anArgumentList [
 
 { #category : #'visiting expression' }
 FortranAbstractJsonVisitor >> visitAssign_expression: anAssignExpressionNode [
-	^self visitJsonMap: anAssignExpressionNode keys: #(target expression)
+	^self visitJsonMap: anAssignExpressionNode keys: #(span target expression)
 
 ]
 
