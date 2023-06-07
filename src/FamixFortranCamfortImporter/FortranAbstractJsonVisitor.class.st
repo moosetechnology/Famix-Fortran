@@ -188,6 +188,11 @@ FortranAbstractJsonVisitor >> visitConditions: aConditionList [
 ]
 
 { #category : #'visiting statement' }
+FortranAbstractJsonVisitor >> visitContinueStatement: aContinueStatementNode [
+	^self visitSpan: (aContinueStatementNode at: 'span')
+]
+
+{ #category : #'visiting statement' }
 FortranAbstractJsonVisitor >> visitDeclarationStatement: aDeclarationStatementNode [
 	"tagged element 'declaration'"
 
