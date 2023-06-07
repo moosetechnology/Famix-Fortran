@@ -18,7 +18,7 @@ BaselineOfFamixFortran >> baseline: spec [
 { #category : #baselines }
 BaselineOfFamixFortran >> defineDependencies: spec [
 	spec
-		baseline: 'Famix' with: [ spec repository: 'github://moosetechnology/Famix' ];
+		baseline: 'Famix' with: [ spec repository: 'github://moosetechnology/Famix:development/src' ];
 		baseline: 'NeoJSON' with: [ spec repository: 'github://svenvc/NeoJSON' ]
 ]
 
