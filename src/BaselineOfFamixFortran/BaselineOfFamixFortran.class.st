@@ -28,9 +28,10 @@ BaselineOfFamixFortran >> definePackages: spec [
 		repository: 'github://moosetechnology/Famix-Fortran';
 		package: 'Famix-Fortran77-Entities' with: [ spec requires: #(Famix) ] ;
 		package: 'Famix-Fortran77-Generator' with: [ spec requires: #(Famix) ] ;
-		package: 'Famix-Fortran77-Tests' with: [ spec requires: #(Famix NeoJSON) ];
-		package: 'FortranCamfortImporter' with: [ spec requires: #(Famix) ] ;
-		package: 'FortranCamfortImporter-Tests' with: [ spec requires: #(Famix) ] ;
-		package: 'FamixFortranCamfortImporter' with: [ spec requires: #(Famix) ]
+		package: 'Famix-Fortran77-Tests' with: [ spec requires: #(NeoJSON Famix) ];
+		package: 'FamixFortranCamfortImporter' with: [ spec requires: #(Famix) ] ;
+		package: 'FortranCamfortImporter' with: [ spec requires: #(FamixFortranCamfortImporter Famix) ] ;
+		package: 'FortranCamfortImporter-Tests' with: [ spec requires: #(Famix) ].
+		
 
 ]
