@@ -365,7 +365,7 @@ JsonToIASTVisitorTest >> testEmptySubroutineTwoParams [
 	self assert: sub body isEmpty.
 ]
 
-{ #category : #'tests-esope' }
+{ #category : #'as yet unclassified' }
 JsonToIASTVisitorTest >> testEsoArTwoArgs [
 	"subroutine hello()
         esoar(baz,bar) = 5
@@ -687,6 +687,41 @@ JsonToIASTVisitorTest >> testProgramWithEmptyDoStatement [
 
 	
 
+]
+
+{ #category : #'tests-progUnit' }
+JsonToIASTVisitorTest >> testProgramWithMultipleProgUnits [
+	"program myprog
+      end
+
+      integer function ifunc( k, l )
+      end
+
+      subroutine mysub (msg)
+      end
+"
+	| programFile node |
+	programFile :=  self visitJsonCode:  '{"meta":{"miVersion":"fortran77","miFilename":"./fortran77.f"},"program_units":[{"anno":[],"blocks":[],"name":"myprog","span":"(1:7)-(2:9)","subprograms":null,"tag":"main"},{"anno":[],"arguments":{"anno":[],"list":[{"anno":[],"span":"(4:31)-(4:31)","tag":"value","value":{"contents":"k","tag":"variable"}},{"anno":[],"span":"(4:34)-(4:34)","tag":"value","value":{"contents":"l","tag":"variable"}}],"span":"(4:31)-(4:34)"},"blocks":[],"name":"ifunc","result":null,"span":"(4:7)-(5:9)","subprograms":null,"tag":"function","type":{"anno":[],"base_type":"integer","selector":null,"span":"(4:7)-(4:13)"}},{"anno":[],"arguments":{"anno":[],"list":[{"anno":[],"span":"(7:25)-(7:27)","tag":"value","value":{"contents":"msg","tag":"variable"}}],"span":"(7:25)-(7:27)"},"blocks":[],"name":"mysub","options":[null,null],"span":"(7:7)-(8:9)","subprograms":null,"tag":"subroutine"}]}'.
+
+	self assert: programFile progUnits size equals: 3.
+	
+	node := programFile progUnits first.
+	self assert: node class equals: IASTMainProgram.
+	self assert: node entityName equals: 'myprog'.
+	self assert: node body size equals: 0.
+	self assert: node accesses size equals: 0.
+	self assert: node invocations size equals: 0.
+	
+	node := programFile progUnits second.
+	self assert: node class equals: IASTFunction.
+	self assert: node parameters size equals: 2.
+	self assert: node parameters first entityName equals: 'k'.
+	self assert: node parameters second entityName equals: 'l'.
+
+	node := programFile progUnits third.
+	self assert: node class equals: IASTSubroutine.
+	self assert: node parameters size equals: 1.
+	self assert: node parameters first entityName equals: 'msg'.
 ]
 
 { #category : #'tests-statement' }
