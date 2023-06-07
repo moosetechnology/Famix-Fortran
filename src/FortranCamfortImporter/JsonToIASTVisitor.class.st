@@ -103,10 +103,10 @@ JsonToIASTVisitor >> visitAssign_expression: anAssignExpressionNode [
 	| data |
 	data := super visitAssign_expression: anAssignExpressionNode.
 
-	data first isWrite: true.
-	^(data second isCollection 
-		ifTrue:  [ { data first } , data second ]
-		ifFalse: [ { data first . data second } ]
+	data second isWrite: true.
+	^(data third isCollection 
+		ifTrue:  [ { data second } , data third ]
+		ifFalse: [ { data second . data third } ]
 	 )
 	 reject: #isNil.
 
