@@ -17,7 +17,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      PROJECT_NAME: ${{ matrix.smalltalk }}-FAST-Fortran
+      PROJECT_NAME: ${{ matrix.smalltalk }}-Famix-Fortran
     strategy:
       matrix:
         smalltalk: [ Pharo64-10, Pharo64-11 ]
