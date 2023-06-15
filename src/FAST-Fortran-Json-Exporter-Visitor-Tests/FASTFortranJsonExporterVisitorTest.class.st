@@ -24,7 +24,7 @@ FASTFortranJsonExporterVisitorTest >> testAssignementIntegerLiteral [
 
 	| expectedCode actualCode jsonCode |
 	expectedCode := '      PROGRAM MYPROG
-      c=1
+      c = 1
       END
 '.
 	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"./fortran77.f"},"program_units":[{"anno":[],"blocks":[{"anno":[],"label":null,"span":"(2:11)-(2:15)","statement":{"anno":[],"expression":{"anno":[],"span":"(2:15)-(2:15)","tag":"value","value":{"contents":["1",null],"tag":"integer"}},"span":"(2:11)-(2:15)","tag":"assign_expression","target":{"anno":[],"span":"(2:11)-(2:11)","tag":"value","value":{"contents":"c","tag":"variable"}}},"tag":"statement"}],"name":"myprog","span":"(1:7)-(3:9)","subprograms":null,"tag":"main"}]}'.
@@ -40,7 +40,7 @@ FASTFortranJsonExporterVisitorTest >> testAssignementRealLiteral [
 
 	| expectedCode actualCode jsonCode |
 	expectedCode := '      PROGRAM MYPROG
-      c=2.12
+      c = 2.12
       END
 '.
 	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"./fortran77.f"},"program_units":[{"anno":[],"blocks":[{"anno":[],"label":null,"span":"(2:11)-(2:18)","statement":{"anno":[],"expression":{"anno":[],"span":"(2:15)-(2:18)","tag":"value","value":{"contents":[{"exponent":{"letter":"e","num":"0"},"significand":"2.12"},null],"tag":"real"}},"span":"(2:11)-(2:18)","tag":"assign_expression","target":{"anno":[],"span":"(2:11)-(2:11)","tag":"value","value":{"contents":"c","tag":"variable"}}},"tag":"statement"}],"name":"myprog","span":"(1:7)-(3:9)","subprograms":null,"tag":"main"}]}'.
@@ -55,7 +55,7 @@ FASTFortranJsonExporterVisitorTest >> testAssignementStringLiteral [
 
 	| expectedCode actualCode jsonCode |
 	expectedCode := '      PROGRAM MYPROG
-      c=''once upon a time''
+      c = ''once upon a time''
       END
 '.
 	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"./fortran77.f"},"program_units":[{"anno":[],"blocks":[{"anno":[],"label":null,"span":"(2:11)-(2:32)","statement":{"anno":[],"expression":{"anno":[],"span":"(2:15)-(2:32)","tag":"value","value":{"contents":"once upon a time","tag":"string"}},"span":"(2:11)-(2:32)","tag":"assign_expression","target":{"anno":[],"span":"(2:11)-(2:11)","tag":"value","value":{"contents":"c","tag":"variable"}}},"tag":"statement"}],"name":"myprog","span":"(1:7)-(3:9)","subprograms":null,"tag":"main"}]}'.
@@ -70,7 +70,7 @@ FASTFortranJsonExporterVisitorTest >> testBinaryExpressionAddition [
 
 	| expectedCode actualCode jsonCode |
 	expectedCode := '      PROGRAM MYPROG
-      i=5+6
+      i = 5 + 6
       END
 '.
 	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"./fortran77.f"},"program_units":[{"anno":[],"blocks":[{"anno":[],"label":null,"span":"(2:8)-(2:16)","statement":{"anno":[],"expression":{"anno":[],"left":{"anno":[],"span":"(2:12)-(2:12)","tag":"value","value":{"contents":["5",null],"tag":"integer"}},"op":{"tag":"addition"},"right":{"anno":[],"span":"(2:16)-(2:16)","tag":"value","value":{"contents":["6",null],"tag":"integer"}},"span":"(2:12)-(2:16)","tag":"binary"},"span":"(2:8)-(2:16)","tag":"assign_expression","target":{"anno":[],"span":"(2:8)-(2:8)","tag":"value","value":{"contents":"i","tag":"variable"}}},"tag":"statement"}],"name":"myprog","span":"(1:7)-(3:9)","subprograms":null,"tag":"main"}]}'.
@@ -86,7 +86,7 @@ FASTFortranJsonExporterVisitorTest >> testBinaryExpressionDivision [
 
 	| expectedCode actualCode jsonCode |
 	expectedCode := '      PROGRAM MYPROG
-      i=5/6
+      i = 5 / 6
       END
 '.
 	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"./fortran77.f"},"program_units":[{"anno":[],"blocks":[{"anno":[],"label":null,"span":"(2:8)-(2:16)","statement":{"anno":[],"expression":{"anno":[],"left":{"anno":[],"span":"(2:12)-(2:12)","tag":"value","value":{"contents":["5",null],"tag":"integer"}},"op":{"tag":"division"},"right":{"anno":[],"span":"(2:16)-(2:16)","tag":"value","value":{"contents":["6",null],"tag":"integer"}},"span":"(2:12)-(2:16)","tag":"binary"},"span":"(2:8)-(2:16)","tag":"assign_expression","target":{"anno":[],"span":"(2:8)-(2:8)","tag":"value","value":{"contents":"i","tag":"variable"}}},"tag":"statement"}],"name":"myprog","span":"(1:7)-(3:9)","subprograms":null,"tag":"main"}]}'.
@@ -118,7 +118,7 @@ FASTFortranJsonExporterVisitorTest >> testBinaryExpressionExponentiation [
 
 	| expectedCode actualCode jsonCode |
 	expectedCode := '      PROGRAM MYPROG
-      i=5**6
+      i = 5 ** 6
       END
 '.
 	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"./fortran77.f"},"program_units":[{"anno":[],"blocks":[{"anno":[],"label":null,"span":"(2:8)-(2:17)","statement":{"anno":[],"expression":{"anno":[],"left":{"anno":[],"span":"(2:12)-(2:12)","tag":"value","value":{"contents":["5",null],"tag":"integer"}},"op":{"tag":"exponentiation"},"right":{"anno":[],"span":"(2:17)-(2:17)","tag":"value","value":{"contents":["6",null],"tag":"integer"}},"span":"(2:12)-(2:17)","tag":"binary"},"span":"(2:8)-(2:17)","tag":"assign_expression","target":{"anno":[],"span":"(2:8)-(2:8)","tag":"value","value":{"contents":"i","tag":"variable"}}},"tag":"statement"}],"name":"myprog","span":"(1:7)-(3:9)","subprograms":null,"tag":"main"}]}'.
@@ -151,7 +151,7 @@ FASTFortranJsonExporterVisitorTest >> testBinaryExpressionGtSymbol [
 	self skip.
 	self flag: #NOTE. "symbol > seen as .gt."
 	expectedCode := '      PROGRAM MYPROG
-      IF (5>6) THEN
+      IF (5 > 6) THEN
       END IF
       END
 '.
@@ -183,7 +183,7 @@ FASTFortranJsonExporterVisitorTest >> testBinaryExpressionMultiplication [
 
 	| expectedCode actualCode jsonCode |
 	expectedCode := '      PROGRAM MYPROG
-      i=5*6
+      i = 5 * 6
       END
 '.
 	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"./fortran77.f"},"program_units":[{"anno":[],"blocks":[{"anno":[],"label":null,"span":"(2:8)-(2:16)","statement":{"anno":[],"expression":{"anno":[],"left":{"anno":[],"span":"(2:12)-(2:12)","tag":"value","value":{"contents":["5",null],"tag":"integer"}},"op":{"tag":"multiplication"},"right":{"anno":[],"span":"(2:16)-(2:16)","tag":"value","value":{"contents":["6",null],"tag":"integer"}},"span":"(2:12)-(2:16)","tag":"binary"},"span":"(2:8)-(2:16)","tag":"assign_expression","target":{"anno":[],"span":"(2:8)-(2:8)","tag":"value","value":{"contents":"i","tag":"variable"}}},"tag":"statement"}],"name":"myprog","span":"(1:7)-(3:9)","subprograms":null,"tag":"main"}]}'.
@@ -198,7 +198,7 @@ FASTFortranJsonExporterVisitorTest >> testBinaryExpressionSubtraction [
 
 	| expectedCode actualCode jsonCode |
 	expectedCode := '      PROGRAM MYPROG
-      i=5-6
+      i = 5 - 6
       END
 '.
 	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"./fortran77.f"},"program_units":[{"anno":[],"blocks":[{"anno":[],"label":null,"span":"(2:8)-(2:16)","statement":{"anno":[],"expression":{"anno":[],"left":{"anno":[],"span":"(2:12)-(2:12)","tag":"value","value":{"contents":["5",null],"tag":"integer"}},"op":{"tag":"subtraction"},"right":{"anno":[],"span":"(2:16)-(2:16)","tag":"value","value":{"contents":["6",null],"tag":"integer"}},"span":"(2:12)-(2:16)","tag":"binary"},"span":"(2:8)-(2:16)","tag":"assign_expression","target":{"anno":[],"span":"(2:8)-(2:8)","tag":"value","value":{"contents":"i","tag":"variable"}}},"tag":"statement"}],"name":"myprog","span":"(1:7)-(3:9)","subprograms":null,"tag":"main"}]}'.
@@ -245,7 +245,7 @@ FASTFortranJsonExporterVisitorTest >> testDoStatementEmptyNoIncrement [
 
 	| expectedCode actualCode jsonCode |
 	expectedCode := '      program main
-      do i=1,max
+      do i = 1,max
       end do
       end
 '.
@@ -290,7 +290,7 @@ FASTFortranJsonExporterVisitorTest >> testFunctionStatement [
 
 	| expectedCode actualCode jsonCode |
 	expectedCode := '      program myprog
-      f(i) = 2*i
+      f(i) = 2 * i
       end
 '.
 	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"blocks":[{"anno":[],"label":null,"span":"(2:7)-(2:16)","statement":{"anno":[],"arguments":{"anno":[],"list":[{"anno":[],"span":"(2:9)-(2:9)","tag":"value","value":{"contents":"i","tag":"variable"}}],"span":"(2:9)-(2:9)"},"body":{"anno":[],"left":{"anno":[],"span":"(2:14)-(2:14)","tag":"value","value":{"contents":["2",null],"tag":"integer"}},"op":{"tag":"multiplication"},"right":{"anno":[],"span":"(2:16)-(2:16)","tag":"value","value":{"contents":"i","tag":"variable"}},"span":"(2:14)-(2:16)","tag":"binary"},"name":{"anno":[],"span":"(2:7)-(2:7)","tag":"value","value":{"contents":"f","tag":"variable"}},"span":"(2:7)-(2:16)","tag":"function"},"tag":"statement"}],"name":"myprog","span":"(1:7)-(3:9)","subprograms":null,"tag":"main"}]}'.
@@ -320,9 +320,9 @@ FASTFortranJsonExporterVisitorTest >> testIfElse [
 	| expectedCode actualCode jsonCode |
 	expectedCode := '      PROGRAM MYPROG
       IF (A) THEN
-      a=1
+      a = 1
       ELSE
-      d=1
+      d = 1
       END IF
       END
 '.
@@ -339,13 +339,13 @@ FASTFortranJsonExporterVisitorTest >> testIfElseIf [
 	| expectedCode actualCode jsonCode |
 	expectedCode := '      PROGRAM MYPROG
       IF (A) THEN
-      a=1
+      a = 1
       else if (b) then
-      b=1
+      b = 1
       else if (c) then
-      c=1
+      c = 1
       ELSE
-      d=1
+      d = 1
       END IF
       END
 '.
@@ -363,7 +363,7 @@ FASTFortranJsonExporterVisitorTest >> testIfElseWithStatement [
 	expectedCode := '      PROGRAM MYPROG
       IF (A) THEN
       ELSE
-      I=1
+      I = 1
       END IF
       END
 '.
@@ -396,7 +396,7 @@ FASTFortranJsonExporterVisitorTest >> testIfThenWithStatement [
 	| expectedCode actualCode jsonCode |
 	expectedCode := '      PROGRAM MYPROG
       IF (A) THEN
-      I=1
+      I = 1
       END IF
       END
 '.

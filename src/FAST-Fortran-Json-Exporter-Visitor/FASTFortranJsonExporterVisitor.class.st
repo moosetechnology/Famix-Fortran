@@ -50,7 +50,8 @@ FASTFortranJsonExporterVisitor >> sixSpaces: anObject [
 
 { #category : #'visiting expression' }
 FASTFortranJsonExporterVisitor >> visitAddition: anAdditionOperatorNode [
-	output << '+'
+
+	output << ' + '
 ]
 
 { #category : #'visiting prog-unit' }
@@ -67,7 +68,7 @@ FASTFortranJsonExporterVisitor >> visitArguments: anArgumentList [
 FASTFortranJsonExporterVisitor >> visitAssign_expression: anAssignExpressionNode [
 	"output << self sixSpaces."
 	self visitJsonElement: (anAssignExpressionNode at: 'target').
-	output 	<< '='.
+	output 	<< ' = '.
 	self visitJsonElement: (anAssignExpressionNode at: 'expression').
 	"output cr."
 ]
@@ -227,7 +228,8 @@ FASTFortranJsonExporterVisitor >> visitDeclarators: aDeclaratorsList [
 
 { #category : #'visiting expression' }
 FASTFortranJsonExporterVisitor >> visitDivision: aDivisionOperatorNode [
-	output << '/'
+
+	output << ' / '
 ]
 
 { #category : #'visiting statement' }
@@ -295,7 +297,8 @@ FASTFortranJsonExporterVisitor >> visitExponent: aRealLiteralExponentNode [
 
 { #category : #'visiting expression' }
 FASTFortranJsonExporterVisitor >> visitExponentiation: aExponentiationOperatorNode [
-	output << '**'
+
+	output << ' ** '
 ]
 
 { #category : #'visiting statement' }
@@ -488,7 +491,7 @@ FASTFortranJsonExporterVisitor >> visitMeta: aMetaNode [
 { #category : #'visiting expression' }
 FASTFortranJsonExporterVisitor >> visitMultiplication: aMultiplicationOperatorNode [
 
-	output << '*'
+	output << ' * '
 ]
 
 { #category : #'visiting prog-unit' }
@@ -576,7 +579,10 @@ FASTFortranJsonExporterVisitor >> visitSubroutine: aSubroutineNode [
 
 { #category : #'visiting expression' }
 FASTFortranJsonExporterVisitor >> visitSubtraction: aSubtractionOperatorNode [
-	output << '-'
+
+	"Its possible to use #surroundedBy: to put a prefix and suffix around the operator"
+
+	output << ' - '
 ]
 
 { #category : #visiting }
