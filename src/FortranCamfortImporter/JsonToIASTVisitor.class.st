@@ -47,7 +47,7 @@ JsonToIASTVisitor >> initialize [
 JsonToIASTVisitor >> isESOPEFunction: aString [
 	aString isString ifFalse: [ ^false ].
 
-	^#(esoat esoar esosl) includes: aString
+	^#(d__ s__) includes: aString
 ]
 
 { #category : #'private - utilities' }

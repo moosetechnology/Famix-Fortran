@@ -42,7 +42,7 @@ FortranAbstractJsonVisitor >> esopeCommand: anEsopeCommentString [
 
 { #category : #testing }
 FortranAbstractJsonVisitor >> isEsopeComment: aCommentString [
-	^aCommentString asLowercase beginsWith: 'eso' 
+	^aCommentString asLowercase beginsWith: '@_' 
 ]
 
 { #category : #testing }
