@@ -53,20 +53,31 @@ FASTFortranJsonExporterVisitor >> visitAddition: anAdditionOperatorNode [
 	output << '+'
 ]
 
+{ #category : #'visiting prog-unit' }
+FASTFortranJsonExporterVisitor >> visitArguments: anArgumentList [
+	anArgumentList ifNotNil: [
+		(anArgumentList at: 'list')
+			do: [ :param | self visitJsonElement: param ]
+			separatedBy: [ output << $, ]
+	]
+
+]
+
 { #category : #'visiting expression' }
 FASTFortranJsonExporterVisitor >> visitAssign_expression: anAssignExpressionNode [
-	output << self sixSpaces.
+	"output << self sixSpaces."
 	self visitJsonElement: (anAssignExpressionNode at: 'target').
-	output 	<< ' = '.
+	output 	<< '='.
 	self visitJsonElement: (anAssignExpressionNode at: 'expression').
-	output cr.
+	"output cr."
 ]
 
 { #category : #'visiting statement' }
 FASTFortranJsonExporterVisitor >> visitAssign_expressionStatement: anAssignExpressionNode [
 	"assign_expression and assign_expressionStatement are the same"
-	self visitAssign_expression: anAssignExpressionNode
-
+	output << self sixSpaces.
+	self visitAssign_expression: anAssignExpressionNode.
+	output cr.
 ]
 
 { #category : #'visiting statement' }
@@ -85,6 +96,20 @@ FASTFortranJsonExporterVisitor >> visitBinary: aBinaryExpressionNode [
 	self visitJsonElement: (aBinaryExpressionNode at: 'right').
 ]
 
+{ #category : #'visiting prog-unit' }
+FASTFortranJsonExporterVisitor >> visitBlock_data: aBlockDataNode [
+
+	output
+		<< self sixSpaces;
+		<< 'block data ';
+		<< (aBlockDataNode at: 'name');
+		cr.
+
+	self visitJsonElement: (aBlockDataNode at: 'blocks').
+
+	self endProgramUnit
+]
+
 { #category : #'visiting statement' }
 FASTFortranJsonExporterVisitor >> visitCallStatement: aCallStatementNode [
 
@@ -94,6 +119,12 @@ FASTFortranJsonExporterVisitor >> visitCallStatement: aCallStatementNode [
 	output << $(.
 	self visitJsonElement: (aCallStatementNode at:'arguments').
 	output << $) ; cr.
+]
+
+{ #category : #'visiting statement' }
+FASTFortranJsonExporterVisitor >> visitCharacterBaseType: aString [
+
+	output << ((super visitCharacterBaseType: aString) , ' ')
 ]
 
 { #category : #'visiting statement' }
@@ -109,6 +140,44 @@ FASTFortranJsonExporterVisitor >> visitComment: aCommentNode [
 ]
 
 { #category : #'visiting statement' }
+FASTFortranJsonExporterVisitor >> visitCommonStatement: aCommonStatementNode [
+
+	"^self visitJsonMap: aCommonStatementNode keys: #(span common_groups)"
+
+	output
+		<< self sixSpaces;
+		<< 'common '.
+	self visitJsonElement: (aCommonStatementNode at: 'common_groups').
+	output cr
+]
+
+{ #category : #'visiting statement' }
+FASTFortranJsonExporterVisitor >> visitConditions: aConditionList [
+
+	| ifPart |
+	ifPart := aConditionList first.
+
+	output
+		<< self sixSpaces;
+		<< 'if '.
+	self visitIfCondition: ifPart first.
+	output
+		<< ' then';
+		cr.
+	self visitThenPart: ifPart second.
+
+	aConditionList allButFirst do: [ :aCondition | 
+		output
+			<< self sixSpaces;
+			<< 'else if '.
+		self visitIfCondition: aCondition first.
+		output
+			<< ' then';
+			cr.
+		self visitThenPart: aCondition second ]
+]
+
+{ #category : #'visiting statement' }
 FASTFortranJsonExporterVisitor >> visitContinueStatement: aContinueStatementNode [
 
 	output
@@ -117,14 +186,88 @@ FASTFortranJsonExporterVisitor >> visitContinueStatement: aContinueStatementNode
 		cr
 ]
 
+{ #category : #'visiting statement' }
+FASTFortranJsonExporterVisitor >> visitDeclarationStatement: aDeclarationStatementNode [
+
+	"^self visitJsonMap: aDeclarationStatementNode keys: #(span type attributes declarators)"
+	output << self sixSpaces.
+	self visitJsonElement: (aDeclarationStatementNode at: 'type').
+	self visitAttributes: (aDeclarationStatementNode at: 'attributes').
+	self visitDeclarators: (aDeclarationStatementNode at: 'declarators').
+	output cr.
+
+	
+]
+
+{ #category : #'visiting statement' }
+FASTFortranJsonExporterVisitor >> visitDeclarator: aDeclaratorNode [
+	"
+	'dims' attribute need to be considered in the case of an array. can be confused with 'length'
+	example: a = 1 =>
+	aDeclaratorNode contains
+	 - 'span': sourceAnchor
+	 - 'initial': 1, not relevant for fortran77
+	 - 'length': nil, see documentation to understand the intent of this attribute
+	 - 'type': scalar indicate that 'a' is an array or not; can take two values between 'array' and 'scalar'
+	 - 'variable': a, the name of the variable
+	"
+	self visitJsonElement: (aDeclaratorNode at: 'variable')
+
+]
+
+{ #category : #'visiting statement' }
+FASTFortranJsonExporterVisitor >> visitDeclarators: aDeclaratorsList [
+
+	aDeclaratorsList ifNotNil: [
+		(aDeclaratorsList at: 'list')
+			do: [ :decl | self visitDeclarator: decl ]
+			separatedBy: [ output << $, ]
+	]
+]
+
 { #category : #'visiting expression' }
 FASTFortranJsonExporterVisitor >> visitDivision: aDivisionOperatorNode [
 	output << '/'
 ]
 
+{ #category : #'visiting statement' }
+FASTFortranJsonExporterVisitor >> visitDo: aDoNode [
+
+	"^self visitJsonMap: aDoNode keys: #(span do_spec body)"
+
+	output
+		<< self sixSpaces;
+		<< 'do '.
+	"self visitJsonElement: (aDoNode at: 'do_spec')."
+	self visitDo_spec: (aDoNode at: 'do_spec').
+	self visitJsonElement: (aDoNode at: 'body').
+	output
+		<< self sixSpaces;
+		<< 'end do';
+		cr
+]
+
+{ #category : #'visiting statement' }
+FASTFortranJsonExporterVisitor >> visitDo_spec: aDoSpecNode [
+
+	"^self visitJsonMap: aDoSpecNode keys: #(span initial limit increment)"
+
+	self visitJsonElement: (aDoSpecNode at: 'initial').
+	output << $,.
+	self visitJsonElement: (aDoSpecNode at: 'limit').
+	(aDoSpecNode at: 'increment') ifNotNil: [ :increment | 
+		output << $,.
+		self visitJsonElement: increment ].
+	output cr
+]
+
 { #category : #'visiting expression' }
 FASTFortranJsonExporterVisitor >> visitEq: anEqualtoOperatorNode [
-	output << '.eq.'
+
+	output
+		<< ' .';
+		<< (super visitEq: anEqualtoOperatorNode);
+		<< '. '
 ]
 
 { #category : #'visiting statement' }
@@ -142,7 +285,6 @@ FASTFortranJsonExporterVisitor >> visitExitStatement: anExitNode [
 { #category : #'visiting expression' }
 FASTFortranJsonExporterVisitor >> visitExponent: aRealLiteralExponentNode [
 
-	self flag: #TODO.
 	(aRealLiteralExponentNode at: 'num') = '0'
 		ifTrue: [  ]
 		ifFalse: [ 
@@ -192,26 +334,37 @@ FASTFortranJsonExporterVisitor >> visitFunctionParameters: aParameterList [
 			do: [ :param | self visitJsonElement: param ]
 			separatedBy: [ output << $, ]
 	].
-	output
-		<< $) ;
-		cr
+	output << $).
 
+]
+
+{ #category : #'visiting statement' }
+FASTFortranJsonExporterVisitor >> visitFunctionStatement: aFunctionStatementNode [
+	"'name' is an object, not a string so, cannot call #visitName: on it"
+	"^{ self visitSpan: (aFunctionStatementNode at: 'span') .
+	 self visitJsonElement: (aFunctionStatementNode at: 'name') }
+	,
+	(self visitJsonMap: aFunctionStatementNode keys:  #(arguments body))."
+
+	output << self sixSpaces.
+	self visitJsonElement: (aFunctionStatementNode at: 'name').
+	self visitFunctionParameters: (aFunctionStatementNode at: 'arguments').
+	output << ' = '.
+	self visitJsonElement: (aFunctionStatementNode at: 'body').
+	output cr.
 ]
 
 { #category : #'visiting prog-unit' }
 FASTFortranJsonExporterVisitor >> visitFunctionWithBlocks: aFunctionNode [
 
 	"^self visitJsonMap: aFunctionNode keys: #(span name type arguments blocks)"
-
-	"result subprograms"
-
 	output << self sixSpaces.
-
 	self visitJsonElement: (aFunctionNode at: 'type').
 	output
 		<< 'function ';
 		<< (aFunctionNode at: 'name').
 	self visitFunctionParameters: (aFunctionNode at: 'arguments').
+	output cr.
 	self visitJsonElement: (aFunctionNode at: 'blocks').
 	self endProgramUnit
 ]
@@ -228,33 +381,43 @@ FASTFortranJsonExporterVisitor >> visitGotoStatement: aGotoStatementNode [
 	output cr
 ]
 
+{ #category : #'visiting expression' }
+FASTFortranJsonExporterVisitor >> visitGt: aGreaterthanOperatorNode [
+
+	output
+		<< ' .';
+		<< (super visitGt: aGreaterthanOperatorNode);
+		<< '. '
+]
+
 { #category : #'visiting statement' }
 FASTFortranJsonExporterVisitor >> visitIf: anIfNode [
+
 	"^self visitJsonMap: anIfNode keys: #(span label conditions blocks)"
-	
+
 	"self visitJsonElement: (anIfNode at: 'label')."
-	output << self sixSpaces;<< 'if'.
-	
-	output << $( .
-	self visitJsonElement: (anIfNode at: 'conditions').
-	output << $).
-	
-	output << 'then'; cr.
-	
-	self visitJsonElement: (anIfNode at: 'blocks').
-	
-	output << self sixSpaces; << 'end if'; cr
 
+	"self visitJsonElement: (anIfNode at: 'conditions')."
+	self visitConditions: (anIfNode at: 'conditions').
 	
+	(anIfNode at: 'blocks') ifNotNil: [ :elsePart | 
+		(output << self sixSpaces)
+			<< 'else';
+			cr.
+		self visitJsonElement: elsePart ].
 
+	output
+		<< self sixSpaces;
+		<< 'end if';
+		cr
 ]
 
 { #category : #'visiting statement' }
 FASTFortranJsonExporterVisitor >> visitIfCondition: anIfConditionNode [
-	1halt.
+
 	output << $(.
 	self visitJsonElement: anIfConditionNode.
-	output << $).
+	output << $)
 ]
 
 { #category : #'visiting statement' }
@@ -279,13 +442,28 @@ FASTFortranJsonExporterVisitor >> visitInteger: anIntegerNode [
 
 { #category : #'visiting statement' }
 FASTFortranJsonExporterVisitor >> visitIntegerBaseType: aString [
-	output << (aString, ' ')
 
+	output << ((super visitIntegerBaseType: aString) , ' ')
 ]
 
 { #category : #'visiting expression' }
 FASTFortranJsonExporterVisitor >> visitIntegerLiteralValue: anIntegerLiteralValueNode [
 	output << anIntegerLiteralValueNode first
+]
+
+{ #category : #'visiting statement' }
+FASTFortranJsonExporterVisitor >> visitLogicalBaseType: aString [
+
+	output << ((super visitLogicalBaseType: aString) , ' ')
+]
+
+{ #category : #'visiting expression' }
+FASTFortranJsonExporterVisitor >> visitLt: anLessthanOperatorNode [
+
+	output
+		<< ' .';
+		<< (super visitLt: anLessthanOperatorNode);
+		<< '. '
 ]
 
 { #category : #'visiting prog-unit' }
@@ -315,7 +493,9 @@ FASTFortranJsonExporterVisitor >> visitMultiplication: aMultiplicationOperatorNo
 
 { #category : #'visiting prog-unit' }
 FASTFortranJsonExporterVisitor >> visitProgramFile: aProgramFileNode [
-	self visitJsonMap: aProgramFileNode keys: #(meta program_units).
+	"^self visitJsonMap: aProgramFileNode keys: #(meta program_units)".
+	"self visitJsonElement: (aProgramFileNode at: 'meta')."
+	self visitJsonElement: (aProgramFileNode at: 'program_units').
 	^ output contents
 ]
 
@@ -323,6 +503,12 @@ FASTFortranJsonExporterVisitor >> visitProgramFile: aProgramFileNode [
 FASTFortranJsonExporterVisitor >> visitReal: aRealNode [
 	"to be more explicit, Real nodes are 'transformed' in RealLiteralValue nodes"
 	self visitRealLiteralValue: (aRealNode at: 'contents')
+]
+
+{ #category : #'visiting statement' }
+FASTFortranJsonExporterVisitor >> visitRealBaseType: aString [
+
+	output << ((super visitRealBaseType: aString) , ' ')
 ]
 
 { #category : #'visiting expression' }
@@ -382,15 +568,8 @@ FASTFortranJsonExporterVisitor >> visitSubroutine: aSubroutineNode [
 		<< self sixSpaces;
 		<< 'subroutine ';
 		<< (aSubroutineNode at: 'name').
-	(aSubroutineNode at: 'arguments')
-		ifNotNil: [ 
-		output << $(.
-		self visitJsonElement: (aSubroutineNode at: 'arguments').
-		output << $); cr ]
-		ifNil: [  ].
-
+	self visitFunctionParameters: (aSubroutineNode at: 'arguments').
 	output cr.
-
 	self visitJsonElement: (aSubroutineNode at: 'blocks').
 	self endProgramUnit
 ]
@@ -398,6 +577,14 @@ FASTFortranJsonExporterVisitor >> visitSubroutine: aSubroutineNode [
 { #category : #'visiting expression' }
 FASTFortranJsonExporterVisitor >> visitSubtraction: aSubtractionOperatorNode [
 	output << '-'
+]
+
+{ #category : #visiting }
+FASTFortranJsonExporterVisitor >> visitType: aTypeNode [
+
+	"^self visitJsonMap: aTypeNode keys: #(span base_type selector)"
+	self visitJsonElement: (aTypeNode at: 'base_type').
+	self visitJsonElement: (aTypeNode at: 'selector').
 ]
 
 { #category : #'visiting expression' }
