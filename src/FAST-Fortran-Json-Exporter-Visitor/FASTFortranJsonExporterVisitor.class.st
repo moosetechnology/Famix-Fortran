@@ -401,16 +401,6 @@ FASTFortranJsonExporterVisitor >> visitSubtraction: aSubtractionOperatorNode [
 ]
 
 { #category : #'visiting expression' }
-FASTFortranJsonExporterVisitor >> visitValue: aValueNode [
-	self visitJsonTaggedElement: (aValueNode at: 'value')
-]
-
-{ #category : #'visiting expression' }
-FASTFortranJsonExporterVisitor >> visitVariable: aVariableNode [
-	self visitVariableName: (aVariableNode at: 'contents')
-]
-
-{ #category : #'visiting expression' }
 FASTFortranJsonExporterVisitor >> visitVariableName: aString [
 	output << aString
 ]
