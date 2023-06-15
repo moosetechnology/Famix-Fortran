@@ -53,16 +53,6 @@ FASTFortranJsonExporterVisitor >> visitAddition: anAdditionOperatorNode [
 	output << '+'
 ]
 
-{ #category : #'visiting prog-unit' }
-FASTFortranJsonExporterVisitor >> visitArgument: anArgumentNode [
-	"used for argument in subprogram calls and parameter in subprogram definition
-	 So can take many different forms :-("
-	1halt.
-	^(anArgumentNode includesKey: 'tag')
-		ifTrue: [ self visitJsonTaggedElement: anArgumentNode ]
-		ifFalse: [ self visitJsonMap: anArgumentNode keys: #(span expr) ]
-]
-
 { #category : #'visiting expression' }
 FASTFortranJsonExporterVisitor >> visitAssign_expression: anAssignExpressionNode [
 	output << self sixSpaces.
@@ -195,6 +185,20 @@ FASTFortranJsonExporterVisitor >> visitFunction: aFunctionNode [
 ]
 
 { #category : #'visiting prog-unit' }
+FASTFortranJsonExporterVisitor >> visitFunctionParameters: aParameterList [
+	output << $(.
+	aParameterList ifNotNil: [
+		(aParameterList at: 'list')
+			do: [ :param | self visitJsonElement: param ]
+			separatedBy: [ output << $, ]
+	].
+	output
+		<< $) ;
+		cr
+
+]
+
+{ #category : #'visiting prog-unit' }
 FASTFortranJsonExporterVisitor >> visitFunctionWithBlocks: aFunctionNode [
 
 	"^self visitJsonMap: aFunctionNode keys: #(span name type arguments blocks)"
@@ -206,12 +210,8 @@ FASTFortranJsonExporterVisitor >> visitFunctionWithBlocks: aFunctionNode [
 	self visitJsonElement: (aFunctionNode at: 'type').
 	output
 		<< 'function ';
-		<< (aFunctionNode at: 'name');
-		<< $(.
-	self visitJsonElement: (aFunctionNode at: 'arguments').
-	
-	output << $); cr.
-	
+		<< (aFunctionNode at: 'name').
+	self visitFunctionParameters: (aFunctionNode at: 'arguments').
 	self visitJsonElement: (aFunctionNode at: 'blocks').
 	self endProgramUnit
 ]
@@ -347,6 +347,11 @@ FASTFortranJsonExporterVisitor >> visitSignificand: aRealLiteralSignificandNode 
 	output << aRealLiteralSignificandNode
 ]
 
+{ #category : #visiting }
+FASTFortranJsonExporterVisitor >> visitStar: aStarNode [
+	output << $*
+]
+
 { #category : #'visiting statement' }
 FASTFortranJsonExporterVisitor >> visitStopStatement: aStopStatementNode [
 
@@ -412,8 +417,19 @@ FASTFortranJsonExporterVisitor >> visitVariableName: aString [
 
 { #category : #'visiting statement' }
 FASTFortranJsonExporterVisitor >> visitWriteFormat: aWriteFormatNode [
-	1halt.
-	"^{ self visitSpan: (aWriteFormatNode at: 'span') .
-	  (aWriteFormatNode at: 'list')
-		collect: [ :each | self visitFormatArgument: each ] }"
+	output << $(.
+	(aWriteFormatNode at: 'list')
+		do: [ :each | self visitFormatArgument: each ]
+		separatedBy: [ output << $, ].
+	output << ') '
+]
+
+{ #category : #'visiting statement' }
+FASTFortranJsonExporterVisitor >> visitWriteStatement: aWriteStatementNode [
+	output
+		<< sixSpaces ;
+		<< 'write '.
+	self visitWriteFormat: (aWriteStatementNode at: 'format') .
+	self visitArguments: (aWriteStatementNode at: 'arguments').
+	output cr
 ]
