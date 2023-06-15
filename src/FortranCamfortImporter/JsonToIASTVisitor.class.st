@@ -71,7 +71,7 @@ JsonToIASTVisitor >> model: aCollection [
 	model := aCollection
 ]
 
-{ #category : #visiting }
+{ #category : #'visiting prog-unit' }
 JsonToIASTVisitor >> visitArgument: anArgumentNode [
 	"used for argument in subprogram calls and parameter in subprogram definition"
 
@@ -92,7 +92,7 @@ JsonToIASTVisitor >> visitArgument: anArgumentNode [
 	^arg
 ]
 
-{ #category : #visiting }
+{ #category : #'visiting prog-unit' }
 JsonToIASTVisitor >> visitArguments: anArgumentList [
 	^(super visitArguments: anArgumentList)
 		reject: #isNil
@@ -120,7 +120,7 @@ JsonToIASTVisitor >> visitBinary: aBinaryExpressionNode [
 		reject: #isNil
 ]
 
-{ #category : #visiting }
+{ #category : #'visiting prog-unit' }
 JsonToIASTVisitor >> visitBlock_data: aBlockDataNode [
 	| data |
 	data := super visitBlock_data: aBlockDataNode.
@@ -352,6 +352,13 @@ JsonToIASTVisitor >> visitFunctionAsValue: aFunctionNode [
 
 ]
 
+{ #category : #'visiting prog-unit' }
+JsonToIASTVisitor >> visitFunctionParameters: aParameterList [
+	| data |
+	data := super visitFunctionParameters: aParameterList.
+	^data ifEmpty: [ data ] ifNotEmpty: [ data second ]
+]
+
 { #category : #'visiting statement' }
 JsonToIASTVisitor >> visitFunctionStatement: aFunctionNode [
 	"for now assuming this is an ESOat/ar/sl function"
@@ -369,7 +376,7 @@ JsonToIASTVisitor >> visitFunctionStatement: aFunctionNode [
 		ifNotNil: [ { esoFct . data fourth } ]
 ]
 
-{ #category : #visiting }
+{ #category : #'visiting prog-unit' }
 JsonToIASTVisitor >> visitFunctionWithBlocks: aFunctionNode [
 	| data |
 	data := super visitFunctionWithBlocks: aFunctionNode.
@@ -432,7 +439,7 @@ JsonToIASTVisitor >> visitJsonArray: aNode [
 		reject: #isNil
 ]
 
-{ #category : #visiting }
+{ #category : #'visiting prog-unit' }
 JsonToIASTVisitor >> visitMain: aMainProgramNode [
  	| data |
 	data := super visitMain: aMainProgramNode.
@@ -445,12 +452,12 @@ JsonToIASTVisitor >> visitMain: aMainProgramNode [
 
 ]
 
-{ #category : #visiting }
+{ #category : #'visiting prog-unit' }
 JsonToIASTVisitor >> visitMiFilename: aString [
 	f77sourcefile := aString
 ]
 
-{ #category : #visiting }
+{ #category : #'visiting prog-unit' }
 JsonToIASTVisitor >> visitProgramFile: aProgramFileNode [
 	| programFile data |
 	data := super visitProgramFile: aProgramFileNode.
@@ -483,7 +490,7 @@ JsonToIASTVisitor >> visitStatement: aStatementNode [
 			ifFalse: [ self visitJsonElement: (aStatementNode at: 'statement') ]
 ]
 
-{ #category : #visiting }
+{ #category : #'visiting prog-unit' }
 JsonToIASTVisitor >> visitSubroutine: aSubroutineNode [
 	| data |
 	data := super visitSubroutine: aSubroutineNode.

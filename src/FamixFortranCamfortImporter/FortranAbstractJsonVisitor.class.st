@@ -450,6 +450,12 @@ FortranAbstractJsonVisitor >> visitFunctionCalledName: aString [
 	^aString
 ]
 
+{ #category : #'visiting prog-unit' }
+FortranAbstractJsonVisitor >> visitFunctionParameters: aParameterList [
+	aParameterList ifNil: [ ^#() ].
+	^self visitJsonElement: aParameterList 
+]
+
 { #category : #'visiting statement' }
 FortranAbstractJsonVisitor >> visitFunctionStatement: aFunctionStatementNode [
 	"'name' is an object, not a string so, cannot call #visitName: on it"
@@ -461,7 +467,11 @@ FortranAbstractJsonVisitor >> visitFunctionStatement: aFunctionStatementNode [
 
 { #category : #'visiting prog-unit' }
 FortranAbstractJsonVisitor >> visitFunctionWithBlocks: aFunctionNode [
-	^self visitJsonMap: aFunctionNode keys: #(span name type arguments blocks) "result subprograms"
+	^(self visitJsonMap: aFunctionNode keys: #(span name type))
+	, { self visitFunctionParameters: (aFunctionNode at: 'arguments') }
+	, { self visitJsonArray: (aFunctionNode at: 'blocks') } 
+	"need to deal with keys: result, subprograms"
+	
 ]
 
 { #category : #'visiting statement' }

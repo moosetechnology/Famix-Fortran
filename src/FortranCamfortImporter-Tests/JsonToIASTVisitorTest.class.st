@@ -191,7 +191,7 @@ c     blah
 
 { #category : #'tests-progUnit' }
 JsonToIASTVisitorTest >> testCommentOutside [
-	"blah
+	"c     blah
       integer function hello()
       end
 "
