@@ -704,6 +704,27 @@ c@_   segdes ptr
 ]
 
 { #category : #'tests-esope' }
+FASTFortranJsonExporterVisitorTest >> testSegdesNOMOD [
+	| expectedCode actualCode jsonCode |
+
+	"
+      subroutine hello()
+c@_   segdes, bk*NOMOD
+      end
+	"	
+	
+	expectedCode := '      subroutine hello()
+      segdes, bk*NOMOD
+      end
+'.
+	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"comment":"@_   segdes, bk*NOMOD","span":"(2:1)-(2:22)","tag":"comment"}],"name":"hello","options":[null,null],"span":"(1:7)-(3:9)","subprograms":null,"tag":"subroutine"}]}'.
+
+	actualCode := self visitJsonCode: jsonCode.
+
+	self assert: actualCode equals: expectedCode
+]
+
+{ #category : #'tests-esope' }
 FASTFortranJsonExporterVisitorTest >> testSeginiComplexWithCopy [
 	| expectedCode actualCode jsonCode |
 
@@ -1069,6 +1090,24 @@ FASTFortranJsonExporterVisitorTest >> testVariableDeclarationCharacter [
       end
 '.
 	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"blocks":[{"anno":[],"label":null,"span":"(2:7)-(2:26)","statement":{"anno":[],"attributes":null,"declarators":{"anno":[],"list":[{"anno":[],"initial":null,"length":null,"span":"(2:20)-(2:26)","type":"scalar","variable":{"anno":[],"span":"(2:20)-(2:26)","tag":"value","value":{"contents":"astring","tag":"variable"}}}],"span":"(2:20)-(2:26)"},"span":"(2:7)-(2:26)","tag":"declaration","type":{"anno":[],"base_type":"character","selector":{"anno":[],"kind":null,"length":{"anno":[],"span":"(2:17)-(2:18)","tag":"value","value":{"contents":["40",null],"tag":"integer"}},"span":"(2:16)-(2:18)"},"span":"(2:7)-(2:18)"}},"tag":"statement"}],"name":"main","span":"(1:7)-(3:9)","subprograms":null,"tag":"main"}]}'.
+
+	actualCode := self visitJsonCode: jsonCode.
+
+
+	self assert: actualCode equals: expectedCode asLowercase
+]
+
+{ #category : #running }
+FASTFortranJsonExporterVisitorTest >> testVariableDeclarationCharacterStar [
+
+	| expectedCode actualCode jsonCode |
+	self skip.
+
+	expectedCode := '      program main
+      character*(*) title
+      end
+'.
+	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"blocks":[{"anno":[],"label":null,"span":"(2:7)-(2:25)","statement":{"anno":[],"attributes":null,"declarators":{"anno":[],"list":[{"anno":[],"initial":null,"length":null,"span":"(2:21)-(2:25)","type":"scalar","variable":{"anno":[],"span":"(2:21)-(2:25)","tag":"value","value":{"contents":"title","tag":"variable"}}}],"span":"(2:21)-(2:25)"},"span":"(2:7)-(2:25)","tag":"declaration","type":{"anno":[],"base_type":"character","selector":{"anno":[],"kind":null,"length":{"anno":[],"span":"(2:18)-(2:18)","tag":"value","value":{"tag":"star"}},"span":"(2:16)-(2:19)"},"span":"(2:7)-(2:19)"}},"tag":"statement"}],"name":"main","span":"(1:7)-(3:9)","subprograms":null,"tag":"main"}]}'.
 
 	actualCode := self visitJsonCode: jsonCode.
 
