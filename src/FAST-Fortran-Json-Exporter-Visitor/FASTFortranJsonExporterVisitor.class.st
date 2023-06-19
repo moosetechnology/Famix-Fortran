@@ -64,12 +64,9 @@ FASTFortranJsonExporterVisitor >> visitAddition: anAdditionOperatorNode [
 
 { #category : #'visiting prog-unit' }
 FASTFortranJsonExporterVisitor >> visitArguments: anArgumentList [
-	anArgumentList ifNotNil: [
-		(anArgumentList at: 'list')
-			do: [ :param | self visitJsonElement: param ]
-			separatedBy: [ output << $, ]
-	]
-
+	output << $(.
+	self visitList: anArgumentList separatedBy: $, .
+	output << $)
 ]
 
 { #category : #'visiting expression' }
@@ -125,9 +122,9 @@ FASTFortranJsonExporterVisitor >> visitCallStatement: aCallStatementNode [
 	"^self visitJsonMap: aCallStatementNode keys: #(span function arguments)"
 	output << self sixSpaces; << 'call '.
 	self visitJsonElement: (aCallStatementNode at: 'function').
-	output << $(.
-	self visitJsonElement: (aCallStatementNode at:'arguments').
-	output << $) ; cr.
+
+	self visitArguments: (aCallStatementNode at: 'arguments').
+	output cr
 ]
 
 { #category : #'visiting statement' }
@@ -234,6 +231,18 @@ FASTFortranJsonExporterVisitor >> visitDeclarators: aDeclaratorsList [
 	]
 ]
 
+{ #category : #'visiting prog-unit' }
+FASTFortranJsonExporterVisitor >> visitDims: aList [
+
+	aList ifNotNil: [ 
+		(aList at: 'list') allButLast
+			do: [ :param | self visitJsonElement: param ]
+			separatedBy: [ output << $. ].
+			output << '(/'.
+			self visitJsonElement: (aList at: 'list') last.
+			output << ')' ]
+]
+
 { #category : #'visiting expression' }
 FASTFortranJsonExporterVisitor >> visitDivision: aDivisionOperatorNode [
 
@@ -329,6 +338,15 @@ FASTFortranJsonExporterVisitor >> visitEsopeSegsupComment: anEsopeCommentNode [
 ]
 
 { #category : #'visiting statement' }
+FASTFortranJsonExporterVisitor >> visitEsopeTranformation: functionName with: argumentsNode [
+
+	functionName = 'd__' ifTrue: [ 
+		self visitList: argumentsNode separatedBy: $. ].
+	functionName = 's__' ifTrue: [ 
+		self visitDims: argumentsNode]
+]
+
+{ #category : #'visiting statement' }
 FASTFortranJsonExporterVisitor >> visitExitStatement: anExitNode [
 
 	"^self visitJsonMap: anExitNode keys: #(span var)"
@@ -387,30 +405,56 @@ FASTFortranJsonExporterVisitor >> visitFunction: aFunctionNode [
 
 { #category : #'visiting prog-unit' }
 FASTFortranJsonExporterVisitor >> visitFunctionParameters: aParameterList [
-	output << $(.
+
+	self visitFunctionParameters: aParameterList separatedBy: $,
+]
+
+{ #category : #'visiting prog-unit' }
+FASTFortranJsonExporterVisitor >> visitFunctionParameters: aParameterList separatedBy: separator [
+	"aParameterList ifNil: [ ^self ].
+	aParameterList ifEmpty: [ ^self ]."
+
+	separator = $. ifFalse: [ output << $(. ]. 
+	
 	aParameterList ifNotNil: [
 		(aParameterList at: 'list')
 			do: [ :param | self visitJsonElement: param ]
-			separatedBy: [ output << $, ]
+			separatedBy: [ output << separator ]
 	].
-	output << $).
+	separator = $. ifFalse: [ output << $).  ]
 
 ]
 
 { #category : #'visiting statement' }
 FASTFortranJsonExporterVisitor >> visitFunctionStatement: aFunctionStatementNode [
+
 	"'name' is an object, not a string so, cannot call #visitName: on it"
+
 	"^{ self visitSpan: (aFunctionStatementNode at: 'span') .
 	 self visitJsonElement: (aFunctionStatementNode at: 'name') }
 	,
 	(self visitJsonMap: aFunctionStatementNode keys:  #(arguments body))."
 
+	| functionName |
+	functionName := ((aFunctionStatementNode at: 'name') at: 'value') 
+		                at: 'contents'.
 	output << self sixSpaces.
-	self visitJsonElement: (aFunctionStatementNode at: 'name').
-	self visitFunctionParameters: (aFunctionStatementNode at: 'arguments').
+	
+
+	(self isEsopeTransformation: functionName)
+		ifTrue: [ 
+			self
+				visitFunctionParameters: (aFunctionStatementNode at: 'arguments')
+				separatedBy: $. ]
+		ifFalse: [ 
+			output << functionName.
+			self
+				visitFunctionParameters: (aFunctionStatementNode at: 'arguments')
+				separatedBy: $, ].
+
 	output << ' = '.
 	self visitJsonElement: (aFunctionStatementNode at: 'body').
-	output cr.
+	output cr
 ]
 
 { #category : #'visiting prog-unit' }
@@ -426,6 +470,23 @@ FASTFortranJsonExporterVisitor >> visitFunctionWithBlocks: aFunctionNode [
 	output cr.
 	self visitJsonElement: (aFunctionNode at: 'blocks').
 	self endProgramUnit
+]
+
+{ #category : #'visiting statement' }
+FASTFortranJsonExporterVisitor >> visitFunction_call: aFunctionCallNode [
+
+	| functionName |
+	functionName := ((aFunctionCallNode at: 'function') at: 'value') at:
+		                'contents'.
+
+	(self isEsopeTransformation: functionName)
+		ifTrue: [ 
+			self
+				visitEsopeTranformation: functionName
+				with: (aFunctionCallNode at: 'arguments') ]
+		ifFalse: [ 
+			output << functionName.
+			self visitArguments: (aFunctionCallNode at: 'arguments') ]
 ]
 
 { #category : #'visiting statement' }
@@ -508,6 +569,15 @@ FASTFortranJsonExporterVisitor >> visitIntegerBaseType: aString [
 { #category : #'visiting expression' }
 FASTFortranJsonExporterVisitor >> visitIntegerLiteralValue: anIntegerLiteralValueNode [
 	output << anIntegerLiteralValueNode first
+]
+
+{ #category : #'visiting prog-unit' }
+FASTFortranJsonExporterVisitor >> visitList: aList separatedBy: separator [
+
+	aList ifNotNil: [ 
+		(aList at: 'list')
+			do: [ :param | self visitJsonElement: param ]
+			separatedBy: [ output << separator ] ]
 ]
 
 { #category : #'visiting statement' }
@@ -651,7 +721,9 @@ FASTFortranJsonExporterVisitor >> visitType: aTypeNode [
 
 { #category : #'visiting expression' }
 FASTFortranJsonExporterVisitor >> visitVariableName: aString [
-	output << aString
+
+	(self isEsopeTransformation: aString)
+		ifFalse: [ output << aString ]
 ]
 
 { #category : #'visiting statement' }
@@ -669,6 +741,7 @@ FASTFortranJsonExporterVisitor >> visitWriteStatement: aWriteStatementNode [
 		<< sixSpaces ;
 		<< 'write '.
 	self visitWriteFormat: (aWriteStatementNode at: 'format') .
-	self visitArguments: (aWriteStatementNode at: 'arguments').
+	self visitList: (aWriteStatementNode at: 'arguments') separatedBy: $, .
+ .
 	output cr
 ]

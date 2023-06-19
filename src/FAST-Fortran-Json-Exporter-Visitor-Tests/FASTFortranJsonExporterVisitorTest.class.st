@@ -256,6 +256,89 @@ FASTFortranJsonExporterVisitorTest >> testDoStatementEmptyNoIncrement [
 	self assert: actualCode equals: expectedCode asLowercase
 ]
 
+{ #category : #'tests-esope' }
+FASTFortranJsonExporterVisitorTest >> testDotComplexRead [
+	| expectedCode actualCode jsonCode |
+
+	"
+      subroutine hello()
+      n = d__(p,a(i))
+      end
+	"	
+	
+	expectedCode := '      subroutine hello()
+      n = p.a(i)
+      end
+'.
+	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"label":null,"span":"(2:7)-(2:21)","statement":{"anno":[],"expression":{"anno":[],"arguments":{"anno":[],"list":[{"anno":[],"expr":{"contents":{"anno":[],"span":"(2:15)-(2:15)","tag":"value","value":{"contents":"p","tag":"variable"}},"tag":"expr"},"name":null,"span":"(2:15)-(2:15)"},{"anno":[],"expr":{"contents":{"anno":[],"arguments":{"anno":[],"list":[{"anno":[],"expr":{"contents":{"anno":[],"span":"(2:19)-(2:19)","tag":"value","value":{"contents":"i","tag":"variable"}},"tag":"expr"},"name":null,"span":"(2:19)-(2:19)"}],"span":"(2:19)-(2:19)"},"function":{"anno":[],"span":"(2:17)-(2:17)","tag":"value","value":{"contents":"a","tag":"variable"}},"span":"(2:17)-(2:20)","tag":"function_call"},"tag":"expr"},"name":null,"span":"(2:17)-(2:20)"}],"span":"(2:15)-(2:20)"},"function":{"anno":[],"span":"(2:11)-(2:13)","tag":"value","value":{"contents":"d__","tag":"variable"}},"span":"(2:11)-(2:21)","tag":"function_call"},"span":"(2:7)-(2:21)","tag":"assign_expression","target":{"anno":[],"span":"(2:7)-(2:7)","tag":"value","value":{"contents":"n","tag":"variable"}}},"tag":"statement"}],"name":"hello","options":[null,null],"span":"(1:7)-(3:9)","subprograms":null,"tag":"subroutine"}]}'.
+
+	actualCode := self visitJsonCode: jsonCode.
+
+	self assert: actualCode equals: expectedCode asLowercase
+]
+
+{ #category : #'tests-esope' }
+FASTFortranJsonExporterVisitorTest >> testDotComplexWrite [
+	| expectedCode actualCode jsonCode |
+
+	"
+      subroutine hello()
+      d__(p,a(i)) = 1
+      end
+	"	
+	
+	expectedCode := '      subroutine hello()
+      p.a(i) = 1
+      end
+'.
+	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"label":null,"span":"(2:7)-(2:21)","statement":{"anno":[],"arguments":{"anno":[],"list":[{"anno":[],"span":"(2:11)-(2:11)","tag":"value","value":{"contents":"p","tag":"variable"}},{"anno":[],"arguments":{"anno":[],"list":[{"anno":[],"expr":{"contents":{"anno":[],"span":"(2:15)-(2:15)","tag":"value","value":{"contents":"i","tag":"variable"}},"tag":"expr"},"name":null,"span":"(2:15)-(2:15)"}],"span":"(2:15)-(2:15)"},"function":{"anno":[],"span":"(2:13)-(2:13)","tag":"value","value":{"contents":"a","tag":"variable"}},"span":"(2:13)-(2:16)","tag":"function_call"}],"span":"(2:11)-(2:16)"},"body":{"anno":[],"span":"(2:21)-(2:21)","tag":"value","value":{"contents":["1",null],"tag":"integer"}},"name":{"anno":[],"span":"(2:7)-(2:9)","tag":"value","value":{"contents":"d__","tag":"variable"}},"span":"(2:7)-(2:21)","tag":"function"},"tag":"statement"}],"name":"hello","options":[null,null],"span":"(1:7)-(3:9)","subprograms":null,"tag":"subroutine"}]}'.
+
+	actualCode := self visitJsonCode: jsonCode.
+
+	self assert: actualCode equals: expectedCode asLowercase
+]
+
+{ #category : #'tests-esope' }
+FASTFortranJsonExporterVisitorTest >> testDotSimpleRead [
+	| expectedCode actualCode jsonCode |
+	"
+      subroutine hello()
+      n = d__(p,a)
+      end
+	"	
+	
+	expectedCode := '      subroutine hello()
+      n = p.a
+      end
+'.
+	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"label":null,"span":"(2:7)-(2:18)","statement":{"anno":[],"expression":{"anno":[],"arguments":{"anno":[],"list":[{"anno":[],"expr":{"contents":{"anno":[],"span":"(2:15)-(2:15)","tag":"value","value":{"contents":"p","tag":"variable"}},"tag":"expr"},"name":null,"span":"(2:15)-(2:15)"},{"anno":[],"expr":{"contents":{"anno":[],"span":"(2:17)-(2:17)","tag":"value","value":{"contents":"a","tag":"variable"}},"tag":"expr"},"name":null,"span":"(2:17)-(2:17)"}],"span":"(2:15)-(2:17)"},"function":{"anno":[],"span":"(2:11)-(2:13)","tag":"value","value":{"contents":"d__","tag":"variable"}},"span":"(2:11)-(2:18)","tag":"function_call"},"span":"(2:7)-(2:18)","tag":"assign_expression","target":{"anno":[],"span":"(2:7)-(2:7)","tag":"value","value":{"contents":"n","tag":"variable"}}},"tag":"statement"}],"name":"hello","options":[null,null],"span":"(1:7)-(3:9)","subprograms":null,"tag":"subroutine"}]}'.
+
+	actualCode := self visitJsonCode: jsonCode.
+
+	self assert: actualCode equals: expectedCode asLowercase
+]
+
+{ #category : #'tests-esope' }
+FASTFortranJsonExporterVisitorTest >> testDotSimpleWrite [
+	| expectedCode actualCode jsonCode |
+
+	"
+      subroutine hello()
+      d__(p,a) = 1
+      end
+	"	
+	
+	expectedCode := '      subroutine hello()
+      p.a = 1
+      end
+'.
+	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"label":null,"span":"(2:7)-(2:18)","statement":{"anno":[],"arguments":{"anno":[],"list":[{"anno":[],"span":"(2:11)-(2:11)","tag":"value","value":{"contents":"p","tag":"variable"}},{"anno":[],"span":"(2:13)-(2:13)","tag":"value","value":{"contents":"a","tag":"variable"}}],"span":"(2:11)-(2:13)"},"body":{"anno":[],"span":"(2:18)-(2:18)","tag":"value","value":{"contents":["1",null],"tag":"integer"}},"name":{"anno":[],"span":"(2:7)-(2:9)","tag":"value","value":{"contents":"d__","tag":"variable"}},"span":"(2:7)-(2:18)","tag":"function"},"tag":"statement"}],"name":"hello","options":[null,null],"span":"(1:7)-(3:9)","subprograms":null,"tag":"subroutine"}]}'.
+
+	actualCode := self visitJsonCode: jsonCode.
+
+	self assert: actualCode equals: expectedCode asLowercase
+]
+
 { #category : #'tests-statement' }
 FASTFortranJsonExporterVisitorTest >> testExternalStatement [
 
@@ -715,6 +798,48 @@ c@_   segsup ptr
       end
 '.
 	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"comment":"@_   segsup ptr","span":"(2:1)-(2:16)","tag":"comment"}],"name":"hello","options":[null,null],"span":"(1:7)-(3:9)","subprograms":null,"tag":"subroutine"}]}'.
+
+	actualCode := self visitJsonCode: jsonCode.
+
+	self assert: actualCode equals: expectedCode asLowercase
+]
+
+{ #category : #'tests-esope' }
+FASTFortranJsonExporterVisitorTest >> testSlashComplex [
+	| expectedCode actualCode jsonCode |
+
+	"
+      subroutine hello()
+      n = s__(d__(p,a),1)
+      end
+	"	
+	
+	expectedCode := '      subroutine hello()
+      n = p.a(/1)
+      end
+'.
+	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"label":null,"span":"(2:7)-(2:25)","statement":{"anno":[],"expression":{"anno":[],"arguments":{"anno":[],"list":[{"anno":[],"expr":{"contents":{"anno":[],"arguments":{"anno":[],"list":[{"anno":[],"expr":{"contents":{"anno":[],"span":"(2:19)-(2:19)","tag":"value","value":{"contents":"p","tag":"variable"}},"tag":"expr"},"name":null,"span":"(2:19)-(2:19)"},{"anno":[],"expr":{"contents":{"anno":[],"span":"(2:21)-(2:21)","tag":"value","value":{"contents":"a","tag":"variable"}},"tag":"expr"},"name":null,"span":"(2:21)-(2:21)"}],"span":"(2:19)-(2:21)"},"function":{"anno":[],"span":"(2:15)-(2:17)","tag":"value","value":{"contents":"d__","tag":"variable"}},"span":"(2:15)-(2:22)","tag":"function_call"},"tag":"expr"},"name":null,"span":"(2:15)-(2:22)"},{"anno":[],"expr":{"contents":{"anno":[],"span":"(2:24)-(2:24)","tag":"value","value":{"contents":["1",null],"tag":"integer"}},"tag":"expr"},"name":null,"span":"(2:24)-(2:24)"}],"span":"(2:15)-(2:24)"},"function":{"anno":[],"span":"(2:11)-(2:13)","tag":"value","value":{"contents":"s__","tag":"variable"}},"span":"(2:11)-(2:25)","tag":"function_call"},"span":"(2:7)-(2:25)","tag":"assign_expression","target":{"anno":[],"span":"(2:7)-(2:7)","tag":"value","value":{"contents":"n","tag":"variable"}}},"tag":"statement"}],"name":"hello","options":[null,null],"span":"(1:7)-(3:9)","subprograms":null,"tag":"subroutine"}]}'.
+
+	actualCode := self visitJsonCode: jsonCode.
+
+	self assert: actualCode equals: expectedCode asLowercase
+]
+
+{ #category : #'tests-esope' }
+FASTFortranJsonExporterVisitorTest >> testSlashSimple [
+	| expectedCode actualCode jsonCode |
+
+	"
+      subroutine hello()
+      n = s__(a,1)
+      end
+	"	
+	
+	expectedCode := '      subroutine hello()
+      n = a(/1)
+      end
+'.
+	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"label":null,"span":"(2:7)-(2:18)","statement":{"anno":[],"expression":{"anno":[],"arguments":{"anno":[],"list":[{"anno":[],"expr":{"contents":{"anno":[],"span":"(2:15)-(2:15)","tag":"value","value":{"contents":"a","tag":"variable"}},"tag":"expr"},"name":null,"span":"(2:15)-(2:15)"},{"anno":[],"expr":{"contents":{"anno":[],"span":"(2:17)-(2:17)","tag":"value","value":{"contents":["1",null],"tag":"integer"}},"tag":"expr"},"name":null,"span":"(2:17)-(2:17)"}],"span":"(2:15)-(2:17)"},"function":{"anno":[],"span":"(2:11)-(2:13)","tag":"value","value":{"contents":"s__","tag":"variable"}},"span":"(2:11)-(2:18)","tag":"function_call"},"span":"(2:7)-(2:18)","tag":"assign_expression","target":{"anno":[],"span":"(2:7)-(2:7)","tag":"value","value":{"contents":"n","tag":"variable"}}},"tag":"statement"}],"name":"hello","options":[null,null],"span":"(1:7)-(3:9)","subprograms":null,"tag":"subroutine"}]}'.
 
 	actualCode := self visitJsonCode: jsonCode.
 
