@@ -137,7 +137,7 @@ JsonToIASTVisitor >> visitCallStatement: aCallNode [
 	
 	data := super visitCallStatement: aCallNode.
 
-	astNode := (self isESOPEFunction: data second)
+	astNode := (self isEsopeTransformation: data second)
 		ifTrue:  [ IASTVarEso newFrom: data second ]
 		ifFalse: [ IASTInvocation new entityName: data second ; yourself ].
 
