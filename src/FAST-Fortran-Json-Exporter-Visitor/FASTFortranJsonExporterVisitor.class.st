@@ -272,6 +272,22 @@ FASTFortranJsonExporterVisitor >> visitEq: anEqualtoOperatorNode [
 		<< '. '
 ]
 
+{ #category : #'visiting esope' }
+FASTFortranJsonExporterVisitor >> visitEsopeEndsegmentComment: anEsopeCommentNode [
+	output
+		<< sixSpaces ;
+		<< ((anEsopeCommentNode at: 'comment') allButFirst: 5) ;
+		cr
+]
+
+{ #category : #'visiting esope' }
+FASTFortranJsonExporterVisitor >> visitEsopeSegmentComment: anEsopeCommentNode [
+	output
+		<< sixSpaces ;
+		<< ((anEsopeCommentNode at: 'comment') allButFirst: 5) ;
+		cr
+]
+
 { #category : #'visiting statement' }
 FASTFortranJsonExporterVisitor >> visitExitStatement: anExitNode [
 
