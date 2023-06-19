@@ -382,6 +382,15 @@ FASTFortranJsonExporterVisitor >> visitExternalStatement: anExternalStatementNod
 	output cr
 ]
 
+{ #category : #'visiting expression' }
+FASTFortranJsonExporterVisitor >> visitFalseLiteralValue: aString [
+
+	output
+		<< $.;
+		<< ((super visitFalseLiteralValue: aString) first) asString;
+		<< $.
+]
+
 { #category : #'visiting statement' }
 FASTFortranJsonExporterVisitor >> visitFortranComment: aFortranCommentNode [
 
@@ -709,6 +718,15 @@ FASTFortranJsonExporterVisitor >> visitSubtraction: aSubtractionOperatorNode [
 	"Its possible to use #surroundedBy: to put a prefix and suffix around the operator"
 
 	output << ' - '
+]
+
+{ #category : #'visiting expression' }
+FASTFortranJsonExporterVisitor >> visitTrueLiteralValue: aString [
+
+	output
+		<< $.;
+		<< ((super visitTrueLiteralValue: aString) first) asString;
+		<< $.
 ]
 
 { #category : #visiting }

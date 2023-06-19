@@ -523,6 +523,40 @@ FASTFortranJsonExporterVisitorTest >> testImplicitNoneStatement [
 	self assert: actualCode equals: expectedCode asLowercase
 ]
 
+{ #category : #running }
+FASTFortranJsonExporterVisitorTest >> testLiteralFalse [
+
+	| expectedCode actualCode jsonCode |
+
+	expectedCode := '      program main
+      bkflag = .false.
+      end
+'.
+	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"blocks":[{"anno":[],"label":null,"span":"(2:7)-(2:22)","statement":{"anno":[],"expression":{"anno":[],"span":"(2:16)-(2:22)","tag":"value","value":{"contents":[false,null],"tag":"logical"}},"span":"(2:7)-(2:22)","tag":"assign_expression","target":{"anno":[],"span":"(2:7)-(2:12)","tag":"value","value":{"contents":"bkflag","tag":"variable"}}},"tag":"statement"}],"name":"main","span":"(1:7)-(3:9)","subprograms":null,"tag":"main"}]}'.
+
+	actualCode := self visitJsonCode: jsonCode.
+
+
+	self assert: actualCode equals: expectedCode asLowercase
+]
+
+{ #category : #running }
+FASTFortranJsonExporterVisitorTest >> testLiteralTrue [
+
+	| expectedCode actualCode jsonCode |
+
+	expectedCode := '      program main
+      bkflag = .true.
+      end
+'.
+	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"blocks":[{"anno":[],"label":null,"span":"(2:7)-(2:21)","statement":{"anno":[],"expression":{"anno":[],"span":"(2:16)-(2:21)","tag":"value","value":{"contents":[true,null],"tag":"logical"}},"span":"(2:7)-(2:21)","tag":"assign_expression","target":{"anno":[],"span":"(2:7)-(2:12)","tag":"value","value":{"contents":"bkflag","tag":"variable"}}},"tag":"statement"}],"name":"main","span":"(1:7)-(3:9)","subprograms":null,"tag":"main"}]}'.
+
+	actualCode := self visitJsonCode: jsonCode.
+
+
+	self assert: actualCode equals: expectedCode asLowercase
+]
+
 { #category : #'tests-programUnit' }
 FASTFortranJsonExporterVisitorTest >> testMainProgram [
 
