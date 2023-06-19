@@ -48,6 +48,14 @@ FASTFortranJsonExporterVisitor >> sixSpaces: anObject [
 	sixSpaces := anObject
 ]
 
+{ #category : #'private - helpers' }
+FASTFortranJsonExporterVisitor >> unmarkAsEsope: anEsopeCommentNode [
+	output
+		<< sixSpaces ;
+		<< ((anEsopeCommentNode at: 'comment') allButFirst: 5) ;
+		cr
+]
+
 { #category : #'visiting expression' }
 FASTFortranJsonExporterVisitor >> visitAddition: anAdditionOperatorNode [
 
@@ -274,18 +282,50 @@ FASTFortranJsonExporterVisitor >> visitEq: anEqualtoOperatorNode [
 
 { #category : #'visiting esope' }
 FASTFortranJsonExporterVisitor >> visitEsopeEndsegmentComment: anEsopeCommentNode [
-	output
-		<< sixSpaces ;
-		<< ((anEsopeCommentNode at: 'comment') allButFirst: 5) ;
-		cr
+
+	self unmarkAsEsope: anEsopeCommentNode
+]
+
+{ #category : #'visiting esope' }
+FASTFortranJsonExporterVisitor >> visitEsopePointeurComment: anEsopeCommentNode [
+
+	self unmarkAsEsope: anEsopeCommentNode
+]
+
+{ #category : #'visiting esope' }
+FASTFortranJsonExporterVisitor >> visitEsopeSegactComment: anEsopeCommentNode [
+
+	self unmarkAsEsope: anEsopeCommentNode
+]
+
+{ #category : #'visiting esope' }
+FASTFortranJsonExporterVisitor >> visitEsopeSegadjComment: anEsopeCommentNode [
+
+	self unmarkAsEsope: anEsopeCommentNode
+]
+
+{ #category : #'visiting esope' }
+FASTFortranJsonExporterVisitor >> visitEsopeSegdesComment: anEsopeCommentNode [
+
+	self unmarkAsEsope: anEsopeCommentNode
+]
+
+{ #category : #'visiting esope' }
+FASTFortranJsonExporterVisitor >> visitEsopeSeginiComment: anEsopeCommentNode [
+
+	self unmarkAsEsope: anEsopeCommentNode
 ]
 
 { #category : #'visiting esope' }
 FASTFortranJsonExporterVisitor >> visitEsopeSegmentComment: anEsopeCommentNode [
-	output
-		<< sixSpaces ;
-		<< ((anEsopeCommentNode at: 'comment') allButFirst: 5) ;
-		cr
+
+	self unmarkAsEsope: anEsopeCommentNode
+]
+
+{ #category : #'visiting esope' }
+FASTFortranJsonExporterVisitor >> visitEsopeSegsupComment: anEsopeCommentNode [
+
+	self unmarkAsEsope: anEsopeCommentNode
 ]
 
 { #category : #'visiting statement' }

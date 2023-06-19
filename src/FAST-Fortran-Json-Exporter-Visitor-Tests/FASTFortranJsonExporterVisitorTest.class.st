@@ -487,6 +487,27 @@ FASTFortranJsonExporterVisitorTest >> testMainProgramEmpty [
 	self assert: actualCode equals: expectedCode asLowercase
 ]
 
+{ #category : #'tests-esope' }
+FASTFortranJsonExporterVisitorTest >> testPointerDeclarationSimple [
+	| expectedCode actualCode jsonCode |
+
+	"
+      subroutine hello()
+c@_   pointeur ptr.myseg
+      end
+	"	
+	
+	expectedCode := '      subroutine hello()
+      pointeur ptr.myseg
+      end
+'.
+	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"comment":"@_   pointeur ptr.myseg","span":"(2:1)-(2:24)","tag":"comment"}],"name":"hello","options":[null,null],"span":"(1:7)-(3:9)","subprograms":null,"tag":"subroutine"}]}'.
+
+	actualCode := self visitJsonCode: jsonCode.
+
+	self assert: actualCode equals: expectedCode asLowercase
+]
+
 { #category : #'tests-statement' }
 FASTFortranJsonExporterVisitorTest >> testReturnStatementEmpty [
 
@@ -502,9 +523,143 @@ FASTFortranJsonExporterVisitorTest >> testReturnStatementEmpty [
 	self assert: actualCode equals: expectedCode asLowercase
 ]
 
-{ #category : #tests }
+{ #category : #'tests-esope' }
+FASTFortranJsonExporterVisitorTest >> testSegact [
+	| expectedCode actualCode jsonCode |
+
+	"
+      subroutine hello()
+c@_   segact ptr
+      end
+	"	
+	
+	expectedCode := '      subroutine hello()
+      segact ptr
+      end
+'.
+	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"comment":"@_   segact ptr","span":"(2:1)-(2:16)","tag":"comment"}],"name":"hello","options":[null,null],"span":"(1:7)-(3:9)","subprograms":null,"tag":"subroutine"}]}'.
+
+	actualCode := self visitJsonCode: jsonCode.
+
+	self assert: actualCode equals: expectedCode asLowercase
+]
+
+{ #category : #'tests-esope' }
+FASTFortranJsonExporterVisitorTest >> testSegadj [
+	| expectedCode actualCode jsonCode |
+
+	"
+      subroutine hello()
+c@_   segadj ptr
+      end
+	"	
+	
+	expectedCode := '      subroutine hello()
+      segadj ptr
+      end
+'.
+	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"comment":"@_   segadj ptr","span":"(2:1)-(2:16)","tag":"comment"}],"name":"hello","options":[null,null],"span":"(1:7)-(3:9)","subprograms":null,"tag":"subroutine"}]}'.
+
+	actualCode := self visitJsonCode: jsonCode.
+
+	self assert: actualCode equals: expectedCode asLowercase
+]
+
+{ #category : #'tests-esope' }
+FASTFortranJsonExporterVisitorTest >> testSegdes [
+	| expectedCode actualCode jsonCode |
+
+	"
+      subroutine hello()
+c@_   segdes ptr
+      end
+	"	
+	
+	expectedCode := '      subroutine hello()
+      segdes ptr
+      end
+'.
+	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"comment":"@_   segdes ptr","span":"(2:1)-(2:16)","tag":"comment"}],"name":"hello","options":[null,null],"span":"(1:7)-(3:9)","subprograms":null,"tag":"subroutine"}]}'.
+
+	actualCode := self visitJsonCode: jsonCode.
+
+	self assert: actualCode equals: expectedCode asLowercase
+]
+
+{ #category : #'tests-esope' }
+FASTFortranJsonExporterVisitorTest >> testSeginiComplexWithCopy [
+	| expectedCode actualCode jsonCode |
+
+	"
+      subroutine hello()
+c@_   segini ptr1 = ptr2
+      end
+	"	
+	
+	expectedCode := '      subroutine hello()
+      segini ptr1 = ptr2
+      end
+'.
+	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"comment":"@_   segini ptr1 = ptr2","span":"(2:1)-(2:24)","tag":"comment"}],"name":"hello","options":[null,null],"span":"(1:7)-(3:9)","subprograms":null,"tag":"subroutine"}]}'.
+
+	actualCode := self visitJsonCode: jsonCode.
+
+	self assert: actualCode equals: expectedCode asLowercase
+]
+
+{ #category : #'tests-esope' }
+FASTFortranJsonExporterVisitorTest >> testSeginiSimpleWithComma [
+	| expectedCode actualCode jsonCode |
+
+	"
+      subroutine hello()
+c@_   segini,ptr
+      end
+	"	
+	
+	expectedCode := '      subroutine hello()
+      segini,ptr
+      end
+'.
+	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"comment":"@_   segini,ptr","span":"(2:1)-(2:16)","tag":"comment"}],"name":"hello","options":[null,null],"span":"(1:7)-(3:9)","subprograms":null,"tag":"subroutine"}]}'.
+
+	actualCode := self visitJsonCode: jsonCode.
+
+	self assert: actualCode equals: expectedCode asLowercase
+]
+
+{ #category : #'tests-esope' }
+FASTFortranJsonExporterVisitorTest >> testSeginiSimpleWithSpace [
+	| expectedCode actualCode jsonCode |
+
+	"
+      subroutine hello()
+c@_   segini ptr
+      end
+	"	
+	
+	expectedCode := '      subroutine hello()
+      segini ptr
+      end
+'.
+	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"comment":"@_   segini ptr","span":"(2:1)-(2:16)","tag":"comment"}],"name":"hello","options":[null,null],"span":"(1:7)-(3:9)","subprograms":null,"tag":"subroutine"}]}'.
+
+	actualCode := self visitJsonCode: jsonCode.
+
+	self assert: actualCode equals: expectedCode asLowercase
+]
+
+{ #category : #'tests-esope' }
 FASTFortranJsonExporterVisitorTest >> testSegmentDeclarationEmpty [
 	| expectedCode actualCode jsonCode |
+
+	"
+      subroutine hello()
+c@_   segment,user
+c@_   end segment
+      end
+	"	
+	
 	expectedCode := '      subroutine hello()
       segment,user
       end segment
@@ -517,22 +672,53 @@ FASTFortranJsonExporterVisitorTest >> testSegmentDeclarationEmpty [
 	self assert: actualCode equals: expectedCode asLowercase
 ]
 
-{ #category : #tests }
+{ #category : #'tests-esope' }
 FASTFortranJsonExporterVisitorTest >> testSegmentDeclarationWithContent [
 	| expectedCode actualCode jsonCode |
+	
+	" actualCode
+      subroutine hello()
+c@_   segment, user
+      character uname
+      integer uid,age
+c@_   end segment
+      end
+	"
+	
 	expectedCode := '      subroutine hello()
       segment, user
-        character*40 uname
-        integer uid, age
+      character uname
+      integer uid,age
       end segment
       end
 '.
-	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"./fortran77.f"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"comment":"@_   segment, user","span":"(2:1)-(2:19)","tag":"comment"},{"anno":[],"label":null,"span":"(3:9)-(3:26)","statement":{"anno":[],"attributes":null,"declarators":{"anno":[],"list":[{"anno":[],"initial":null,"length":null,"span":"(3:22)-(3:26)","type":"scalar","variable":{"anno":[],"span":"(3:22)-(3:26)","tag":"value","value":{"contents":"uname","tag":"variable"}}}],"span":"(3:22)-(3:26)"},"span":"(3:9)-(3:26)","tag":"declaration","type":{"anno":[],"base_type":"character","selector":{"anno":[],"kind":null,"length":{"anno":[],"span":"(3:19)-(3:20)","tag":"value","value":{"contents":["40",null],"tag":"integer"}},"span":"(3:18)-(3:20)"},"span":"(3:9)-(3:20)"}},"tag":"statement"},{"anno":[],"label":null,"span":"(4:9)-(4:24)","statement":{"anno":[],"attributes":null,"declarators":{"anno":[],"list":[{"anno":[],"initial":null,"length":null,"span":"(4:17)-(4:19)","type":"scalar","variable":{"anno":[],"span":"(4:17)-(4:19)","tag":"value","value":{"contents":"uid","tag":"variable"}}},{"anno":[],"initial":null,"length":null,"span":"(4:22)-(4:24)","type":"scalar","variable":{"anno":[],"span":"(4:22)-(4:24)","tag":"value","value":{"contents":"age","tag":"variable"}}}],"span":"(4:17)-(4:24)"},"span":"(4:9)-(4:24)","tag":"declaration","type":{"anno":[],"base_type":"integer","selector":null,"span":"(4:9)-(4:15)"}},"tag":"statement"},{"anno":[],"comment":"@_   end segment","span":"(5:1)-(5:17)","tag":"comment"}],"name":"hello","options":[null,null],"span":"(1:7)-(6:9)","subprograms":null,"tag":"subroutine"}]}'.
+	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"comment":"@_   segment, user","span":"(2:1)-(2:19)","tag":"comment"},{"anno":[],"label":null,"span":"(3:7)-(3:21)","statement":{"anno":[],"attributes":null,"declarators":{"anno":[],"list":[{"anno":[],"initial":null,"length":null,"span":"(3:17)-(3:21)","type":"scalar","variable":{"anno":[],"span":"(3:17)-(3:21)","tag":"value","value":{"contents":"uname","tag":"variable"}}}],"span":"(3:17)-(3:21)"},"span":"(3:7)-(3:21)","tag":"declaration","type":{"anno":[],"base_type":"character","selector":null,"span":"(3:7)-(3:15)"}},"tag":"statement"},{"anno":[],"label":null,"span":"(4:7)-(4:21)","statement":{"anno":[],"attributes":null,"declarators":{"anno":[],"list":[{"anno":[],"initial":null,"length":null,"span":"(4:15)-(4:17)","type":"scalar","variable":{"anno":[],"span":"(4:15)-(4:17)","tag":"value","value":{"contents":"uid","tag":"variable"}}},{"anno":[],"initial":null,"length":null,"span":"(4:19)-(4:21)","type":"scalar","variable":{"anno":[],"span":"(4:19)-(4:21)","tag":"value","value":{"contents":"age","tag":"variable"}}}],"span":"(4:15)-(4:21)"},"span":"(4:7)-(4:21)","tag":"declaration","type":{"anno":[],"base_type":"integer","selector":null,"span":"(4:7)-(4:13)"}},"tag":"statement"},{"anno":[],"comment":"@_   end segment","span":"(5:1)-(5:17)","tag":"comment"}],"name":"hello","options":[null,null],"span":"(1:7)-(6:9)","subprograms":null,"tag":"subroutine"}]}'.
 
 	actualCode := self visitJsonCode: jsonCode.
 
 	self assert: actualCode equals: expectedCode asLowercase
 
+]
+
+{ #category : #'tests-esope' }
+FASTFortranJsonExporterVisitorTest >> testSegsup [
+	| expectedCode actualCode jsonCode |
+
+	"
+      subroutine hello()
+c@_   segsup ptr
+      end
+	"	
+	
+	expectedCode := '      subroutine hello()
+      segsup ptr
+      end
+'.
+	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"comment":"@_   segsup ptr","span":"(2:1)-(2:16)","tag":"comment"}],"name":"hello","options":[null,null],"span":"(1:7)-(3:9)","subprograms":null,"tag":"subroutine"}]}'.
+
+	actualCode := self visitJsonCode: jsonCode.
+
+	self assert: actualCode equals: expectedCode asLowercase
 ]
 
 { #category : #'tests-statement' }
