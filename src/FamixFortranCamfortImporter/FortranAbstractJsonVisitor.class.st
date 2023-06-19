@@ -57,6 +57,13 @@ FortranAbstractJsonVisitor >> isEsopeComment: aCommentString [
 ]
 
 { #category : #testing }
+FortranAbstractJsonVisitor >> isEsopeTransformation: aString [
+
+	aString isString ifFalse: [ ^ false ].
+	^ #( #d__ #s__ ) includes: aString
+]
+
+{ #category : #testing }
 FortranAbstractJsonVisitor >> isTaggedStatement: aStatementNode [
 	^(aStatementNode at: 'statement') includesKey: 'tag'
 ]
