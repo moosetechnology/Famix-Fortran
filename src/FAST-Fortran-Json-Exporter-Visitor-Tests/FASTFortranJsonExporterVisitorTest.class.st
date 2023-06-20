@@ -1083,8 +1083,7 @@ FASTFortranJsonExporterVisitorTest >> testTokenPosition [
 FASTFortranJsonExporterVisitorTest >> testVariableDeclarationCharacter [
 
 	| expectedCode actualCode jsonCode |
-	self skip.
-	self flag: #TODO.
+
 	expectedCode := '      program main
       character*40 aString
       end
@@ -1124,6 +1123,23 @@ FASTFortranJsonExporterVisitorTest >> testVariableDeclarationInteger [
       end
 '.
 	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"blocks":[{"anno":[],"label":null,"span":"(2:7)-(2:15)","statement":{"anno":[],"attributes":null,"declarators":{"anno":[],"list":[{"anno":[],"initial":null,"length":null,"span":"(2:15)-(2:15)","type":"scalar","variable":{"anno":[],"span":"(2:15)-(2:15)","tag":"value","value":{"contents":"i","tag":"variable"}}}],"span":"(2:15)-(2:15)"},"span":"(2:7)-(2:15)","tag":"declaration","type":{"anno":[],"base_type":"integer","selector":null,"span":"(2:7)-(2:13)"}},"tag":"statement"}],"name":"main","span":"(1:7)-(3:9)","subprograms":null,"tag":"main"}]}'.
+
+	actualCode := self visitJsonCode: jsonCode.
+
+
+	self assert: actualCode equals: expectedCode asLowercase
+]
+
+{ #category : #running }
+FASTFortranJsonExporterVisitorTest >> testVariableDeclarationIntegerOfArray [
+
+	| expectedCode actualCode jsonCode |
+
+	expectedCode := '      program main
+      integer bref(brcnt)
+      end
+'.
+	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"blocks":[{"anno":[],"label":null,"span":"(2:7)-(2:25)","statement":{"anno":[],"attributes":null,"declarators":{"anno":[],"list":[{"anno":[],"dims":{"anno":[],"list":[{"anno":[],"lower":null,"span":"(2:20)-(2:24)","upper":{"anno":[],"span":"(2:20)-(2:24)","tag":"value","value":{"contents":"brcnt","tag":"variable"}}}],"span":"(2:20)-(2:24)"},"initial":null,"length":null,"span":"(2:15)-(2:25)","type":"array","variable":{"anno":[],"span":"(2:15)-(2:18)","tag":"value","value":{"contents":"bref","tag":"variable"}}}],"span":"(2:15)-(2:25)"},"span":"(2:7)-(2:25)","tag":"declaration","type":{"anno":[],"base_type":"integer","selector":null,"span":"(2:7)-(2:13)"}},"tag":"statement"}],"name":"main","span":"(1:7)-(3:9)","subprograms":null,"tag":"main"}]}'.
 
 	actualCode := self visitJsonCode: jsonCode.
 

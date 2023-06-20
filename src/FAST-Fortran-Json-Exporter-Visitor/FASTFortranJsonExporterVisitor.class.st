@@ -197,7 +197,12 @@ FASTFortranJsonExporterVisitor >> visitDeclarationStatement: aDeclarationStateme
 
 	"^self visitJsonMap: aDeclarationStatementNode keys: #(span type attributes declarators)"
 	output << self sixSpaces.
-	self visitJsonElement: (aDeclarationStatementNode at: 'type').
+	"self visitJsonElement: (aDeclarationStatementNode at: 'type')."
+	output << ((aDeclarationStatementNode at: 'type') at: 'base_type').
+	self visitJsonElement: ((aDeclarationStatementNode at: 'type') at: 'selector').
+		
+	output << ' '.
+	
 	self visitAttributes: (aDeclarationStatementNode at: 'attributes').
 	self visitDeclarators: (aDeclarationStatementNode at: 'declarators').
 	output cr.
@@ -207,6 +212,7 @@ FASTFortranJsonExporterVisitor >> visitDeclarationStatement: aDeclarationStateme
 
 { #category : #'visiting statement' }
 FASTFortranJsonExporterVisitor >> visitDeclarator: aDeclaratorNode [
+
 	"
 	'dims' attribute need to be considered in the case of an array. can be confused with 'length'
 	example: a = 1 =>
@@ -217,8 +223,12 @@ FASTFortranJsonExporterVisitor >> visitDeclarator: aDeclaratorNode [
 	 - 'type': scalar indicate that 'a' is an array or not; can take two values between 'array' and 'scalar'
 	 - 'variable': a, the name of the variable
 	"
-	self visitJsonElement: (aDeclaratorNode at: 'variable')
 
+	self visitJsonElement: (aDeclaratorNode at: 'variable').
+	(aDeclaratorNode at: 'type') = #array ifFalse: [ ^ self ].
+	output << $(.
+	self visitJsonElement: (aDeclaratorNode at: 'dims').
+	output << $)
 ]
 
 { #category : #'visiting statement' }
@@ -580,6 +590,19 @@ FASTFortranJsonExporterVisitor >> visitIntegerLiteralValue: anIntegerLiteralValu
 	output << anIntegerLiteralValueNode first
 ]
 
+{ #category : #visiting }
+FASTFortranJsonExporterVisitor >> visitKind: aKindNode [
+
+	^ nil
+]
+
+{ #category : #'visiting statement' }
+FASTFortranJsonExporterVisitor >> visitLength: aLengthNode [
+	
+	output << $*.
+	self visitJsonElement: (aLengthNode at: 'value')
+]
+
 { #category : #'visiting prog-unit' }
 FASTFortranJsonExporterVisitor >> visitList: aList separatedBy: separator [
 
@@ -593,6 +616,13 @@ FASTFortranJsonExporterVisitor >> visitList: aList separatedBy: separator [
 FASTFortranJsonExporterVisitor >> visitLogicalBaseType: aString [
 
 	output << ((super visitLogicalBaseType: aString) , ' ')
+]
+
+{ #category : #'visiting expression' }
+FASTFortranJsonExporterVisitor >> visitLower: aLowerNode [
+
+	aLowerNode ifNotNil: [ 
+		self visitJsonElement: (aLowerNode at: 'value') ]
 ]
 
 { #category : #'visiting expression' }
@@ -666,6 +696,20 @@ FASTFortranJsonExporterVisitor >> visitReturnStatement: aReturnStatementNode [
 	output cr
 ]
 
+{ #category : #visiting }
+FASTFortranJsonExporterVisitor >> visitSelector: aSelectorNode [
+
+	aSelectorNode ifNil: [ ^ self ].
+
+	((aSelectorNode at: 'kind') isNotNil or: [ 
+		 (aSelectorNode at: 'length') isNotNil ]) ifFalse: [ ^ self ].
+	(aSelectorNode at: 'length') ifNotNil: [ output << $* ].
+	output << $(.
+	self visitJsonElement: (aSelectorNode at: 'kind').
+	self visitJsonElement: (aSelectorNode at: 'length').
+	output << $)
+]
+
 { #category : #'visiting expression' }
 FASTFortranJsonExporterVisitor >> visitSignificand: aRealLiteralSignificandNode [
 	output << aRealLiteralSignificandNode
@@ -735,6 +779,13 @@ FASTFortranJsonExporterVisitor >> visitType: aTypeNode [
 	"^self visitJsonMap: aTypeNode keys: #(span base_type selector)"
 	self visitJsonElement: (aTypeNode at: 'base_type').
 	self visitJsonElement: (aTypeNode at: 'selector').
+]
+
+{ #category : #'visiting expression' }
+FASTFortranJsonExporterVisitor >> visitUpper: aUpperNode [
+
+	aUpperNode ifNotNil: [ 
+		self visitJsonElement: (aUpperNode at: 'value') ]
 ]
 
 { #category : #'visiting expression' }
