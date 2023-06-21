@@ -1137,7 +1137,6 @@ FASTFortranJsonExporterVisitorTest >> testVariableDeclarationCharacter [
 FASTFortranJsonExporterVisitorTest >> testVariableDeclarationCharacterStar [
 
 	| expectedCode actualCode jsonCode |
-	self skip.
 
 	expectedCode := '      program main
       character*(*) title

@@ -598,9 +598,14 @@ FASTFortranJsonExporterVisitor >> visitKind: aKindNode [
 
 { #category : #'visiting statement' }
 FASTFortranJsonExporterVisitor >> visitLength: aLengthNode [
-	
+
+	| isStar |
+	aLengthNode ifNil: [ ^ self ].
 	output << $*.
-	self visitJsonElement: (aLengthNode at: 'value')
+	isStar := ((aLengthNode at: 'value') at: 'tag') = #star.
+	isStar ifTrue: [ output << $(].
+	self visitJsonElement: (aLengthNode at: 'value').
+	isStar ifTrue: [ output << $)].
 ]
 
 { #category : #'visiting prog-unit' }
