@@ -80,12 +80,6 @@ BookstoreExporter class >> f77parserOption [
 ]
 
 { #category : #example }
-BookstoreExporter class >> newFromPath: anAbsolutePath [
-
-	^ self new changeDefaultFolderTo: anAbsolutePath
-]
-
-{ #category : #example }
 BookstoreExporter class >> parseAnnotatedFortranSources [
 
 	(self buildPath allChildrenMatching: '*.0.f') do: [ :annotatedFile | 
