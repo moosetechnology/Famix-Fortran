@@ -11,23 +11,23 @@ BookstoreExporter class >> annotateEsopeSourcesFrom: srcPath [
 		PPEsopeRewriter
 			rewriteFrom: esopeFile
 			to:
-			self buildName , '/' , (esopeFile basename removeSuffix: '.e')
-			, '.f' ]
+				(self buildPath / ((esopeFile basename removeSuffix: '.e') , '.f'))
+					pathString ]
 ]
 
-{ #category : #example }
+{ #category : #configuration }
 BookstoreExporter class >> buildName [
 
 	^ '/tmp/build'
 ]
 
-{ #category : #example }
+{ #category : #utilities }
 BookstoreExporter class >> buildPath [
 
 	^ self buildName asFileReference ensureCreateDirectory
 ]
 
-{ #category : #example }
+{ #category : #demos }
 BookstoreExporter class >> export [
 
 	<script>
@@ -41,13 +41,16 @@ BookstoreExporter class >> exportAstFrom: astFile [
 	exporter := FASTFortranJsonExporterVisitor new.
 	exporter visitProgramFile:
 		(NeoJSONReader fromString: astFile contents).
-	outputFile := '/tmp/build/'
-	              , (astFile basename removeSuffix: '.0.f.json') , '.1.e'.
-
+	outputFile := self buildPath
+	              /
+	              ((astFile basename removeSuffix: '.0.f.json') , '.1.e').
 	outputFile asFileReference writeStreamDo: [ :stream | 
 		stream truncate.
 		stream
-		<< (exporter output contents replaceAll: Character cr with: Character lf) ]
+		<<
+		(exporter output contents
+			 replaceAll: Character cr
+			 with: Character lf) ]
 ]
 
 { #category : #example }
@@ -67,13 +70,13 @@ BookstoreExporter class >> exportToEsope [
 		self exportAstFrom: astFile ]
 ]
 
-{ #category : #utilities }
+{ #category : #configuration }
 BookstoreExporter class >> f77parser [
 
 	^ 'fortran-src-extras'
 ]
 
-{ #category : #utilities }
+{ #category : #configuration }
 BookstoreExporter class >> f77parserOption [
 
 	^ 'serialize -t json -v77l encode'
@@ -96,13 +99,13 @@ BookstoreExporter class >> parseToAst: f77file [
 				 f77file pathString })
 ]
 
-{ #category : #example }
+{ #category : #configuration }
 BookstoreExporter class >> srcName [
 
 	^ '/tmp/esopeSrc'
 ]
 
-{ #category : #example }
+{ #category : #utilities }
 BookstoreExporter class >> srcPath [
 
 	^ self srcName asFileReference
