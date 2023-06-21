@@ -10,9 +10,9 @@ BookstoreExporter class >> annotateEsopeSourcesFrom: srcPath [
 	(srcPath allChildrenMatching: '*.0.e') do: [ :esopeFile | 
 		PPEsopeRewriter
 			rewriteFrom: esopeFile
-			to:
-				(self buildPath / ((esopeFile basename removeSuffix: '.e') , '.f'))
-					pathString ]
+			to: (self buildPath / ('' join: { 
+						  (esopeFile basename removeSuffix: '.e').
+						  '.f' })) pathString ]
 ]
 
 { #category : #configuration }
@@ -41,9 +41,9 @@ BookstoreExporter class >> exportAstFrom: astFile [
 	exporter := FASTFortranJsonExporterVisitor new.
 	exporter visitProgramFile:
 		(NeoJSONReader fromString: astFile contents).
-	outputFile := self buildPath
-	              /
-	              ((astFile basename removeSuffix: '.0.f.json') , '.1.e').
+	outputFile := self buildPath / ('' join: { 
+			               (astFile basename removeSuffix: '.0.f.json').
+			               '.1.e' }).
 	outputFile asFileReference writeStreamDo: [ :stream | 
 		stream truncate.
 		stream
