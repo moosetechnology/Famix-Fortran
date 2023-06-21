@@ -757,6 +757,15 @@ FASTFortranJsonExporterVisitor >> visitSubroutine: aSubroutineNode [
 ]
 
 { #category : #'visiting expression' }
+FASTFortranJsonExporterVisitor >> visitSubscript: aSubscriptNode [
+
+	self visitJsonElement: (aSubscriptNode at: 'expression').
+	output << $(.
+	self visitJsonElement: (aSubscriptNode at: 'indices').
+	output << $)
+]
+
+{ #category : #'visiting expression' }
 FASTFortranJsonExporterVisitor >> visitSubtraction: aSubtractionOperatorNode [
 
 	"Its possible to use #surroundedBy: to put a prefix and suffix around the operator"
