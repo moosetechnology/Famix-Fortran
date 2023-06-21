@@ -5,33 +5,28 @@ Class {
 }
 
 { #category : #example }
-BookstoreExporter class >> annotateEsopeSourcesFrom: srcPath [
+BookstoreExporter class >> annotateEsopeSourcesFrom [
 
-	(srcPath allChildrenMatching: '*.0.e') do: [ :esopeFile | 
+	(self srcPath allChildrenMatching: '*.0.e') do: [ 
+		:esopeFile | 
 		PPEsopeRewriter
 			rewriteFrom: esopeFile
-			to: (self buildPath / ('' join: { 
+			to: (self rewriterPath / ('' join: { 
 						  (esopeFile basename removeSuffix: '.e').
 						  '.f' })) pathString ]
-]
-
-{ #category : #configuration }
-BookstoreExporter class >> buildName [
-
-	^ '/tmp/build'
 ]
 
 { #category : #utilities }
 BookstoreExporter class >> buildPath [
 
-	^ self buildName asFileReference ensureCreateDirectory
+	^ (self rootPath / 'build') asFileReference ensureCreateDirectory
 ]
 
 { #category : #demos }
 BookstoreExporter class >> export [
 
 	<script>
-	self exportFromPath: self srcPath
+	self fromPath: self srcPath
 ]
 
 { #category : #example }
@@ -41,8 +36,8 @@ BookstoreExporter class >> exportAstFrom: astFile [
 	exporter := FASTFortranJsonExporterVisitor new.
 	exporter visitProgramFile:
 		(NeoJSONReader fromString: astFile contents).
-	outputFile := self buildPath / ('' join: { 
-			               (astFile basename removeSuffix: '.0.f.json').
+	outputFile := self targetPath / ('' join: { 
+			               (astFile basename removeSuffix: '.0.json').
 			               '.1.e' }).
 	outputFile asFileReference writeStreamDo: [ :stream | 
 		stream truncate.
@@ -54,59 +49,79 @@ BookstoreExporter class >> exportAstFrom: astFile [
 ]
 
 { #category : #example }
-BookstoreExporter class >> exportFromPath: srcPath [
-
-	srcPath exists ifFalse: [ ^ self ].
-
-	self annotateEsopeSourcesFrom: srcPath.
-	self parseAnnotatedFortranSources.
-	self exportToEsope
-]
-
-{ #category : #example }
 BookstoreExporter class >> exportToEsope [
 
-	(self buildPath allChildrenMatching: '*.0.f.json') do: [ :astFile | 
+	(self parserPath allChildrenMatching: '*.0.json') do: [ :astFile | 
 		self exportAstFrom: astFile ]
 ]
 
 { #category : #configuration }
 BookstoreExporter class >> f77parser [
 
-	^ 'fortran-src-extras'
+	^ 'fortran-src-extras serialize -t json -v77l encode'
 ]
 
-{ #category : #configuration }
-BookstoreExporter class >> f77parserOption [
+{ #category : #example }
+BookstoreExporter class >> fromPath: srcPath [
 
-	^ 'serialize -t json -v77l encode'
+	srcPath exists ifFalse: [ ^ self ].
+
+	self annotateEsopeSourcesFrom.
+	self parseAnnotatedFortranSources.
+	self exportToEsope
 ]
 
 { #category : #example }
 BookstoreExporter class >> parseAnnotatedFortranSources [
 
-	(self buildPath allChildrenMatching: '*.0.f') do: [ :annotatedFile | 
+	(self rewriterPath allChildrenMatching: '*.0.f') do: [ :annotatedFile | 
 		self parseToAst: annotatedFile ]
 ]
 
 { #category : #utilities }
 BookstoreExporter class >> parseToAst: f77file [
 
-	LibC runCommand:
-		('{1} {2} "{3}" > "{3}.json" 2> "{3}.err"' format: { 
+	| outputFile |
+	outputFile := self parserPath
+	              / (f77file basename removeSuffix: '.0.f').
+	LibC runCommand: ('{1} "{2}" > "{3}.0.json" 2> "{3}.0.err"' format: { 
 				 self f77parser.
-				 self f77parserOption.
-				 f77file pathString })
+				 f77file pathString.
+				 outputFile pathString })
 ]
 
 { #category : #configuration }
-BookstoreExporter class >> srcName [
+BookstoreExporter class >> parserPath [
 
-	^ '/tmp/esopeSrc'
+	^ (self buildPath / 'parser') asFileReference ensureCreateDirectory
+]
+
+{ #category : #configuration }
+BookstoreExporter class >> rewriterPath [
+
+	^ (self buildPath / 'rewriter') asFileReference ensureCreateDirectory
+]
+
+{ #category : #configuration }
+BookstoreExporter class >> rootName [
+
+	^ '/tmp'
+]
+
+{ #category : #utilities }
+BookstoreExporter class >> rootPath [
+
+	^ self rootName asPath
 ]
 
 { #category : #utilities }
 BookstoreExporter class >> srcPath [
 
-	^ self srcName asFileReference
+	^ (self rootPath / 'esopeSrc') asFileReference
+]
+
+{ #category : #configuration }
+BookstoreExporter class >> targetPath [
+
+	^ (self buildPath / 'target') asFileReference ensureCreateDirectory
 ]

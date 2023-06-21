@@ -791,8 +791,9 @@ FASTFortranJsonExporterVisitor >> visitTrueLiteralValue: aString [
 FASTFortranJsonExporterVisitor >> visitType: aTypeNode [
 
 	"^self visitJsonMap: aTypeNode keys: #(span base_type selector)"
+
 	self visitJsonElement: (aTypeNode at: 'base_type').
-	self visitJsonElement: (aTypeNode at: 'selector').
+	self visitJsonElement: (aTypeNode at: 'selector')
 ]
 
 { #category : #'visiting expression' }
