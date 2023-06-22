@@ -10,10 +10,15 @@ Class {
 { #category : #'instance creation' }
 IASTVarEso class >> newFrom: aString [
 	self subclassesDo: [ :subclass |
-		(subclass name asLowercase endsWith: aString asLowercase)
+		(subclass realName asLowercase endsWith: aString asLowercase)
 		ifTrue: [ ^subclass new ]
 	].
 	NotYetImplemented signalFor: 'IASTVarEso subclass for: ' , aString
+]
+
+{ #category : #'instance creation' }
+IASTVarEso class >> realName [
+	self subclassResponsibility 
 ]
 
 { #category : #accessing }

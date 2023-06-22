@@ -57,11 +57,11 @@ JsonToIASTVisitorTest >> testAssignementStatementWithComplexRHS [
 { #category : #'tests-statement' }
 JsonToIASTVisitorTest >> testAssignementStatementWithEsoAt [
 	"subroutine hello
-      someVar = esoat(var,1)
+      someVar = D__(var,1)
       end
 "
 	| programFile stmt |
-	programFile :=  self visitJsonCode: '{"meta":{"miVersion":"fortran77","miFilename":"./fortran77.f"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"label":null,"span":"(2:7)-(2:28)","statement":{"anno":[],"expression":{"anno":[],"arguments":{"anno":[],"list":[{"anno":[],"expr":{"contents":{"anno":[],"span":"(2:23)-(2:25)","tag":"value","value":{"contents":"var","tag":"variable"}},"tag":"expr"},"name":null,"span":"(2:23)-(2:25)"},{"anno":[],"expr":{"contents":{"anno":[],"span":"(2:27)-(2:27)","tag":"value","value":{"contents":["1",null],"tag":"integer"}},"tag":"expr"},"name":null,"span":"(2:27)-(2:27)"}],"span":"(2:23)-(2:27)"},"function":{"anno":[],"span":"(2:17)-(2:21)","tag":"value","value":{"contents":"esoat","tag":"variable"}},"span":"(2:17)-(2:28)","tag":"function_call"},"span":"(2:7)-(2:28)","tag":"assign_expression","target":{"anno":[],"span":"(2:7)-(2:13)","tag":"value","value":{"contents":"somevar","tag":"variable"}}},"tag":"statement"}],"name":"hello","options":[null,null],"span":"(1:7)-(3:9)","subprograms":null,"tag":"subroutine"}]}'.
+	programFile :=  self visitJsonCode: '{"meta":{"miVersion":"fortran77","miFilename":"./fortran77.f"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"label":null,"span":"(2:7)-(2:28)","statement":{"anno":[],"expression":{"anno":[],"arguments":{"anno":[],"list":[{"anno":[],"expr":{"contents":{"anno":[],"span":"(2:23)-(2:25)","tag":"value","value":{"contents":"var","tag":"variable"}},"tag":"expr"},"name":null,"span":"(2:23)-(2:25)"},{"anno":[],"expr":{"contents":{"anno":[],"span":"(2:27)-(2:27)","tag":"value","value":{"contents":["1",null],"tag":"integer"}},"tag":"expr"},"name":null,"span":"(2:27)-(2:27)"}],"span":"(2:23)-(2:27)"},"function":{"anno":[],"span":"(2:17)-(2:21)","tag":"value","value":{"contents":"d__","tag":"variable"}},"span":"(2:17)-(2:28)","tag":"function_call"},"span":"(2:7)-(2:28)","tag":"assign_expression","target":{"anno":[],"span":"(2:7)-(2:13)","tag":"value","value":{"contents":"somevar","tag":"variable"}}},"tag":"statement"}],"name":"hello","options":[null,null],"span":"(1:7)-(3:9)","subprograms":null,"tag":"subroutine"}]}'.
 
 
 	self assert: programFile progUnits first body first size equals: 2.
@@ -368,16 +368,16 @@ JsonToIASTVisitorTest >> testEmptySubroutineTwoParams [
 { #category : #'as yet unclassified' }
 JsonToIASTVisitorTest >> testEsoArTwoArgs [
 	"subroutine hello()
-        esoar(baz,bar) = 5
+        d__(baz,bar) = 5
       end
 "
 	| programFile stmt |
-	programFile :=  self visitJsonCode: '{"meta":{"miVersion":"fortran77","miFilename":"./fortran77.f"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"label":null,"span":"(2:9)-(2:26)","statement":{"anno":[],"arguments":{"anno":[],"list":[{"anno":[],"span":"(2:15)-(2:17)","tag":"value","value":{"contents":"baz","tag":"variable"}},{"anno":[],"span":"(2:19)-(2:21)","tag":"value","value":{"contents":"bar","tag":"variable"}}],"span":"(2:15)-(2:21)"},"body":{"anno":[],"span":"(2:26)-(2:26)","tag":"value","value":{"contents":["5",null],"tag":"integer"}},"name":{"anno":[],"span":"(2:9)-(2:13)","tag":"value","value":{"contents":"esoar","tag":"variable"}},"span":"(2:9)-(2:26)","tag":"function"},"tag":"statement"}],"name":"hello","options":[null,null],"span":"(1:7)-(3:9)","subprograms":null,"tag":"subroutine"}]}'.
+	programFile :=  self visitJsonCode: '{"meta":{"miVersion":"fortran77","miFilename":"./fortran77.f"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"label":null,"span":"(2:9)-(2:26)","statement":{"anno":[],"arguments":{"anno":[],"list":[{"anno":[],"span":"(2:15)-(2:17)","tag":"value","value":{"contents":"baz","tag":"variable"}},{"anno":[],"span":"(2:19)-(2:21)","tag":"value","value":{"contents":"bar","tag":"variable"}}],"span":"(2:15)-(2:21)"},"body":{"anno":[],"span":"(2:26)-(2:26)","tag":"value","value":{"contents":["5",null],"tag":"integer"}},"name":{"anno":[],"span":"(2:9)-(2:13)","tag":"value","value":{"contents":"d__","tag":"variable"}},"span":"(2:9)-(2:26)","tag":"function"},"tag":"statement"}],"name":"hello","options":[null,null],"span":"(1:7)-(3:9)","subprograms":null,"tag":"subroutine"}]}'.
 
 
 	self assert: programFile progUnits first body first size equals: 1.
 	stmt := programFile progUnits first body first first.
-	self assert: stmt class equals: IASTVarEsoAr.
+	self assert: stmt class equals: IASTVarEsoAt.
 	self assert: stmt isWrite.
 	self assert: stmt entities size equals: 2.
 
@@ -385,36 +385,42 @@ JsonToIASTVisitorTest >> testEsoArTwoArgs [
 
 { #category : #'tests-esope' }
 JsonToIASTVisitorTest >> testEsoArWithEsoAtArg [
-	"subroutine hello( )
-        esoar(esoat(baz,bar),2) = 5
+	"      subroutine hello( )
+	     d__(baz,bar(2)) = 5
       end
 "
-	| programFile esoar esoat |
-	programFile :=  self visitJsonCode: '{"meta":{"miVersion":"fortran77","miFilename":"./fortran77.f"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"label":null,"span":"(2:9)-(2:35)","statement":{"anno":[],"arguments":{"anno":[],"list":[{"anno":[],"arguments":{"anno":[],"list":[{"anno":[],"expr":{"contents":{"anno":[],"span":"(2:21)-(2:23)","tag":"value","value":{"contents":"baz","tag":"variable"}},"tag":"expr"},"name":null,"span":"(2:21)-(2:23)"},{"anno":[],"expr":{"contents":{"anno":[],"span":"(2:25)-(2:27)","tag":"value","value":{"contents":"bar","tag":"variable"}},"tag":"expr"},"name":null,"span":"(2:25)-(2:27)"}],"span":"(2:21)-(2:27)"},"function":{"anno":[],"span":"(2:15)-(2:19)","tag":"value","value":{"contents":"esoat","tag":"variable"}},"span":"(2:15)-(2:28)","tag":"function_call"},{"anno":[],"span":"(2:30)-(2:30)","tag":"value","value":{"contents":["2",null],"tag":"integer"}}],"span":"(2:15)-(2:30)"},"body":{"anno":[],"span":"(2:35)-(2:35)","tag":"value","value":{"contents":["5",null],"tag":"integer"}},"name":{"anno":[],"span":"(2:9)-(2:13)","tag":"value","value":{"contents":"esoar","tag":"variable"}},"span":"(2:9)-(2:35)","tag":"function"},"tag":"statement"}],"name":"hello","options":[null,null],"span":"(1:7)-(3:9)","subprograms":null,"tag":"subroutine"}]}'.
+	| programFile d__ arg |
+	programFile :=  self visitJsonCode: '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"label":null,"span":"(2:10)-(2:28)","statement":{"anno":[],"arguments":{"anno":[],"list":[{"anno":[],"span":"(2:14)-(2:16)","tag":"value","value":{"contents":"baz","tag":"variable"}},{"anno":[],"arguments":{"anno":[],"list":[{"anno":[],"expr":{"contents":{"anno":[],"span":"(2:22)-(2:22)","tag":"value","value":{"contents":["2",null],"tag":"integer"}},"tag":"expr"},"name":null,"span":"(2:22)-(2:22)"}],"span":"(2:22)-(2:22)"},"function":{"anno":[],"span":"(2:18)-(2:20)","tag":"value","value":{"contents":"bar","tag":"variable"}},"span":"(2:18)-(2:23)","tag":"function_call"}],"span":"(2:14)-(2:23)"},"body":{"anno":[],"span":"(2:28)-(2:28)","tag":"value","value":{"contents":["5",null],"tag":"integer"}},"name":{"anno":[],"span":"(2:10)-(2:12)","tag":"value","value":{"contents":"d__","tag":"variable"}},"span":"(2:10)-(2:28)","tag":"function"},"tag":"statement"}],"name":"hello","options":[null,null],"span":"(1:7)-(3:9)","subprograms":null,"tag":"subroutine"}]}'.
 
 
 	self assert: programFile progUnits first body first size equals: 1.
-	esoar := programFile progUnits first body first first.
+	d__ := programFile progUnits first body first first.
 
-	self assert: esoar class equals: IASTVarEsoAr.
-	self assert: esoar isWrite.
-	self assert: esoar entities size equals: 1.
+	self assert: d__ class equals: IASTVarEsoAt.
+	self assert: d__ isWrite.
+	self assert: d__ entities size equals: 2.
 
-	esoat := esoar entities first.
-	self assert: esoat class equals: IASTVarEsoAt.
-	self deny: esoat isWrite.
-	self assert: esoat entities size equals: 2.
+	arg := d__ entities first.
+	self assert: arg class equals: IASTVarAccess.
+	self deny: arg isWrite.
+	self assert: arg entityName equals: 'baz'.
+
+
+	arg := d__ entities second.
+	self assert: arg class equals: IASTInvocation.
+	self assert: arg arguments size equals: 0.
+	self assert: arg entityName equals: 'bar'.
 
 ]
 
 { #category : #'tests-esope' }
 JsonToIASTVisitorTest >> testEsoAtOneArg [
-	"subroutine hello( )
-        esoat(baz,2) = 5.3
+	"      subroutine hello( )
+        d__(baz,2) = 5.3
       end
 "
 	| programFile stmt |
-	programFile :=  self visitJsonCode: '{"meta":{"miVersion":"fortran77","miFilename":"./fortran77.f"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"label":null,"span":"(2:9)-(2:26)","statement":{"anno":[],"arguments":{"anno":[],"list":[{"anno":[],"span":"(2:15)-(2:17)","tag":"value","value":{"contents":"baz","tag":"variable"}},{"anno":[],"span":"(2:19)-(2:19)","tag":"value","value":{"contents":["2",null],"tag":"integer"}}],"span":"(2:15)-(2:19)"},"body":{"anno":[],"span":"(2:24)-(2:26)","tag":"value","value":{"contents":[{"exponent":{"letter":"e","num":"0"},"significand":"5.3"},null],"tag":"real"}},"name":{"anno":[],"span":"(2:9)-(2:13)","tag":"value","value":{"contents":"esoat","tag":"variable"}},"span":"(2:9)-(2:26)","tag":"function"},"tag":"statement"}],"name":"hello","options":[null,null],"span":"(1:7)-(3:9)","subprograms":null,"tag":"subroutine"}]}'.
+	programFile :=  self visitJsonCode: '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"label":null,"span":"(2:9)-(2:24)","statement":{"anno":[],"arguments":{"anno":[],"list":[{"anno":[],"span":"(2:13)-(2:15)","tag":"value","value":{"contents":"baz","tag":"variable"}},{"anno":[],"span":"(2:17)-(2:17)","tag":"value","value":{"contents":["2",null],"tag":"integer"}}],"span":"(2:13)-(2:17)"},"body":{"anno":[],"span":"(2:22)-(2:24)","tag":"value","value":{"contents":[{"exponent":{"letter":"e","num":"0"},"significand":"5.3"},null],"tag":"real"}},"name":{"anno":[],"span":"(2:9)-(2:11)","tag":"value","value":{"contents":"d__","tag":"variable"}},"span":"(2:9)-(2:24)","tag":"function"},"tag":"statement"}],"name":"hello","options":[null,null],"span":"(1:7)-(3:9)","subprograms":null,"tag":"subroutine"}]}'.
 
 
 	self assert: programFile progUnits first body first size equals: 1.
@@ -429,12 +435,12 @@ JsonToIASTVisitorTest >> testEsoAtOneArg [
 
 { #category : #'tests-esope' }
 JsonToIASTVisitorTest >> testEsoAtTwoArgs [
-	"subroutine hello( )
-        esoat(baz,bar) = 5
+	"      subroutine hello( )
+        d__(baz,bar) = 5
       end
 "
 	| programFile stmt |
-	programFile :=  self visitJsonCode: '{"meta":{"miVersion":"fortran77","miFilename":"./fortran77.f"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"label":null,"span":"(2:9)-(2:26)","statement":{"anno":[],"arguments":{"anno":[],"list":[{"anno":[],"span":"(2:15)-(2:17)","tag":"value","value":{"contents":"baz","tag":"variable"}},{"anno":[],"span":"(2:19)-(2:21)","tag":"value","value":{"contents":"bar","tag":"variable"}}],"span":"(2:15)-(2:21)"},"body":{"anno":[],"span":"(2:26)-(2:26)","tag":"value","value":{"contents":["5",null],"tag":"integer"}},"name":{"anno":[],"span":"(2:9)-(2:13)","tag":"value","value":{"contents":"esoat","tag":"variable"}},"span":"(2:9)-(2:26)","tag":"function"},"tag":"statement"}],"name":"hello","options":[null,null],"span":"(1:7)-(3:9)","subprograms":null,"tag":"subroutine"}]}'.
+	programFile :=  self visitJsonCode: '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"label":null,"span":"(2:9)-(2:24)","statement":{"anno":[],"arguments":{"anno":[],"list":[{"anno":[],"span":"(2:13)-(2:15)","tag":"value","value":{"contents":"baz","tag":"variable"}},{"anno":[],"span":"(2:17)-(2:19)","tag":"value","value":{"contents":"bar","tag":"variable"}}],"span":"(2:13)-(2:19)"},"body":{"anno":[],"span":"(2:24)-(2:24)","tag":"value","value":{"contents":["5",null],"tag":"integer"}},"name":{"anno":[],"span":"(2:9)-(2:11)","tag":"value","value":{"contents":"d__","tag":"variable"}},"span":"(2:9)-(2:24)","tag":"function"},"tag":"statement"}],"name":"hello","options":[null,null],"span":"(1:7)-(3:9)","subprograms":null,"tag":"subroutine"}]}'.
 
 
 	self assert: programFile progUnits first body first size equals: 1.
@@ -451,12 +457,12 @@ JsonToIASTVisitorTest >> testEsoAtTwoArgs [
 
 { #category : #'tests-esope' }
 JsonToIASTVisitorTest >> testEsoAtTwoArgsReceivesVar [
-	"subroutine hello( )
-        esoat(baz,bar) = otherVar
+	"      subroutine hello( )
+        d__(baz,bar) = otherVar
       end
 "
 	| programFile var |
-	programFile :=  self visitJsonCode: '{"meta":{"miVersion":"fortran77","miFilename":"./fortran77.f"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"label":null,"span":"(2:9)-(2:33)","statement":{"anno":[],"arguments":{"anno":[],"list":[{"anno":[],"span":"(2:15)-(2:17)","tag":"value","value":{"contents":"baz","tag":"variable"}},{"anno":[],"span":"(2:19)-(2:21)","tag":"value","value":{"contents":"bar","tag":"variable"}}],"span":"(2:15)-(2:21)"},"body":{"anno":[],"span":"(2:26)-(2:33)","tag":"value","value":{"contents":"othervar","tag":"variable"}},"name":{"anno":[],"span":"(2:9)-(2:13)","tag":"value","value":{"contents":"esoat","tag":"variable"}},"span":"(2:9)-(2:33)","tag":"function"},"tag":"statement"}],"name":"hello","options":[null,null],"span":"(1:7)-(3:9)","subprograms":null,"tag":"subroutine"}]}'.
+	programFile :=  self visitJsonCode: '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"label":null,"span":"(2:9)-(2:31)","statement":{"anno":[],"arguments":{"anno":[],"list":[{"anno":[],"span":"(2:13)-(2:15)","tag":"value","value":{"contents":"baz","tag":"variable"}},{"anno":[],"span":"(2:17)-(2:19)","tag":"value","value":{"contents":"bar","tag":"variable"}}],"span":"(2:13)-(2:19)"},"body":{"anno":[],"span":"(2:24)-(2:31)","tag":"value","value":{"contents":"othervar","tag":"variable"}},"name":{"anno":[],"span":"(2:9)-(2:11)","tag":"value","value":{"contents":"d__","tag":"variable"}},"span":"(2:9)-(2:31)","tag":"function"},"tag":"statement"}],"name":"hello","options":[null,null],"span":"(1:7)-(3:9)","subprograms":null,"tag":"subroutine"}]}'.
 
 
 	self assert: programFile progUnits first body first size equals: 2.
