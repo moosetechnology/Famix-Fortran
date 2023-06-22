@@ -261,12 +261,12 @@ FASTFortranJsonExporterVisitorTest >> testDotComplexRead [
 	| expectedCode actualCode jsonCode |
 
 	"
-      subroutine hello()
+      subroutine hello
       n = d__(p,a(i))
       end
 	"	
 	
-	expectedCode := '      subroutine hello()
+	expectedCode := '      subroutine hello
       n = p.a(i)
       end
 '.
@@ -282,12 +282,12 @@ FASTFortranJsonExporterVisitorTest >> testDotComplexWithBoolean [
 	| expectedCode actualCode jsonCode |
 
 	"
-      subroutine hello()
+      subroutine hello
       d__(lb,bstatu(brcnt)) = .true.
       end
 	"	
 	
-	expectedCode := '      subroutine hello()
+	expectedCode := '      subroutine hello
       lb.bstatu(brcnt) = .true.
       end
 '.
@@ -303,12 +303,12 @@ FASTFortranJsonExporterVisitorTest >> testDotComplexWrite [
 	| expectedCode actualCode jsonCode |
 
 	"
-      subroutine hello()
+      subroutine hello
       d__(p,a(i)) = 1
       end
 	"	
 	
-	expectedCode := '      subroutine hello()
+	expectedCode := '      subroutine hello
       p.a(i) = 1
       end
 '.
@@ -323,12 +323,12 @@ FASTFortranJsonExporterVisitorTest >> testDotComplexWrite [
 FASTFortranJsonExporterVisitorTest >> testDotSimpleRead [
 	| expectedCode actualCode jsonCode |
 	"
-      subroutine hello()
+      subroutine hello
       n = d__(p,a)
       end
 	"	
 	
-	expectedCode := '      subroutine hello()
+	expectedCode := '      subroutine hello
       n = p.a
       end
 '.
@@ -344,12 +344,12 @@ FASTFortranJsonExporterVisitorTest >> testDotSimpleWrite [
 	| expectedCode actualCode jsonCode |
 
 	"
-      subroutine hello()
+      subroutine hello
       d__(p,a) = 1
       end
 	"	
 	
-	expectedCode := '      subroutine hello()
+	expectedCode := '      subroutine hello
       p.a = 1
       end
 '.
@@ -616,7 +616,7 @@ FASTFortranJsonExporterVisitorTest >> testMainProgramAndSubroutine [
 	| expectedCode actualCode jsonCode |
 	expectedCode := '      PROGRAM TESTALT
       END
-      SUBROUTINE RANK()
+      SUBROUTINE RANK
       END
 '.
 	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"blocks":[],"name":"testalt","span":"(1:7)-(2:9)","subprograms":null,"tag":"main"},{"anno":[],"arguments":null,"blocks":[],"name":"rank","options":[null,null],"span":"(3:7)-(4:9)","subprograms":null,"tag":"subroutine"}]}'.
@@ -646,12 +646,12 @@ FASTFortranJsonExporterVisitorTest >> testPointerDeclarationSimple [
 	| expectedCode actualCode jsonCode |
 
 	"
-      subroutine hello()
+      subroutine hello
 c@_   pointeur ptr.myseg
       end
 	"	
 	
-	expectedCode := '      subroutine hello()
+	expectedCode := '      subroutine hello
       pointeur ptr.myseg
       end
 '.
@@ -682,12 +682,12 @@ FASTFortranJsonExporterVisitorTest >> testSegact [
 	| expectedCode actualCode jsonCode |
 
 	"
-      subroutine hello()
+      subroutine hello
 c@_   segact ptr
       end
 	"	
 	
-	expectedCode := '      subroutine hello()
+	expectedCode := '      subroutine hello
       segact ptr
       end
 '.
@@ -703,12 +703,12 @@ FASTFortranJsonExporterVisitorTest >> testSegadj [
 	| expectedCode actualCode jsonCode |
 
 	"
-      subroutine hello()
+      subroutine hello
 c@_   segadj ptr
       end
 	"	
 	
-	expectedCode := '      subroutine hello()
+	expectedCode := '      subroutine hello
       segadj ptr
       end
 '.
@@ -724,12 +724,12 @@ FASTFortranJsonExporterVisitorTest >> testSegdes [
 	| expectedCode actualCode jsonCode |
 
 	"
-      subroutine hello()
+      subroutine hello
 c@_   segdes ptr
       end
 	"	
 	
-	expectedCode := '      subroutine hello()
+	expectedCode := '      subroutine hello
       segdes ptr
       end
 '.
@@ -745,12 +745,12 @@ FASTFortranJsonExporterVisitorTest >> testSegdesNOMOD [
 	| expectedCode actualCode jsonCode |
 
 	"
-      subroutine hello()
+      subroutine hello
 c@_   segdes, bk*NOMOD
       end
 	"	
 	
-	expectedCode := '      subroutine hello()
+	expectedCode := '      subroutine hello
       segdes, bk*NOMOD
       end
 '.
@@ -766,12 +766,12 @@ FASTFortranJsonExporterVisitorTest >> testSeginiComplexWithCopy [
 	| expectedCode actualCode jsonCode |
 
 	"
-      subroutine hello()
+      subroutine hello
 c@_   segini ptr1 = ptr2
       end
 	"	
 	
-	expectedCode := '      subroutine hello()
+	expectedCode := '      subroutine hello
       segini ptr1 = ptr2
       end
 '.
@@ -787,12 +787,12 @@ FASTFortranJsonExporterVisitorTest >> testSeginiSimpleWithComma [
 	| expectedCode actualCode jsonCode |
 
 	"
-      subroutine hello()
+      subroutine hello
 c@_   segini,ptr
       end
 	"	
 	
-	expectedCode := '      subroutine hello()
+	expectedCode := '      subroutine hello
       segini,ptr
       end
 '.
@@ -808,12 +808,12 @@ FASTFortranJsonExporterVisitorTest >> testSeginiSimpleWithSpace [
 	| expectedCode actualCode jsonCode |
 
 	"
-      subroutine hello()
+      subroutine hello
 c@_   segini ptr
       end
 	"	
 	
-	expectedCode := '      subroutine hello()
+	expectedCode := '      subroutine hello
       segini ptr
       end
 '.
@@ -829,13 +829,13 @@ FASTFortranJsonExporterVisitorTest >> testSegmentDeclarationEmpty [
 	| expectedCode actualCode jsonCode |
 
 	"
-      subroutine hello()
+      subroutine hello
 c@_   segment,user
 c@_   end segment
       end
 	"	
 	
-	expectedCode := '      subroutine hello()
+	expectedCode := '      subroutine hello
       segment,user
       end segment
       end
@@ -852,7 +852,7 @@ FASTFortranJsonExporterVisitorTest >> testSegmentDeclarationWithContent [
 	| expectedCode actualCode jsonCode |
 	
 	" actualCode
-      subroutine hello()
+      subroutine hello
 c@_   segment, user
       character uname
       integer uid,age
@@ -860,7 +860,7 @@ c@_   end segment
       end
 	"
 	
-	expectedCode := '      subroutine hello()
+	expectedCode := '      subroutine hello
       segment, user
       character uname
       integer uid,age
@@ -880,12 +880,12 @@ FASTFortranJsonExporterVisitorTest >> testSegsup [
 	| expectedCode actualCode jsonCode |
 
 	"
-      subroutine hello()
+      subroutine hello
 c@_   segsup ptr
       end
 	"	
 	
-	expectedCode := '      subroutine hello()
+	expectedCode := '      subroutine hello
       segsup ptr
       end
 '.
@@ -901,12 +901,12 @@ FASTFortranJsonExporterVisitorTest >> testSlashComplex [
 	| expectedCode actualCode jsonCode |
 
 	"
-      subroutine hello()
+      subroutine hello
       n = s__(d__(p,a),1)
       end
 	"	
 	
-	expectedCode := '      subroutine hello()
+	expectedCode := '      subroutine hello
       n = p.a(/1)
       end
 '.
@@ -922,12 +922,12 @@ FASTFortranJsonExporterVisitorTest >> testSlashSimple [
 	| expectedCode actualCode jsonCode |
 
 	"
-      subroutine hello()
+      subroutine hello
       n = s__(a,1)
       end
 	"	
 	
-	expectedCode := '      subroutine hello()
+	expectedCode := '      subroutine hello
       n = a(/1)
       end
 '.
@@ -1070,13 +1070,28 @@ FASTFortranJsonExporterVisitorTest >> testStatementWithLabel [
 FASTFortranJsonExporterVisitorTest >> testSubroutineEmpty [
 
 	| expectedCode actualCode jsonCode |
-	expectedCode := '      SUBROUTINE RANK()
+	expectedCode := '      SUBROUTINE RANK
       end
 '.
 	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"arguments":null,"blocks":[],"name":"rank","options":[null,null],"span":"(1:7)-(2:9)","subprograms":null,"tag":"subroutine"}]}'.
 
 	actualCode := self visitJsonCode: jsonCode.
 
+
+	self assert: actualCode equals: expectedCode asLowercase
+]
+
+{ #category : #'tests-statement' }
+FASTFortranJsonExporterVisitorTest >> testSubroutineInvocationWithoutArgument [
+
+	| expectedCode actualCode jsonCode |
+	expectedCode := '      PROGRAM MYPROG
+      call sub
+      END
+'.
+	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"blocks":[{"anno":[],"label":null,"span":"(2:7)-(2:14)","statement":{"anno":[],"arguments":{"anno":[],"list":[],"span":"(2:14)-(2:14)"},"function":{"anno":[],"span":"(2:12)-(2:14)","tag":"value","value":{"contents":"sub","tag":"variable"}},"span":"(2:7)-(2:14)","tag":"call"},"tag":"statement"}],"name":"myprog","span":"(1:7)-(3:9)","subprograms":null,"tag":"main"}]}'.
+
+	actualCode := self visitJsonCode: jsonCode.
 
 	self assert: actualCode equals: expectedCode asLowercase
 ]

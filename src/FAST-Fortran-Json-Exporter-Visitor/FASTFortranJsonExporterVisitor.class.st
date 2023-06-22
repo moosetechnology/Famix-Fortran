@@ -120,10 +120,14 @@ FASTFortranJsonExporterVisitor >> visitBlock_data: aBlockDataNode [
 FASTFortranJsonExporterVisitor >> visitCallStatement: aCallStatementNode [
 
 	"^self visitJsonMap: aCallStatementNode keys: #(span function arguments)"
-	output << self sixSpaces; << 'call '.
+
+	output
+		<< self sixSpaces;
+		<< 'call '.
 	self visitJsonElement: (aCallStatementNode at: 'function').
 
-	self visitArguments: (aCallStatementNode at: 'arguments').
+	(aCallStatementNode at: 'arguments') ifNotNil: [ :arguments | 
+		(arguments at: 'list') ifNotEmpty: [ self visitArguments: arguments ] ].
 	output cr
 ]
 
@@ -755,7 +759,8 @@ FASTFortranJsonExporterVisitor >> visitSubroutine: aSubroutineNode [
 		<< self sixSpaces;
 		<< 'subroutine ';
 		<< (aSubroutineNode at: 'name').
-	self visitFunctionParameters: (aSubroutineNode at: 'arguments').
+	(aSubroutineNode at: 'arguments') ifNotNil: [ :parameters | 
+		self visitFunctionParameters: parameters ].
 	output cr.
 	self visitJsonElement: (aSubroutineNode at: 'blocks').
 	self endProgramUnit
