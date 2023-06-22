@@ -1,3 +1,8 @@
+"
+Given a directory containing esope source files, this class rewrites the esope source files to be parsable by traditional fortran-77 parser. The resulting ASTs are used to build a moose model from which we regenerate ""original"" esope source files.
+
+`BookstoreExporter export`
+"
 Class {
 	#name : #BookstoreExporter,
 	#superclass : #Object,
