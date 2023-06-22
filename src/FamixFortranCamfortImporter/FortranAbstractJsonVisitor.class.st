@@ -6,43 +6,61 @@ Class {
 
 { #category : #'private - helpers' }
 FortranAbstractJsonVisitor >> esopeCommand: anEsopeCommentString [
-	"first word after cESO marker is the 'command', after come the 'argument'"
+	"returns a collectin of 2 words: {'command' . 'argument'}
+	first word after Esope marker is the 'command', after comes the 'argument'"
 
-	| i inWord indices |
-	indices := OrderedCollection new: 6.
+	| wordBoundaries |
+	wordBoundaries := self findWordBoundaries: anEsopeCommentString.
+
+	^(wordBoundaries size > 2)
+		ifTrue: [
+			{ (anEsopeCommentString copyFrom: wordBoundaries first to: wordBoundaries second) .
+			  (anEsopeCommentString copyFrom: wordBoundaries third to: wordBoundaries fourth) }
+		]
+		ifFalse: [ { anEsopeCommentString copyFrom: wordBoundaries first to: wordBoundaries second } ]
+]
+
+{ #category : #'private - helpers' }
+FortranAbstractJsonVisitor >> findWordBoundaries: anEsopeCommentString [
+	"search for word boundaries starting from 6th position"
+	| wordBoundaries i inWord |
+
+	wordBoundaries := OrderedCollection new: 6.
 	i := 1.
 	inWord := false.
 
-	anEsopeCommentString do: [ :char |
+	(anEsopeCommentString allButFirst: 5) do: [ :char |
 		"for now, treat . as a letter: lb.pstr"
 		(char isLetter or: [ char = $. ])
 		ifTrue: [
 			inWord ifFalse:[ "begining of a word"
-				indices add: i.
+				wordBoundaries add: i + 5.
 				inWord := true
 			]
 		]
 		ifFalse: [
 			inWord ifTrue: [ "end of a word"
-				indices add: i - 1.
+				wordBoundaries add: i + 4.
 				inWord := false
 			]
 		].
 		i := i+1
 	].
-	indices add: i-1.
+	wordBoundaries add: i + 4.
+	^wordBoundaries
 
-	^(indices size > 4)
-		ifTrue: [
-			{ (anEsopeCommentString copyFrom: indices third to: indices fourth) .
-			  (anEsopeCommentString copyFrom: indices fifth to: indices sixth) }
-		]
-		ifFalse: [ { anEsopeCommentString copyFrom: indices third to: indices fourth } ]
 ]
 
 { #category : #testing }
 FortranAbstractJsonVisitor >> isEsopeComment: aCommentString [
-	^aCommentString asLowercase beginsWith: 'eso' 
+	^aCommentString asLowercase beginsWith: '@_' 
+]
+
+{ #category : #testing }
+FortranAbstractJsonVisitor >> isEsopeTransformation: aString [
+
+	aString isString ifFalse: [ ^ false ].
+	^ #( #d__ #s__ ) includes: aString
 ]
 
 { #category : #testing }
@@ -450,6 +468,12 @@ FortranAbstractJsonVisitor >> visitFunctionCalledName: aString [
 	^aString
 ]
 
+{ #category : #'visiting prog-unit' }
+FortranAbstractJsonVisitor >> visitFunctionParameters: aParameterList [
+	aParameterList ifNil: [ ^#() ].
+	^self visitJsonElement: aParameterList 
+]
+
 { #category : #'visiting statement' }
 FortranAbstractJsonVisitor >> visitFunctionStatement: aFunctionStatementNode [
 	"'name' is an object, not a string so, cannot call #visitName: on it"
@@ -461,7 +485,11 @@ FortranAbstractJsonVisitor >> visitFunctionStatement: aFunctionStatementNode [
 
 { #category : #'visiting prog-unit' }
 FortranAbstractJsonVisitor >> visitFunctionWithBlocks: aFunctionNode [
-	^self visitJsonMap: aFunctionNode keys: #(span name type arguments blocks) "result subprograms"
+	^(self visitJsonMap: aFunctionNode keys: #(span name type))
+	, { self visitFunctionParameters: (aFunctionNode at: 'arguments') }
+	, { self visitJsonArray: (aFunctionNode at: 'blocks') } 
+	"need to deal with keys: result, subprograms"
+	
 ]
 
 { #category : #'visiting statement' }

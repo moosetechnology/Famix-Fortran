@@ -4,6 +4,11 @@ Class {
 	#category : #'FortranCamfortImporter-AST-IR'
 }
 
+{ #category : #'instance creation' }
+IASTVarEsoAt class >> realName [
+	^ 'd__'
+]
+
 { #category : #accessing }
 IASTVarEsoAt >> accept: aVisitor [
 
