@@ -1147,6 +1147,22 @@ FASTFortranJsonExporterVisitorTest >> testTokenPosition [
 	self assert: actualCode equals: expectedCode asLowercase
 ]
 
+{ #category : #'tests-expression' }
+FASTFortranJsonExporterVisitorTest >> testUnaryExpressionNotKeyword [
+
+	| expectedCode actualCode jsonCode |
+	expectedCode := '      PROGRAM MYPROG
+      IF ( .not. a) THEN
+      END IF
+      END
+'.
+	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"blocks":[{"anno":[],"blocks":null,"conditions":[[{"anno":[],"expression":{"anno":[],"span":"(2:17)-(2:17)","tag":"value","value":{"contents":"a","tag":"variable"}},"op":{"tag":"not"},"span":"(2:11)-(2:17)","tag":"unary"},[]]],"end_label":null,"label":null,"name":null,"span":"(2:7)-(3:12)","tag":"if"}],"name":"myprog","span":"(1:7)-(4:9)","subprograms":null,"tag":"main"}]}'.
+
+	actualCode := self visitJsonCode: jsonCode.
+
+	self assert: actualCode equals: expectedCode asLowercase
+]
+
 { #category : #running }
 FASTFortranJsonExporterVisitorTest >> testVariableDeclarationCharacter [
 
