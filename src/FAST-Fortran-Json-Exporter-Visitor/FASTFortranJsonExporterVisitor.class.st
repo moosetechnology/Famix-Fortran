@@ -94,14 +94,6 @@ FASTFortranJsonExporterVisitor >> visitBase_type: aString [
 
 ]
 
-{ #category : #'visiting expression' }
-FASTFortranJsonExporterVisitor >> visitBinary: aBinaryExpressionNode [
-	"^self visitJsonMap: aBinaryExpressionNode keys: #( span left op right)"
-	self visitJsonElement: (aBinaryExpressionNode at: 'left').
-	self visitJsonElement: (aBinaryExpressionNode at: 'op').
-	self visitJsonElement: (aBinaryExpressionNode at: 'right').
-]
-
 { #category : #'visiting prog-unit' }
 FASTFortranJsonExporterVisitor >> visitBlock_data: aBlockDataNode [
 
@@ -159,6 +151,12 @@ FASTFortranJsonExporterVisitor >> visitCommonStatement: aCommonStatementNode [
 		<< 'common '.
 	self visitJsonElement: (aCommonStatementNode at: 'common_groups').
 	output cr
+]
+
+{ #category : #'visiting statement' }
+FASTFortranJsonExporterVisitor >> visitCondition: aLogicalIfConditionNode [
+
+	self visitIfCondition: aLogicalIfConditionNode
 ]
 
 { #category : #'visiting statement' }
@@ -298,9 +296,9 @@ FASTFortranJsonExporterVisitor >> visitDo_spec: aDoSpecNode [
 FASTFortranJsonExporterVisitor >> visitEq: anEqualtoOperatorNode [
 
 	output
-		<< ' .';
+		<< ' ';
 		<< (super visitEq: anEqualtoOperatorNode);
-		<< '. '
+		<< ' '
 ]
 
 { #category : #'visiting esope' }
@@ -528,9 +526,9 @@ FASTFortranJsonExporterVisitor >> visitGotoStatement: aGotoStatementNode [
 FASTFortranJsonExporterVisitor >> visitGt: aGreaterthanOperatorNode [
 
 	output
-		<< ' .';
+		<< ' ';
 		<< (super visitGt: aGreaterthanOperatorNode);
-		<< '. '
+		<< ' '
 ]
 
 { #category : #'visiting statement' }
@@ -561,6 +559,18 @@ FASTFortranJsonExporterVisitor >> visitIfCondition: anIfConditionNode [
 	output << $(.
 	self visitJsonElement: anIfConditionNode.
 	output << $)
+]
+
+{ #category : #'visiting statement' }
+FASTFortranJsonExporterVisitor >> visitIf_logicalStatement: anIfNode [
+
+	"^self visitJsonMap: anIfNode keys: #(span condition statement)."
+
+	output << sixSpaces; << 'if '.
+	self visitCondition: (anIfNode at: 'condition').
+	output << ' '.
+	self visitJsonElement: (anIfNode at: 'statement').
+	output cr
 ]
 
 { #category : #'visiting statement' }
@@ -638,9 +648,9 @@ FASTFortranJsonExporterVisitor >> visitLower: aLowerNode [
 FASTFortranJsonExporterVisitor >> visitLt: anLessthanOperatorNode [
 
 	output
-		<< ' .';
+		<< ' ';
 		<< (super visitLt: anLessthanOperatorNode);
-		<< '. '
+		<< ' '
 ]
 
 { #category : #'visiting prog-unit' }
@@ -663,9 +673,33 @@ FASTFortranJsonExporterVisitor >> visitMeta: aMetaNode [
 ]
 
 { #category : #'visiting expression' }
+FASTFortranJsonExporterVisitor >> visitMinus: aMinusOperatorNode [
+
+	output << '-'
+]
+
+{ #category : #'visiting expression' }
 FASTFortranJsonExporterVisitor >> visitMultiplication: aMultiplicationOperatorNode [
 
 	output << ' * '
+]
+
+{ #category : #'visiting expression' }
+FASTFortranJsonExporterVisitor >> visitNe: aNotEqualtoOperatorNode [
+
+	output
+		<< ' ';
+		<< (super visitNe: aNotEqualtoOperatorNode);
+		<< ' '
+]
+
+{ #category : #'visiting expression' }
+FASTFortranJsonExporterVisitor >> visitNot: aNottoOperatorNode [
+
+	output
+		<< ' ';
+		<< (super visitNot: aNottoOperatorNode);
+		<< ' '
 ]
 
 { #category : #'visiting prog-unit' }

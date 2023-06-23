@@ -36,6 +36,22 @@ FASTFortranJsonExporterVisitorTest >> testAssignementIntegerLiteral [
 ]
 
 { #category : #'tests-expression' }
+FASTFortranJsonExporterVisitorTest >> testAssignementNegatifIntegerLiteral [
+
+	| expectedCode actualCode jsonCode |
+	expectedCode := '      PROGRAM MYPROG
+      c = -1
+      END
+'.
+	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"blocks":[{"anno":[],"label":null,"span":"(2:7)-(2:12)","statement":{"anno":[],"expression":{"anno":[],"expression":{"anno":[],"span":"(2:12)-(2:12)","tag":"value","value":{"contents":["1",null],"tag":"integer"}},"op":{"tag":"minus"},"span":"(2:11)-(2:12)","tag":"unary"},"span":"(2:7)-(2:12)","tag":"assign_expression","target":{"anno":[],"span":"(2:7)-(2:7)","tag":"value","value":{"contents":"c","tag":"variable"}}},"tag":"statement"}],"name":"myprog","span":"(1:7)-(3:9)","subprograms":null,"tag":"main"}]}'.
+
+	actualCode := self visitJsonCode: jsonCode.
+
+
+	self assert: actualCode equals: expectedCode asLowercase
+]
+
+{ #category : #'tests-expression' }
 FASTFortranJsonExporterVisitorTest >> testAssignementRealLiteral [
 
 	| expectedCode actualCode jsonCode |
@@ -360,6 +376,27 @@ FASTFortranJsonExporterVisitorTest >> testDotSimpleWrite [
 	self assert: actualCode equals: expectedCode asLowercase
 ]
 
+{ #category : #'tests-programUnit' }
+FASTFortranJsonExporterVisitorTest >> testEsopeTransformationInsideInvocationOrArraySubscript [
+
+	| expectedCode actualCode jsonCode |
+	"
+      Program test
+      bk = mypnt(lib,D__(lb,bref(D__(ur,ubb(ibor)))))
+      end	
+	"
+	expectedCode := '      Program test
+      bk = mypnt(lib,lb.bref(ur.ubb(ibor)))
+      end
+'.
+	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"blocks":[{"anno":[],"label":null,"span":"(2:7)-(2:53)","statement":{"anno":[],"expression":{"anno":[],"arguments":{"anno":[],"list":[{"anno":[],"expr":{"contents":{"anno":[],"span":"(2:18)-(2:20)","tag":"value","value":{"contents":"lib","tag":"variable"}},"tag":"expr"},"name":null,"span":"(2:18)-(2:20)"},{"anno":[],"expr":{"contents":{"anno":[],"arguments":{"anno":[],"list":[{"anno":[],"expr":{"contents":{"anno":[],"span":"(2:26)-(2:27)","tag":"value","value":{"contents":"lb","tag":"variable"}},"tag":"expr"},"name":null,"span":"(2:26)-(2:27)"},{"anno":[],"expr":{"contents":{"anno":[],"arguments":{"anno":[],"list":[{"anno":[],"expr":{"contents":{"anno":[],"arguments":{"anno":[],"list":[{"anno":[],"expr":{"contents":{"anno":[],"span":"(2:38)-(2:39)","tag":"value","value":{"contents":"ur","tag":"variable"}},"tag":"expr"},"name":null,"span":"(2:38)-(2:39)"},{"anno":[],"expr":{"contents":{"anno":[],"arguments":{"anno":[],"list":[{"anno":[],"expr":{"contents":{"anno":[],"span":"(2:45)-(2:48)","tag":"value","value":{"contents":"ibor","tag":"variable"}},"tag":"expr"},"name":null,"span":"(2:45)-(2:48)"}],"span":"(2:45)-(2:48)"},"function":{"anno":[],"span":"(2:41)-(2:43)","tag":"value","value":{"contents":"ubb","tag":"variable"}},"span":"(2:41)-(2:49)","tag":"function_call"},"tag":"expr"},"name":null,"span":"(2:41)-(2:49)"}],"span":"(2:38)-(2:49)"},"function":{"anno":[],"span":"(2:34)-(2:36)","tag":"value","value":{"contents":"d__","tag":"variable"}},"span":"(2:34)-(2:50)","tag":"function_call"},"tag":"expr"},"name":null,"span":"(2:34)-(2:50)"}],"span":"(2:34)-(2:50)"},"function":{"anno":[],"span":"(2:29)-(2:32)","tag":"value","value":{"contents":"bref","tag":"variable"}},"span":"(2:29)-(2:51)","tag":"function_call"},"tag":"expr"},"name":null,"span":"(2:29)-(2:51)"}],"span":"(2:26)-(2:51)"},"function":{"anno":[],"span":"(2:22)-(2:24)","tag":"value","value":{"contents":"d__","tag":"variable"}},"span":"(2:22)-(2:52)","tag":"function_call"},"tag":"expr"},"name":null,"span":"(2:22)-(2:52)"}],"span":"(2:18)-(2:52)"},"function":{"anno":[],"span":"(2:12)-(2:16)","tag":"value","value":{"contents":"mypnt","tag":"variable"}},"span":"(2:12)-(2:53)","tag":"function_call"},"span":"(2:7)-(2:53)","tag":"assign_expression","target":{"anno":[],"span":"(2:7)-(2:8)","tag":"value","value":{"contents":"bk","tag":"variable"}}},"tag":"statement"}],"name":"test","span":"(1:7)-(3:9)","subprograms":null,"tag":"main"}]}'.
+
+	actualCode := self visitJsonCode: jsonCode.
+
+
+	self assert: actualCode equals: expectedCode asLowercase
+]
+
 { #category : #'tests-statement' }
 FASTFortranJsonExporterVisitorTest >> testExternalStatement [
 
@@ -590,6 +627,36 @@ FASTFortranJsonExporterVisitorTest >> testLiteralTrue [
 
 	actualCode := self visitJsonCode: jsonCode.
 
+
+	self assert: actualCode equals: expectedCode asLowercase
+]
+
+{ #category : #'tests-statement' }
+FASTFortranJsonExporterVisitorTest >> testLogicalIfWithComplexCondition [
+
+	| expectedCode actualCode jsonCode |
+	expectedCode := '      PROGRAM MYPROG
+      IF (a .ne. 1) a = 1
+      END
+'.
+	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"blocks":[{"anno":[],"label":null,"span":"(2:7)-(2:25)","statement":{"anno":[],"condition":{"anno":[],"left":{"anno":[],"span":"(2:11)-(2:11)","tag":"value","value":{"contents":"a","tag":"variable"}},"op":{"tag":"ne"},"right":{"anno":[],"span":"(2:18)-(2:18)","tag":"value","value":{"contents":["1",null],"tag":"integer"}},"span":"(2:11)-(2:18)","tag":"binary"},"span":"(2:7)-(2:25)","statement":{"anno":[],"expression":{"anno":[],"span":"(2:25)-(2:25)","tag":"value","value":{"contents":["1",null],"tag":"integer"}},"span":"(2:21)-(2:25)","tag":"assign_expression","target":{"anno":[],"span":"(2:21)-(2:21)","tag":"value","value":{"contents":"a","tag":"variable"}}},"tag":"if_logical"},"tag":"statement"}],"name":"myprog","span":"(1:7)-(3:9)","subprograms":null,"tag":"main"}]}'.
+
+	actualCode := self visitJsonCode: jsonCode.
+
+	self assert: actualCode equals: expectedCode asLowercase
+]
+
+{ #category : #'tests-statement' }
+FASTFortranJsonExporterVisitorTest >> testLogicalIfWithSimpleCondition [
+
+	| expectedCode actualCode jsonCode |
+	expectedCode := '      PROGRAM MYPROG
+      IF (a) b = 1
+      END
+'.
+	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"blocks":[{"anno":[],"label":null,"span":"(2:7)-(2:18)","statement":{"anno":[],"condition":{"anno":[],"span":"(2:11)-(2:11)","tag":"value","value":{"contents":"a","tag":"variable"}},"span":"(2:7)-(2:18)","statement":{"anno":[],"expression":{"anno":[],"span":"(2:18)-(2:18)","tag":"value","value":{"contents":["1",null],"tag":"integer"}},"span":"(2:14)-(2:18)","tag":"assign_expression","target":{"anno":[],"span":"(2:14)-(2:14)","tag":"value","value":{"contents":"b","tag":"variable"}}},"tag":"if_logical"},"tag":"statement"}],"name":"myprog","span":"(1:7)-(3:9)","subprograms":null,"tag":"main"}]}'.
+
+	actualCode := self visitJsonCode: jsonCode.
 
 	self assert: actualCode equals: expectedCode asLowercase
 ]
@@ -1127,6 +1194,22 @@ FASTFortranJsonExporterVisitorTest >> testTokenPosition [
 
 	actualCode := self visitJsonCode: jsonCode.
 
+
+	self assert: actualCode equals: expectedCode asLowercase
+]
+
+{ #category : #'tests-expression' }
+FASTFortranJsonExporterVisitorTest >> testUnaryExpressionNotKeyword [
+
+	| expectedCode actualCode jsonCode |
+	expectedCode := '      PROGRAM MYPROG
+      IF ( .not. a) THEN
+      END IF
+      END
+'.
+	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"blocks":[{"anno":[],"blocks":null,"conditions":[[{"anno":[],"expression":{"anno":[],"span":"(2:17)-(2:17)","tag":"value","value":{"contents":"a","tag":"variable"}},"op":{"tag":"not"},"span":"(2:11)-(2:17)","tag":"unary"},[]]],"end_label":null,"label":null,"name":null,"span":"(2:7)-(3:12)","tag":"if"}],"name":"myprog","span":"(1:7)-(4:9)","subprograms":null,"tag":"main"}]}'.
+
+	actualCode := self visitJsonCode: jsonCode.
 
 	self assert: actualCode equals: expectedCode asLowercase
 ]
