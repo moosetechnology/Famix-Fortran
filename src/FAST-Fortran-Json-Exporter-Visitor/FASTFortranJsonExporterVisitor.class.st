@@ -290,9 +290,9 @@ FASTFortranJsonExporterVisitor >> visitDo_spec: aDoSpecNode [
 FASTFortranJsonExporterVisitor >> visitEq: anEqualtoOperatorNode [
 
 	output
-		<< ' .';
+		<< ' ';
 		<< (super visitEq: anEqualtoOperatorNode);
-		<< '. '
+		<< ' '
 ]
 
 { #category : #'visiting esope' }
@@ -520,9 +520,9 @@ FASTFortranJsonExporterVisitor >> visitGotoStatement: aGotoStatementNode [
 FASTFortranJsonExporterVisitor >> visitGt: aGreaterthanOperatorNode [
 
 	output
-		<< ' .';
+		<< ' ';
 		<< (super visitGt: aGreaterthanOperatorNode);
-		<< '. '
+		<< ' '
 ]
 
 { #category : #'visiting statement' }
@@ -630,9 +630,9 @@ FASTFortranJsonExporterVisitor >> visitLower: aLowerNode [
 FASTFortranJsonExporterVisitor >> visitLt: anLessthanOperatorNode [
 
 	output
-		<< ' .';
+		<< ' ';
 		<< (super visitLt: anLessthanOperatorNode);
-		<< '. '
+		<< ' '
 ]
 
 { #category : #'visiting prog-unit' }
@@ -658,6 +658,24 @@ FASTFortranJsonExporterVisitor >> visitMeta: aMetaNode [
 FASTFortranJsonExporterVisitor >> visitMultiplication: aMultiplicationOperatorNode [
 
 	output << ' * '
+]
+
+{ #category : #'visiting expression' }
+FASTFortranJsonExporterVisitor >> visitNe: aNotEqualtoOperatorNode [
+
+	output
+		<< ' ';
+		<< (super visitNe: aNotEqualtoOperatorNode);
+		<< ' '
+]
+
+{ #category : #'visiting expression' }
+FASTFortranJsonExporterVisitor >> visitNot: aNottoOperatorNode [
+
+	output
+		<< ' ';
+		<< (super visitNot: aNottoOperatorNode);
+		<< ' '
 ]
 
 { #category : #'visiting prog-unit' }
