@@ -279,7 +279,14 @@ FortranAbstractJsonVisitor >> visitElements: anImplicitElementsNode [
 
 { #category : #'visiting expression' }
 FortranAbstractJsonVisitor >> visitEq: anEqualtoOperatorNode [
-	^'eq'
+
+	^ '.eq.'
+]
+
+{ #category : #'visiting expression' }
+FortranAbstractJsonVisitor >> visitEqv: aEqvtoOperatorNode [
+
+	^ '.eqv.'
 ]
 
 { #category : #'visiting reflectivity' }
@@ -498,6 +505,12 @@ FortranAbstractJsonVisitor >> visitFunction_call: aFunctionCallNode [
 	^self visitCallStatement: aFunctionCallNode
 ]
 
+{ #category : #'visiting expression' }
+FortranAbstractJsonVisitor >> visitGe: aGetoOperatorNode [
+
+	^ '.ge.'
+]
+
 { #category : #'visiting statement' }
 FortranAbstractJsonVisitor >> visitGotoStatement: aGotoStatementNode [
 
@@ -506,7 +519,8 @@ FortranAbstractJsonVisitor >> visitGotoStatement: aGotoStatementNode [
 
 { #category : #'visiting expression' }
 FortranAbstractJsonVisitor >> visitGt: aGreaterthanOperatorNode [
-	^'gt'
+
+	^ '.gt.'
 ]
 
 { #category : #'visiting statement' }
@@ -656,6 +670,12 @@ FortranAbstractJsonVisitor >> visitLabel: aLabelNode [
 ]
 
 { #category : #'visiting expression' }
+FortranAbstractJsonVisitor >> visitLe: aLetoOperatorNode [
+
+	^ '.le.'
+]
+
+{ #category : #'visiting expression' }
 FortranAbstractJsonVisitor >> visitLeft: aLeftNode [
 	^self visitJsonElement: aLeftNode
 ]
@@ -697,7 +717,8 @@ FortranAbstractJsonVisitor >> visitLogicalLiteralValue: aString [
 
 { #category : #'visiting expression' }
 FortranAbstractJsonVisitor >> visitLt: aLessthanOperatorNode [
-	^'lt'
+
+	^ '.lt.'
 ]
 
 { #category : #'visiting prog-unit' }
@@ -740,6 +761,24 @@ FortranAbstractJsonVisitor >> visitMultiplication: aMultiplicationOperatorNode [
 { #category : #visiting }
 FortranAbstractJsonVisitor >> visitName: aString [
 	^aString
+]
+
+{ #category : #'visiting expression' }
+FortranAbstractJsonVisitor >> visitNe: aNotEqualtoOperatorNode [
+
+	^ '.ne.'
+]
+
+{ #category : #'visiting expression' }
+FortranAbstractJsonVisitor >> visitNeqv: aNeqvtoOperatorNode [
+
+	^ '.neqv.'
+]
+
+{ #category : #'visiting expression' }
+FortranAbstractJsonVisitor >> visitNot: aNotToOperatorNode [
+
+	^ '.not.'
 ]
 
 { #category : #'visiting expression' }
