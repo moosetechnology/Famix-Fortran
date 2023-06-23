@@ -94,14 +94,6 @@ FASTFortranJsonExporterVisitor >> visitBase_type: aString [
 
 ]
 
-{ #category : #'visiting expression' }
-FASTFortranJsonExporterVisitor >> visitBinary: aBinaryExpressionNode [
-	"^self visitJsonMap: aBinaryExpressionNode keys: #( span left op right)"
-	self visitJsonElement: (aBinaryExpressionNode at: 'left').
-	self visitJsonElement: (aBinaryExpressionNode at: 'op').
-	self visitJsonElement: (aBinaryExpressionNode at: 'right').
-]
-
 { #category : #'visiting prog-unit' }
 FASTFortranJsonExporterVisitor >> visitBlock_data: aBlockDataNode [
 
