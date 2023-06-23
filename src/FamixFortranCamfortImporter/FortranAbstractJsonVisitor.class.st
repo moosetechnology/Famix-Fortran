@@ -147,6 +147,12 @@ FortranAbstractJsonVisitor >> visitBody: aNode [
 ]
 
 { #category : #'visiting statement' }
+FortranAbstractJsonVisitor >> visitCall: aCallNode [
+
+	^self visitCallStatement: aCallNode
+]
+
+{ #category : #'visiting statement' }
 FortranAbstractJsonVisitor >> visitCallStatement: aCallStatementNode [
 
 	^self visitJsonMap: aCallStatementNode keys: #(span function arguments)
