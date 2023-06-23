@@ -154,6 +154,12 @@ FASTFortranJsonExporterVisitor >> visitCommonStatement: aCommonStatementNode [
 ]
 
 { #category : #'visiting statement' }
+FASTFortranJsonExporterVisitor >> visitCondition: aLogicalIfConditionNode [
+
+	self visitIfCondition: aLogicalIfConditionNode
+]
+
+{ #category : #'visiting statement' }
 FASTFortranJsonExporterVisitor >> visitConditions: aConditionList [
 
 	| ifPart |
@@ -553,6 +559,18 @@ FASTFortranJsonExporterVisitor >> visitIfCondition: anIfConditionNode [
 	output << $(.
 	self visitJsonElement: anIfConditionNode.
 	output << $)
+]
+
+{ #category : #'visiting statement' }
+FASTFortranJsonExporterVisitor >> visitIf_logicalStatement: anIfNode [
+
+	"^self visitJsonMap: anIfNode keys: #(span condition statement)."
+
+	output << sixSpaces; << 'if '.
+	self visitCondition: (anIfNode at: 'condition').
+	output << ' '.
+	self visitJsonElement: (anIfNode at: 'statement').
+	output cr
 ]
 
 { #category : #'visiting statement' }

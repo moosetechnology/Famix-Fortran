@@ -199,6 +199,12 @@ FortranAbstractJsonVisitor >> visitCommon_groups: aCommonGroupsNode [
 ]
 
 { #category : #'visiting statement' }
+FortranAbstractJsonVisitor >> visitCondition: aLogicalIfConditionNode [
+
+	^ self visitIfCondition: aLogicalIfConditionNode
+]
+
+{ #category : #'visiting statement' }
 FortranAbstractJsonVisitor >> visitConditions: aConditionList [
 	^aConditionList collect: [ :aCondition |
 		{ self visitIfCondition: aCondition first .
@@ -535,6 +541,12 @@ FortranAbstractJsonVisitor >> visitIf: anIfNode [
 { #category : #'visiting statement' }
 FortranAbstractJsonVisitor >> visitIfCondition: anIfConditionNode [
 	^self visitJsonElement: anIfConditionNode
+]
+
+{ #category : #'visiting statement' }
+FortranAbstractJsonVisitor >> visitIf_logicalStatement: anIfNode [
+
+	^ self visitJsonMap: anIfNode keys: #( span condition statement )
 ]
 
 { #category : #'visiting statement' }

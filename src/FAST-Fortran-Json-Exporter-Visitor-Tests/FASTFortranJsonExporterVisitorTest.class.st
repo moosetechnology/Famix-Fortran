@@ -610,6 +610,36 @@ FASTFortranJsonExporterVisitorTest >> testLiteralTrue [
 	self assert: actualCode equals: expectedCode asLowercase
 ]
 
+{ #category : #'tests-statement' }
+FASTFortranJsonExporterVisitorTest >> testLogicalIfWithComplexCondition [
+
+	| expectedCode actualCode jsonCode |
+	expectedCode := '      PROGRAM MYPROG
+      IF (a .ne. 1) a = 1
+      END
+'.
+	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"blocks":[{"anno":[],"label":null,"span":"(2:7)-(2:25)","statement":{"anno":[],"condition":{"anno":[],"left":{"anno":[],"span":"(2:11)-(2:11)","tag":"value","value":{"contents":"a","tag":"variable"}},"op":{"tag":"ne"},"right":{"anno":[],"span":"(2:18)-(2:18)","tag":"value","value":{"contents":["1",null],"tag":"integer"}},"span":"(2:11)-(2:18)","tag":"binary"},"span":"(2:7)-(2:25)","statement":{"anno":[],"expression":{"anno":[],"span":"(2:25)-(2:25)","tag":"value","value":{"contents":["1",null],"tag":"integer"}},"span":"(2:21)-(2:25)","tag":"assign_expression","target":{"anno":[],"span":"(2:21)-(2:21)","tag":"value","value":{"contents":"a","tag":"variable"}}},"tag":"if_logical"},"tag":"statement"}],"name":"myprog","span":"(1:7)-(3:9)","subprograms":null,"tag":"main"}]}'.
+
+	actualCode := self visitJsonCode: jsonCode.
+
+	self assert: actualCode equals: expectedCode asLowercase
+]
+
+{ #category : #'tests-statement' }
+FASTFortranJsonExporterVisitorTest >> testLogicalIfWithSimpleCondition [
+
+	| expectedCode actualCode jsonCode |
+	expectedCode := '      PROGRAM MYPROG
+      IF (a) b = 1
+      END
+'.
+	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"blocks":[{"anno":[],"label":null,"span":"(2:7)-(2:18)","statement":{"anno":[],"condition":{"anno":[],"span":"(2:11)-(2:11)","tag":"value","value":{"contents":"a","tag":"variable"}},"span":"(2:7)-(2:18)","statement":{"anno":[],"expression":{"anno":[],"span":"(2:18)-(2:18)","tag":"value","value":{"contents":["1",null],"tag":"integer"}},"span":"(2:14)-(2:18)","tag":"assign_expression","target":{"anno":[],"span":"(2:14)-(2:14)","tag":"value","value":{"contents":"b","tag":"variable"}}},"tag":"if_logical"},"tag":"statement"}],"name":"myprog","span":"(1:7)-(3:9)","subprograms":null,"tag":"main"}]}'.
+
+	actualCode := self visitJsonCode: jsonCode.
+
+	self assert: actualCode equals: expectedCode asLowercase
+]
+
 { #category : #'tests-programUnit' }
 FASTFortranJsonExporterVisitorTest >> testMainProgram [
 
