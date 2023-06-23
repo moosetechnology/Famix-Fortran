@@ -157,7 +157,7 @@ BookstoreExporter class >> rootPath [
 { #category : #utilities }
 BookstoreExporter class >> srcPath [
 
-	^ (self rootPath / 'esopeSrc') asFileReference
+	^ (self rootPath / 'src') asFileReference
 ]
 
 { #category : #utilities }
