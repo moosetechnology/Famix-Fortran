@@ -655,6 +655,12 @@ FASTFortranJsonExporterVisitor >> visitMeta: aMetaNode [
 ]
 
 { #category : #'visiting expression' }
+FASTFortranJsonExporterVisitor >> visitMinus: aMinusOperatorNode [
+
+	output << '-'
+]
+
+{ #category : #'visiting expression' }
 FASTFortranJsonExporterVisitor >> visitMultiplication: aMultiplicationOperatorNode [
 
 	output << ' * '

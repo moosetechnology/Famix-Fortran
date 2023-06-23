@@ -36,6 +36,22 @@ FASTFortranJsonExporterVisitorTest >> testAssignementIntegerLiteral [
 ]
 
 { #category : #'tests-expression' }
+FASTFortranJsonExporterVisitorTest >> testAssignementNegatifIntegerLiteral [
+
+	| expectedCode actualCode jsonCode |
+	expectedCode := '      PROGRAM MYPROG
+      c = -1
+      END
+'.
+	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"blocks":[{"anno":[],"label":null,"span":"(2:7)-(2:12)","statement":{"anno":[],"expression":{"anno":[],"expression":{"anno":[],"span":"(2:12)-(2:12)","tag":"value","value":{"contents":["1",null],"tag":"integer"}},"op":{"tag":"minus"},"span":"(2:11)-(2:12)","tag":"unary"},"span":"(2:7)-(2:12)","tag":"assign_expression","target":{"anno":[],"span":"(2:7)-(2:7)","tag":"value","value":{"contents":"c","tag":"variable"}}},"tag":"statement"}],"name":"myprog","span":"(1:7)-(3:9)","subprograms":null,"tag":"main"}]}'.
+
+	actualCode := self visitJsonCode: jsonCode.
+
+
+	self assert: actualCode equals: expectedCode asLowercase
+]
+
+{ #category : #'tests-expression' }
 FASTFortranJsonExporterVisitorTest >> testAssignementRealLiteral [
 
 	| expectedCode actualCode jsonCode |
