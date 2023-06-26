@@ -21,7 +21,8 @@ FASTFortranJsonExporterVisitor >> endProgramUnit [
 FASTFortranJsonExporterVisitor >> initialize [
 
 	super initialize.
-	output := String new writeStream
+	output := String new writeStream.
+	sixSpaces := '      '
 ]
 
 { #category : #accessing }
