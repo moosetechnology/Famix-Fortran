@@ -12,7 +12,7 @@ Class {
 FASTFortranJsonExporterVisitor >> endProgramUnit [
 
 	output
-		<< self sixSpaces;
+		<< sixSpaces;
 		<< 'end';
 		cr
 ]
@@ -81,10 +81,12 @@ FASTFortranJsonExporterVisitor >> visitAssign_expression: anAssignExpressionNode
 
 { #category : #'visiting statement' }
 FASTFortranJsonExporterVisitor >> visitAssign_expressionStatement: anAssignExpressionNode [
+
 	"assign_expression and assign_expressionStatement are the same"
-	output << self sixSpaces.
+
+	output << sixSpaces.
 	self visitAssign_expression: anAssignExpressionNode.
-	output cr.
+	output cr
 ]
 
 { #category : #'visiting statement' }
@@ -99,7 +101,7 @@ FASTFortranJsonExporterVisitor >> visitBase_type: aString [
 FASTFortranJsonExporterVisitor >> visitBlock_data: aBlockDataNode [
 
 	output
-		<< self sixSpaces;
+		<< sixSpaces;
 		<< 'block data ';
 		<< (aBlockDataNode at: 'name');
 		cr.
@@ -115,7 +117,7 @@ FASTFortranJsonExporterVisitor >> visitCallStatement: aCallStatementNode [
 	"^self visitJsonMap: aCallStatementNode keys: #(span function arguments)"
 
 	output
-		<< self sixSpaces;
+		<< sixSpaces;
 		<< 'call '.
 	self visitJsonElement: (aCallStatementNode at: 'function').
 
@@ -136,7 +138,7 @@ FASTFortranJsonExporterVisitor >> visitCommonStatement: aCommonStatementNode [
 	"^self visitJsonMap: aCommonStatementNode keys: #(span common_groups)"
 
 	output
-		<< self sixSpaces;
+		<< sixSpaces;
 		<< 'common '.
 	self visitJsonElement: (aCommonStatementNode at: 'common_groups').
 	output cr
@@ -155,7 +157,7 @@ FASTFortranJsonExporterVisitor >> visitConditions: aConditionList [
 	ifPart := aConditionList first.
 
 	output
-		<< self sixSpaces;
+		<< sixSpaces;
 		<< 'if '.
 	self visitIfCondition: ifPart first.
 	output
@@ -165,7 +167,7 @@ FASTFortranJsonExporterVisitor >> visitConditions: aConditionList [
 
 	aConditionList allButFirst do: [ :aCondition | 
 		output
-			<< self sixSpaces;
+			<< sixSpaces;
 			<< 'else if '.
 		self visitIfCondition: aCondition first.
 		output
@@ -178,7 +180,7 @@ FASTFortranJsonExporterVisitor >> visitConditions: aConditionList [
 FASTFortranJsonExporterVisitor >> visitContinueStatement: aContinueStatementNode [
 
 	output
-		<< self sixSpaces;
+		<< sixSpaces;
 		<< 'continue';
 		cr
 ]
@@ -256,13 +258,13 @@ FASTFortranJsonExporterVisitor >> visitDo: aDoNode [
 	"^self visitJsonMap: aDoNode keys: #(span do_spec body)"
 
 	output
-		<< self sixSpaces;
+		<< sixSpaces;
 		<< 'do '.
 	"self visitJsonElement: (aDoNode at: 'do_spec')."
 	self visitDo_spec: (aDoNode at: 'do_spec').
 	self visitJsonElement: (aDoNode at: 'body').
 	output
-		<< self sixSpaces;
+		<< sixSpaces;
 		<< 'end do';
 		cr
 ]
@@ -352,7 +354,9 @@ FASTFortranJsonExporterVisitor >> visitExitStatement: anExitNode [
 
 	"^self visitJsonMap: anExitNode keys: #(span var)"
 
-	output << self sixSpaces << 'exit'.
+	output
+		<< sixSpaces;
+		<< 'exit'.
 	(anExitNode at: 'var') ifNotNil: [ 
 		output << ' '.
 		self visitJsonElement: (anExitNode at: 'var') ].
@@ -378,7 +382,10 @@ FASTFortranJsonExporterVisitor >> visitExponentiation: aExponentiationOperatorNo
 
 { #category : #'visiting statement' }
 FASTFortranJsonExporterVisitor >> visitExternalStatement: anExternalStatementNode [
-	output << self sixSpaces; << 'external '.
+
+	output
+		<< sixSpaces;
+		<< 'external '.
 	self visitJsonElement: (anExternalStatementNode at: 'vars').
 	output cr
 ]
@@ -448,9 +455,8 @@ FASTFortranJsonExporterVisitor >> visitFunctionStatement: aFunctionStatementNode
 	| functionName |
 	functionName := ((aFunctionStatementNode at: 'name') at: 'value') 
 		                at: 'contents'.
-	output << self sixSpaces.
+	output << sixSpaces.
 	
-
 	(self isEsopeTransformation: functionName)
 		ifTrue: [ 
 			self
@@ -471,7 +477,7 @@ FASTFortranJsonExporterVisitor >> visitFunctionStatement: aFunctionStatementNode
 FASTFortranJsonExporterVisitor >> visitFunctionWithBlocks: aFunctionNode [
 
 	"^self visitJsonMap: aFunctionNode keys: #(span name type arguments blocks)"
-	output << self sixSpaces.
+	output << sixSpaces.
 	self visitJsonElement: (aFunctionNode at: 'type').
 	output
 		<< 'function ';
@@ -504,7 +510,9 @@ FASTFortranJsonExporterVisitor >> visitGotoStatement: aGotoStatementNode [
 
 	"^self visitJsonMap: aGotoStatementNode keys: #(span target)"
 
-	output << self sixSpaces << 'goto'.
+	output 
+		<< sixSpaces; 
+		<< 'goto'.
 	(aGotoStatementNode at: 'target') ifNotNil: [ 
 		output << ' '.
 		self visitJsonElement: (aGotoStatementNode at: 'target') ].
@@ -525,19 +533,17 @@ FASTFortranJsonExporterVisitor >> visitIf: anIfNode [
 
 	"^self visitJsonMap: anIfNode keys: #(span label conditions blocks)"
 
-	"self visitJsonElement: (anIfNode at: 'label')."
-
-	"self visitJsonElement: (anIfNode at: 'conditions')."
 	self visitConditions: (anIfNode at: 'conditions').
-	
+
 	(anIfNode at: 'blocks') ifNotNil: [ :elsePart | 
-		(output << self sixSpaces)
+		output
+			<< sixSpaces;
 			<< 'else';
 			cr.
 		self visitJsonElement: elsePart ].
 
 	output
-		<< self sixSpaces;
+		<< sixSpaces;
 		<< 'end if';
 		cr
 ]
@@ -567,7 +573,7 @@ FASTFortranJsonExporterVisitor >> visitImplicitStatement: anImplicitStatementNod
 
 	"^self visitJsonMap: anImplicitStatementNode keys:  #(span items)"
 	output
-		<< self sixSpaces;
+		<< sixSpaces;
 		<< 'implicit '.
 	(anImplicitStatementNode at: 'items')
 		ifNil: [ output << 'none' ]
@@ -627,7 +633,7 @@ FASTFortranJsonExporterVisitor >> visitLt: anLessthanOperatorNode [
 FASTFortranJsonExporterVisitor >> visitMain: aMainProgramNode [
 
 	output
-		<< self sixSpaces;
+		<< sixSpaces;
 		<< 'program ';
 		<< (aMainProgramNode at: 'name');
 		cr.
@@ -686,7 +692,9 @@ FASTFortranJsonExporterVisitor >> visitReturnStatement: aReturnStatementNode [
 
 	"^self visitJsonMap: aReturnStatementNode keys: #(span target)"
 
-	output << self sixSpaces << 'return'.
+	output
+		<< sixSpaces;
+		<< 'return'.
 	(aReturnStatementNode at: 'target') ifNotNil: [ 
 		output << ' '.
 		self visitJsonElement: (aReturnStatementNode at: 'target') ].
@@ -722,10 +730,12 @@ FASTFortranJsonExporterVisitor >> visitStopStatement: aStopStatementNode [
 
 	"^self visitJsonMap: aStopStatementNode keys: #(span message)"
 
-	output << self sixSpaces << 'stop'.
-	(aStopStatementNode at: 'message') ifNotNil: [ 
+	output
+		<< sixSpaces;
+		<< 'stop'.
+	(aStopStatementNode at: 'message') ifNotNil: [ :message | 
 		output << ' '.
-		self visitJsonElement: (aStopStatementNode at: 'message') ].
+		self visitJsonElement: message ].
 	output cr
 ]
 
@@ -744,7 +754,7 @@ FASTFortranJsonExporterVisitor >> visitSubroutine: aSubroutineNode [
 	"^self visitJsonMap: aSubroutineNode keys: #(span name arguments blocks)"
 
 	output
-		<< self sixSpaces;
+		<< sixSpaces;
 		<< 'subroutine ';
 		<< (aSubroutineNode at: 'name').
 	(aSubroutineNode at: 'arguments') ifNotNil: [ :parameters | 
