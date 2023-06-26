@@ -586,12 +586,6 @@ FASTFortranJsonExporterVisitor >> visitIntegerLiteralValue: anIntegerLiteralValu
 	output << anIntegerLiteralValueNode first
 ]
 
-{ #category : #visiting }
-FASTFortranJsonExporterVisitor >> visitKind: aKindNode [
-
-	^ nil
-]
-
 { #category : #'visiting statement' }
 FASTFortranJsonExporterVisitor >> visitLength: aLengthNode [
 
@@ -617,13 +611,6 @@ FASTFortranJsonExporterVisitor >> visitList: aList separatedBy: separator [
 FASTFortranJsonExporterVisitor >> visitLogicalBaseType: aString [
 
 	output << ((super visitLogicalBaseType: aString) , ' ')
-]
-
-{ #category : #'visiting expression' }
-FASTFortranJsonExporterVisitor >> visitLower: aLowerNode [
-
-	aLowerNode ifNotNil: [ 
-		self visitJsonElement: (aLowerNode at: 'value') ]
 ]
 
 { #category : #'visiting expression' }
@@ -799,13 +786,6 @@ FASTFortranJsonExporterVisitor >> visitType: aTypeNode [
 
 	self visitJsonElement: (aTypeNode at: 'base_type').
 	self visitJsonElement: (aTypeNode at: 'selector')
-]
-
-{ #category : #'visiting expression' }
-FASTFortranJsonExporterVisitor >> visitUpper: aUpperNode [
-
-	aUpperNode ifNotNil: [ 
-		self visitJsonElement: (aUpperNode at: 'value') ]
 ]
 
 { #category : #'visiting expression' }

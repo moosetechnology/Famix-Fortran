@@ -90,6 +90,12 @@ FortranAbstractJsonVisitor >> visitArguments: anArgumentList [
 ]
 
 { #category : #'visiting expression' }
+FortranAbstractJsonVisitor >> visitArrayDimensionBoundary: aLimit [
+
+	^ aLimit ifNotNil: [ self visitJsonElement: (aLimit at: 'value') ]
+]
+
+{ #category : #'visiting expression' }
 FortranAbstractJsonVisitor >> visitAssign_expression: anAssignExpressionNode [
 	^self visitJsonMap: anAssignExpressionNode keys: #(span target expression)
 
@@ -682,6 +688,13 @@ FortranAbstractJsonVisitor >> visitJsonTaggedStatement: aStatementNode [
 	^self visitJsonNode: key , 'Statement' value: value
 ]
 
+{ #category : #visiting }
+FortranAbstractJsonVisitor >> visitKind: aKindNode [
+
+	self flag: #TODO.
+	^ nil
+]
+
 { #category : #'visiting statement' }
 FortranAbstractJsonVisitor >> visitLabel: aLabelNode [
 	^self visitJsonElement: aLabelNode
@@ -731,6 +744,12 @@ FortranAbstractJsonVisitor >> visitLogicalLiteralValue: aString [
 	^(aString = 'true')
 		ifTrue: [ self visitTrueLiteralValue: aString ]
 		ifFalse: [ self visitFalseLiteralValue: aString ]
+]
+
+{ #category : #'visiting expression' }
+FortranAbstractJsonVisitor >> visitLower: aLowerNode [
+
+	^ self visitArrayDimensionBoundary: aLowerNode
 ]
 
 { #category : #'visiting expression' }
@@ -984,6 +1003,12 @@ FortranAbstractJsonVisitor >> visitType: aTypeNode [
 { #category : #'visiting expression' }
 FortranAbstractJsonVisitor >> visitUnary: aUnaryNode [
 	^self visitJsonMap: aUnaryNode keys: #(span op expression)
+]
+
+{ #category : #'visiting expression' }
+FortranAbstractJsonVisitor >> visitUpper: aUpperNode [
+
+	^ self visitArrayDimensionBoundary: aUpperNode
 ]
 
 { #category : #'visiting expression' }
