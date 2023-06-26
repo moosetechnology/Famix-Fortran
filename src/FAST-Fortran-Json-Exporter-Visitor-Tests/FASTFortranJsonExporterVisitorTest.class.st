@@ -471,6 +471,27 @@ FASTFortranJsonExporterVisitorTest >> testFunctionWithParameter [
 	self assert: actualCode equals: expectedCode asLowercase
 ]
 
+{ #category : #'tests-esope' }
+FASTFortranJsonExporterVisitorTest >> testHashInclude [
+	| expectedCode actualCode jsonCode |
+
+	"      subroutine hello
+c@_#include ""struc.inc""
+      end
+"
+	self skip.
+
+	expectedCode := '      subroutine hello
+#include "struc.inc"
+      end
+'.
+	jsonCode := '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"comment":"@_#include \"struc.inc\"","span":"(2:1)-(2:23)","tag":"comment"}],"name":"hello","options":[null,null],"span":"(1:7)-(3:9)","subprograms":null,"tag":"subroutine"}]}'.
+
+	actualCode := self visitJsonCode: jsonCode.
+
+	self assert: actualCode equals: expectedCode asLowercase
+]
+
 { #category : #'tests-statement' }
 FASTFortranJsonExporterVisitorTest >> testIfElse [
 
