@@ -72,11 +72,10 @@ FASTFortranJsonExporterVisitor >> visitArguments: anArgumentList [
 
 { #category : #'visiting expression' }
 FASTFortranJsonExporterVisitor >> visitAssign_expression: anAssignExpressionNode [
-	"output << self sixSpaces."
+
 	self visitJsonElement: (anAssignExpressionNode at: 'target').
-	output 	<< ' = '.
-	self visitJsonElement: (anAssignExpressionNode at: 'expression').
-	"output cr."
+	output << ' = '.
+	self visitJsonElement: (anAssignExpressionNode at: 'expression')
 ]
 
 { #category : #'visiting statement' }
@@ -189,18 +188,17 @@ FASTFortranJsonExporterVisitor >> visitContinueStatement: aContinueStatementNode
 FASTFortranJsonExporterVisitor >> visitDeclarationStatement: aDeclarationStatementNode [
 
 	"^self visitJsonMap: aDeclarationStatementNode keys: #(span type attributes declarators)"
-	output << self sixSpaces.
-	"self visitJsonElement: (aDeclarationStatementNode at: 'type')."
+
+	output << sixSpaces.
 	output << ((aDeclarationStatementNode at: 'type') at: 'base_type').
-	self visitJsonElement: ((aDeclarationStatementNode at: 'type') at: 'selector').
-		
+	self visitJsonElement:
+		((aDeclarationStatementNode at: 'type') at: 'selector').
+
 	output << ' '.
-	
+
 	self visitAttributes: (aDeclarationStatementNode at: 'attributes').
 	self visitDeclarators: (aDeclarationStatementNode at: 'declarators').
-	output cr.
-
-	
+	output cr
 ]
 
 { #category : #'visiting statement' }
@@ -590,6 +588,7 @@ FASTFortranJsonExporterVisitor >> visitIntegerBaseType: aString [
 
 { #category : #'visiting expression' }
 FASTFortranJsonExporterVisitor >> visitIntegerLiteralValue: anIntegerLiteralValueNode [
+
 	output << anIntegerLiteralValueNode first
 ]
 
@@ -675,9 +674,10 @@ FASTFortranJsonExporterVisitor >> visitNot: aNottoOperatorNode [
 
 { #category : #'visiting prog-unit' }
 FASTFortranJsonExporterVisitor >> visitProgramFile: aProgramFileNode [
-	"^self visitJsonMap: aProgramFileNode keys: #(meta program_units)".
-	"self visitJsonElement: (aProgramFileNode at: 'meta')."
-	self visitJsonElement: (aProgramFileNode at: 'program_units').
+
+	"^self visitJsonMap: aProgramFileNode keys: #(meta program_units)"
+
+	super visitProgramFile: aProgramFileNode.
 	^ output contents
 ]
 
@@ -717,11 +717,13 @@ FASTFortranJsonExporterVisitor >> visitSelector: aSelectorNode [
 
 { #category : #'visiting expression' }
 FASTFortranJsonExporterVisitor >> visitSignificand: aRealLiteralSignificandNode [
-	output << aRealLiteralSignificandNode
+
+	output << (super visitSignificand: aRealLiteralSignificandNode)
 ]
 
 { #category : #visiting }
 FASTFortranJsonExporterVisitor >> visitStar: aStarNode [
+
 	output << $*
 ]
 
@@ -793,10 +795,7 @@ FASTFortranJsonExporterVisitor >> visitTrueLiteralValue: aString [
 { #category : #visiting }
 FASTFortranJsonExporterVisitor >> visitType: aTypeNode [
 
-	"^self visitJsonMap: aTypeNode keys: #(span base_type selector)"
-
-	self visitJsonElement: (aTypeNode at: 'base_type').
-	self visitJsonElement: (aTypeNode at: 'selector')
+	self visitJsonMap: aTypeNode keys: #( span base_type selector )
 ]
 
 { #category : #'visiting expression' }
@@ -817,11 +816,11 @@ FASTFortranJsonExporterVisitor >> visitWriteFormat: aWriteFormatNode [
 
 { #category : #'visiting statement' }
 FASTFortranJsonExporterVisitor >> visitWriteStatement: aWriteStatementNode [
+
 	output
-		<< sixSpaces ;
+		<< sixSpaces;
 		<< 'write '.
-	self visitWriteFormat: (aWriteStatementNode at: 'format') .
-	self visitList: (aWriteStatementNode at: 'arguments') separatedBy: $, .
- .
+	self visitWriteFormat: (aWriteStatementNode at: 'format').
+	self visitList: (aWriteStatementNode at: 'arguments') separatedBy: $,.
 	output cr
 ]
