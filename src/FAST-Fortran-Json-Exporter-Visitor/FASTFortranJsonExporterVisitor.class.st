@@ -130,18 +130,6 @@ FASTFortranJsonExporterVisitor >> visitCharacterBaseType: aString [
 ]
 
 { #category : #'visiting statement' }
-FASTFortranJsonExporterVisitor >> visitComment: aCommentNode [
-	"Separates comments that are genuine fortran comments and the one that contain Esope commands"
-	| content |
-	content := aCommentNode at: 'comment'.
-
-	(self isEsopeComment: content)
-		ifTrue: [  self visitEsopeComment: aCommentNode ]
-		ifFalse: [ self visitFortranComment: aCommentNode ]
-	
-]
-
-{ #category : #'visiting statement' }
 FASTFortranJsonExporterVisitor >> visitCommonStatement: aCommonStatementNode [
 
 	"^self visitJsonMap: aCommonStatementNode keys: #(span common_groups)"
@@ -587,12 +575,6 @@ FASTFortranJsonExporterVisitor >> visitImplicitStatement: anImplicitStatementNod
 	output cr
 ]
 
-{ #category : #'visiting expression' }
-FASTFortranJsonExporterVisitor >> visitInteger: anIntegerNode [
-	"to be more explicit, Integer nodes are 'transformed' in IntegerLiteralValue nodes"
-	self visitIntegerLiteralValue: (anIntegerNode at: 'contents')
-]
-
 { #category : #'visiting statement' }
 FASTFortranJsonExporterVisitor >> visitIntegerBaseType: aString [
 
@@ -667,11 +649,6 @@ FASTFortranJsonExporterVisitor >> visitMain: aMainProgramNode [
 	self endProgramUnit
 ]
 
-{ #category : #'visiting prog-unit' }
-FASTFortranJsonExporterVisitor >> visitMeta: aMetaNode [
-	^nil
-]
-
 { #category : #'visiting expression' }
 FASTFortranJsonExporterVisitor >> visitMinus: aMinusOperatorNode [
 
@@ -710,21 +687,10 @@ FASTFortranJsonExporterVisitor >> visitProgramFile: aProgramFileNode [
 	^ output contents
 ]
 
-{ #category : #'visiting expression' }
-FASTFortranJsonExporterVisitor >> visitReal: aRealNode [
-	"to be more explicit, Real nodes are 'transformed' in RealLiteralValue nodes"
-	self visitRealLiteralValue: (aRealNode at: 'contents')
-]
-
 { #category : #'visiting statement' }
 FASTFortranJsonExporterVisitor >> visitRealBaseType: aString [
 
 	output << ((super visitRealBaseType: aString) , ' ')
-]
-
-{ #category : #'visiting expression' }
-FASTFortranJsonExporterVisitor >> visitRealLiteralValue: aRealLiteralValueNode [
-	self visitJsonMap: aRealLiteralValueNode first keys: #(significand exponent)
 ]
 
 { #category : #'visiting statement' }
