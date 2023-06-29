@@ -30,20 +30,6 @@ FamixFortran77ImportingContext >> importComment [
 ]
 
 { #category : #importing }
-FamixFortran77ImportingContext >> importEComment [
-
-	<generated>
-	^ self importConcreteEntity: (self class fm3ClassNamed: #EComment)
-]
-
-{ #category : #importing }
-FamixFortran77ImportingContext >> importEEntity [
-
-	<generated>
-	^ self importConcreteEntity: (self class fm3ClassNamed: #EEntity)
-]
-
-{ #category : #importing }
 FamixFortran77ImportingContext >> importIndexedFileAnchor [
 
 	<generated>
@@ -142,6 +128,13 @@ FamixFortran77ImportingContext >> importType [
 ]
 
 { #category : #importing }
+FamixFortran77ImportingContext >> importTypeIntrinsic [
+
+	<generated>
+	^ self importConcreteEntity: (self class fm3ClassNamed: #TypeIntrinsic)
+]
+
+{ #category : #importing }
 FamixFortran77ImportingContext >> importUnknownSourceLanguage [
 
 	<generated>
@@ -167,20 +160,6 @@ FamixFortran77ImportingContext >> shouldImportComment [
 
 	<generated>
 	^ self shouldImport: #Comment
-]
-
-{ #category : #testing }
-FamixFortran77ImportingContext >> shouldImportEComment [
-
-	<generated>
-	^ self shouldImport: #EComment
-]
-
-{ #category : #testing }
-FamixFortran77ImportingContext >> shouldImportEEntity [
-
-	<generated>
-	^ self shouldImport: #EEntity
 ]
 
 { #category : #testing }
@@ -279,6 +258,13 @@ FamixFortran77ImportingContext >> shouldImportType [
 
 	<generated>
 	^ self shouldImport: #Type
+]
+
+{ #category : #testing }
+FamixFortran77ImportingContext >> shouldImportTypeIntrinsic [
+
+	<generated>
+	^ self shouldImport: #TypeIntrinsic
 ]
 
 { #category : #testing }

@@ -4,8 +4,8 @@ a procedure
 Class {
 	#name : #FamixFortran77PUProcedure,
 	#superclass : #FamixFortran77ProgramUnit,
-	#traits : 'FamixTHasSignature + FamixTInvocable + FamixTWithAccesses + FamixTWithInvocations + FamixTWithLocalVariables + FamixTWithParameters + FamixTWithStatements',
-	#classTraits : 'FamixTHasSignature classTrait + FamixTInvocable classTrait + FamixTWithAccesses classTrait + FamixTWithInvocations classTrait + FamixTWithLocalVariables classTrait + FamixTWithParameters classTrait + FamixTWithStatements classTrait',
+	#traits : 'FamixTHasSignature + FamixTInvocable + FamixTWithAccesses + FamixTWithInvocations + FamixTWithLocalVariables + FamixTWithParameters + FamixTWithStatements + FamixTWithTypes',
+	#classTraits : 'FamixTHasSignature classTrait + FamixTInvocable classTrait + FamixTWithAccesses classTrait + FamixTWithInvocations classTrait + FamixTWithLocalVariables classTrait + FamixTWithParameters classTrait + FamixTWithStatements classTrait + FamixTWithTypes classTrait',
 	#instVars : [
 		'#dicImplicit => FMProperty defaultValue: ((Dictionary new))',
 		'#symbolTable => FMProperty defaultValue: ((Dictionary new))'

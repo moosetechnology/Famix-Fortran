@@ -656,7 +656,7 @@ JsonToIASTVisitorTest >> testMultipleStatements [
 { #category : #'tests-esope' }
 JsonToIASTVisitorTest >> testPointeurDeclaration [
 	"subroutine hello
-cESO  pointeur lib.pstr
+c@_   pointeur lib.pstr
       end
 "
 	| programFile seg |
@@ -822,7 +822,7 @@ JsonToIASTVisitorTest >> testProgramWithSimpleIfStatementWithoutBody [
 { #category : #'tests-esope' }
 JsonToIASTVisitorTest >> testSegactCommand [
 	"subroutine hello
-cESO  segact, lb
+c@_   segact, lb
       end
 "
 	| programFile seg |
@@ -845,7 +845,7 @@ cESO  segact, lb
 { #category : #'tests-esope' }
 JsonToIASTVisitorTest >> testSegadjCommand [
 	"subroutine hello
-cESO  segadj,lb
+c@_   segadj,lb
       end
 "
 	| programFile seg |
@@ -868,7 +868,7 @@ cESO  segadj,lb
 { #category : #'tests-esope' }
 JsonToIASTVisitorTest >> testSegdefCommand [
 	"subroutine hello
-cESO  segdef, lb
+c@_   segdef, lb
       end
 "
 	| programFile seg |
@@ -891,7 +891,7 @@ cESO  segdef, lb
 { #category : #'tests-esope' }
 JsonToIASTVisitorTest >> testSeginiCommand [
 	"subroutine hello
-cESO  segini,lb
+c@_   segini,lb
       end
 "
 	| programFile seg |
@@ -940,10 +940,10 @@ c@_   end segment
 { #category : #'tests-esope' }
 JsonToIASTVisitorTest >> testSegmentDeclarationWithContent [
 	"subroutine hello
-cESO  segment, user
+c@_   segment, user
         character*40 uname
         integer uid, age
-cESO  end segment
+c@_   end segment
       end
 "
 	| programFile seg |
@@ -966,7 +966,7 @@ cESO  end segment
 { #category : #'tests-esope' }
 JsonToIASTVisitorTest >> testSegsupCommand [
 	"subroutine hello
-cESO  segsup, lb
+c@_   segsup, lb
       end
 "
 	| programFile seg |

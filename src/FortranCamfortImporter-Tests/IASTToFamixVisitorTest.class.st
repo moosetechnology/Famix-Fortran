@@ -13,55 +13,117 @@ Class {
 
 { #category : #running }
 IASTToFamixVisitorTest >> anchorFrom: startPoint to: endPoint [
-	^IASTIndexedFileAnchor new
-		startLine: startPoint x ;
-		startColumn: startPoint y;
-		endLine: endPoint x ;
-		endColumn: endPoint y ;
-		fileName: 'fortran77.f' ;
-		yourself
+
+	^ IASTIndexedFileAnchor new
+		  startLine: startPoint x;
+		  startColumn: startPoint y;
+		  endLine: endPoint x;
+		  endColumn: endPoint y;
+		  fileName: 'fortran77.f';
+		  yourself
 ]
 
 { #category : #running }
 IASTToFamixVisitorTest >> defaultAnchor [
+
 	^ self anchorFrom: 1 @ 7 to: 2 @ 10
+]
+
+{ #category : #'default values' }
+IASTToFamixVisitorTest >> defaultEmptySegment: segmentName [
+
+	^ IASTEsopeSegment new
+		  sourceAnchor: self defaultAnchor;
+		  entityName: segmentName;
+		  declarations: {  };
+		  yourself
 ]
 
 { #category : #running }
 IASTToFamixVisitorTest >> defaultImplicit: ranges for: typeName [
-	^IASTImplicit new
-		forType: (self defaultType: typeName);
-		ranges: ranges;
-		yourself
+
+	^ IASTImplicit new
+		  forType: (self defaultType: typeName);
+		  ranges: ranges;
+		  yourself
 ]
 
 { #category : #running }
 IASTToFamixVisitorTest >> defaultImplicitNone [
-	^IASTImplicit new
+
+	^ IASTImplicit new
 ]
 
 { #category : #running }
 IASTToFamixVisitorTest >> defaultParameter [
-	^IASTParameter new
-		entityName: 'var';
-		sourceAnchor: self defaultAnchor;
-		yourself
+
+	^ IASTParameter new
+		  entityName: 'var';
+		  sourceAnchor: self defaultAnchor;
+		  yourself
+]
+
+{ #category : #'default values' }
+IASTToFamixVisitorTest >> defaultSegment: segmentName [
+
+	^ IASTEsopeSegment new
+		  sourceAnchor: self defaultAnchor;
+		  entityName: segmentName;
+		  declarations: {  };
+		  yourself
+]
+
+{ #category : #'default values' }
+IASTToFamixVisitorTest >> defaultSegment: segmentName with: dictDeclarations [
+
+	^ IASTEsopeSegment new
+		  sourceAnchor: self defaultAnchor;
+		  entityName: segmentName;
+		  declarations: (dictDeclarations collect: [ :assoc | 
+					   self defaultVariable: assoc key withType: assoc value ]);
+		  yourself
+]
+
+{ #category : #running }
+IASTToFamixVisitorTest >> defaultSegmentComand: commandName on: varName [
+
+	^ IASTEsopeSegCommand new
+		  esopeCommand: commandName;
+		  entityName: varName;
+		  sourceAnchor: self defaultAnchor;
+		  yourself
 ]
 
 { #category : #running }
 IASTToFamixVisitorTest >> defaultType: typeName [
-	^IASTTypeRef new
-		entityName: typeName;
-		sourceAnchor: self defaultAnchor;
-		yourself
+
+	^ IASTTypeRef new
+		  entityName: typeName;
+		  sourceAnchor: self defaultAnchor;
+		  yourself
+]
+
+{ #category : #'default values' }
+IASTToFamixVisitorTest >> defaultVariable: assoc [
+
+	^ IASTVariable new
+		  sourceAnchor: self defaultAnchor;
+		  entityName: assoc key;
+		  typeSpec: (IASTTypeRef new
+				   sourceAnchor: self defaultAnchor;
+				   entityName: assoc value;
+				   yourself);
+		  yourself
 ]
 
 { #category : #running }
 IASTToFamixVisitorTest >> defaultVariable: varName withType: typeName [
+
 	^ IASTVariable new
-		entityName: varName;
-		typeSpec: (self defaultType: typeName);
-		yourself
+		  sourceAnchor: self defaultAnchor;
+		  entityName: varName;
+		  typeSpec: (self defaultType: typeName);
+		  yourself
 ]
 
 { #category : #running }
@@ -70,6 +132,79 @@ IASTToFamixVisitorTest >> setUp [
 	
 	programFile := IASTProgramFile new filename: 'fortran77.f' ; yourself.
 	visitor := IASTToFamixVisitor new.
+]
+
+{ #category : #running }
+IASTToFamixVisitorTest >> testCreateFamixEsopeCommandSegini [
+
+	"
+	segini ptr
+	"
+
+	| famixSegini iastSegini progFile |
+	iastSegini := self defaultSegmentComand: 'segini' on: 'ptr'.
+
+	programFile progUnits: { IASTSubroutine new
+			 entityName: 'sub';
+			 body: { iastSegini };
+			 yourself }.
+
+	progFile := programFile accept: visitor.
+	
+	self assert: progFile programUnits size equals: 1.
+
+	self assert: (visitor model allWithType: FamixEsopeCommand) size equals: 1.
+	famixSegini := (visitor model allWithType: FamixEsopeCommand) first.
+	self assert: famixSegini name equals: 'segini'.
+]
+
+{ #category : #running }
+IASTToFamixVisitorTest >> testCreateFamixEsopeSegment [
+
+	"
+	segment myseg
+	 character uname
+	 logical status
+	 integer age
+	end segment
+	"
+
+	| segment entity attribute |
+	segment := self defaultSegment: 'myseg' with: { 
+			           (#uname -> #character).
+			           (#status -> #logical).
+			           (#age -> #integer) }.
+
+	programFile progUnits: { IASTSubroutine new
+			 entityName: 'sub';
+			 body: { segment };
+			 yourself }.
+
+	entity := programFile accept: visitor.
+	
+	self assert: entity programUnits size equals: 1.
+
+	self assert: (visitor model allWithType: FamixEsopeSegment) size equals: 1.
+	entity := (visitor model allWithType: FamixEsopeSegment) first.
+	self assert: entity name equals: 'myseg'.
+	self assert: entity isType.
+	self assert: entity attributes size equals: 3.
+	
+	self assert: entity attributes size equals: 3.
+	attribute := entity attributes first.
+	self assert: attribute class equals: FamixEsopeAttribute.
+	self assert: attribute name equals: 'uname'.
+	self assert: attribute declaredType name equals: 'character'.
+	
+	attribute := entity attributes second.
+	self assert: attribute class equals: FamixEsopeAttribute.
+	self assert: attribute name equals: 'status'.
+	self assert: attribute declaredType name equals: 'logical'.
+	
+	attribute := entity attributes third.
+	self assert: attribute class equals: FamixEsopeAttribute.
+	self assert: attribute name equals: 'age'.
+	self assert: attribute declaredType name equals: 'integer'.
 ]
 
 { #category : #running }
