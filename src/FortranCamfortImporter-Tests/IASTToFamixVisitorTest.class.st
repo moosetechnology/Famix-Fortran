@@ -55,6 +55,15 @@ IASTToFamixVisitorTest >> defaultImplicitNone [
 ]
 
 { #category : #running }
+IASTToFamixVisitorTest >> defaultNamedEntity: entityName for: aClassName [
+
+	^ aClassName new
+		  sourceAnchor: self defaultAnchor;
+		  entityName: entityName;
+		  yourself
+]
+
+{ #category : #running }
 IASTToFamixVisitorTest >> defaultParameter [
 
 	^ IASTParameter new
@@ -103,6 +112,32 @@ IASTToFamixVisitorTest >> defaultType: typeName [
 		  yourself
 ]
 
+{ #category : #running }
+IASTToFamixVisitorTest >> defaultVarAccess: name [
+
+	^ self defaultVarAccess: name isWrite: false
+]
+
+{ #category : #running }
+IASTToFamixVisitorTest >> defaultVarAccess: name isWrite: boolean [
+
+	^ IASTVarAccess new
+		  sourceAnchor: self defaultAnchor;
+		  isWrite: boolean;
+		  entityName: name;
+		  yourself
+]
+
+{ #category : #'tests-esope' }
+IASTToFamixVisitorTest >> defaultVarEsoAt: entities [
+
+	^ IASTVarEsoAt new
+		  sourceAnchor: self defaultAnchor;
+		  entities:
+			  (entities collect: [ :entity | self defaultVarAccess: entity ]);
+		  yourself
+]
+
 { #category : #'default values' }
 IASTToFamixVisitorTest >> defaultVariable: assoc [
 
@@ -134,7 +169,308 @@ IASTToFamixVisitorTest >> setUp [
 	visitor := IASTToFamixVisitor new.
 ]
 
-{ #category : #running }
+{ #category : #'tests-esope' }
+IASTToFamixVisitorTest >> testCreateFamixEsopeAccessors [
+
+	"
+	d__(ptr,attr)
+	"
+
+	| d__ entity access |
+	d__ := self defaultVarEsoAt: #( #ptr #attr ).
+
+	programFile progUnits: { (IASTSubroutine new
+			 entityName: 'sub';
+			 body: { d__ };
+			 yourself) }.
+
+	entity := programFile accept: visitor.
+
+	self assert: entity programUnits size equals: 1.
+
+	self assert: entity programUnits first accesses size equals: 2.
+
+	access := entity programUnits first accesses first.
+	self assert: access target isNil.
+	self assert: (access attributeAt: #entity ifAbsent: [  ]) isNotNil.
+	self
+		assert: (access attributeAt: #entity ifAbsent: [  ]) entityName
+		equals: 'ptr'.
+	self assert: (access attributeAt: #pointer ifAbsent: [  ]) isNil.
+
+
+	access := entity programUnits first accesses second.
+	self assert: access target isNil.
+	self assert: (access attributeAt: #entity ifAbsent: [  ]) isNotNil.
+	self
+		assert: (access attributeAt: #entity ifAbsent: [  ]) entityName
+		equals: 'attr'.
+	self assert: (access attributeAt: #pointer ifAbsent: [  ]) isNotNil.
+	self
+		assert: (access attributeAt: #pointer ifAbsent: [  ]) entityName
+		equals: 'ptr'
+]
+
+{ #category : #'tests-esope' }
+IASTToFamixVisitorTest >> testCreateFamixEsopeAccessorsWithArg [
+
+	"
+	d__(ptr,attr(i))
+	"
+
+	| d__ entity access |
+	d__ := (self defaultNamedEntity: 'd__' for: IASTVarEsoAt) entities:
+		       { 
+			       (self defaultNamedEntity: 'ptr' for: IASTVarAccess).
+			       ((self defaultNamedEntity: 'attr' for: IASTInvocation) 
+				        arguments:
+				        { (self defaultNamedEntity: 'i' for: IASTParameter) }) }.
+
+	programFile progUnits: { (IASTSubroutine new
+			 entityName: 'sub';
+			 body: { d__ };
+			 yourself) }.
+	entity := programFile accept: visitor.
+
+	self assert: entity programUnits size equals: 1.
+
+	self assert: entity programUnits first accesses size equals: 3.
+
+	access := entity programUnits first accesses first.
+	self assert: access target isNil.
+	self assert: (access attributeAt: #entity ifAbsent: [  ]) isNotNil.
+	self
+		assert: (access attributeAt: #entity ifAbsent: [  ]) entityName
+		equals: 'ptr'.
+	self assert: (access attributeAt: #pointer ifAbsent: [  ]) isNil.
+
+	access := entity programUnits first accesses second.
+	self assert: access target isNil.
+	self assert: (access attributeAt: #entity ifAbsent: [  ]) isNotNil.
+	self
+		assert: (access attributeAt: #entity ifAbsent: [  ]) entityName
+		equals: 'i'.
+	self assert: (access attributeAt: #pointer ifAbsent: [  ]) isNil.
+
+
+	access := entity programUnits first accesses third.
+	self assert: access target isNil.
+	self assert: (access attributeAt: #entity ifAbsent: [  ]) isNotNil.
+	self
+		assert: (access attributeAt: #entity ifAbsent: [  ]) entityName
+		equals: 'attr'.
+	self assert: (access attributeAt: #pointer ifAbsent: [  ]) isNotNil.
+	self
+		assert: (access attributeAt: #pointer ifAbsent: [  ]) entityName
+		equals: 'ptr'
+]
+
+{ #category : #'tests-esope' }
+IASTToFamixVisitorTest >> testCreateFamixEsopeAccessorsWithArgs [
+
+	"
+	d__(ptr,attr(i,j))
+	"
+
+	| d__ entity access |
+	d__ := (self defaultNamedEntity: 'd__' for: IASTVarEsoAt) entities:
+		       { 
+			       (self defaultNamedEntity: 'ptr' for: IASTVarAccess).
+			       ((self defaultNamedEntity: 'attr' for: IASTInvocation) 
+				        arguments: { 
+						        (self defaultNamedEntity: 'i' for: IASTParameter).
+						        (self defaultNamedEntity: 'j' for: IASTParameter) }) }.
+
+	programFile progUnits: { (IASTSubroutine new
+			 entityName: 'sub';
+			 body: { d__ };
+			 yourself) }.
+	entity := programFile accept: visitor.
+
+	self assert: entity programUnits size equals: 1.
+
+	self assert: entity programUnits first accesses size equals: 4.
+
+	access := entity programUnits first accesses first.
+	self assert: access target isNil.
+	self assert: (access attributeAt: #entity ifAbsent: [  ]) isNotNil.
+	self
+		assert: (access attributeAt: #entity ifAbsent: [  ]) entityName
+		equals: 'ptr'.
+	self assert: (access attributeAt: #pointer ifAbsent: [  ]) isNil.
+
+	access := entity programUnits first accesses second.
+	self assert: access target isNil.
+	self assert: (access attributeAt: #entity ifAbsent: [  ]) isNotNil.
+	self
+		assert: (access attributeAt: #entity ifAbsent: [  ]) entityName
+		equals: 'i'.
+	self assert: (access attributeAt: #pointer ifAbsent: [  ]) isNil.
+
+	access := entity programUnits first accesses third.
+	self assert: access target isNil.
+	self assert: (access attributeAt: #entity ifAbsent: [  ]) isNotNil.
+	self
+		assert: (access attributeAt: #entity ifAbsent: [  ]) entityName
+		equals: 'j'.
+	self assert: (access attributeAt: #pointer ifAbsent: [  ]) isNil.
+
+	access := entity programUnits first accesses at: 4.
+	self assert: access target isNil.
+	self assert: (access attributeAt: #entity ifAbsent: [  ]) isNotNil.
+	self
+		assert: (access attributeAt: #entity ifAbsent: [  ]) entityName
+		equals: 'attr'.
+	self assert: (access attributeAt: #pointer ifAbsent: [  ]) isNotNil.
+	self
+		assert: (access attributeAt: #pointer ifAbsent: [  ]) entityName
+		equals: 'ptr'
+]
+
+{ #category : #'tests-esope' }
+IASTToFamixVisitorTest >> testCreateFamixEsopeAccessorsWithArgsWithDot [
+
+	"
+	d__(ptr,attr(i,d__(p,j)))
+	"
+
+	| d__ entity access |
+	d__ := (self defaultNamedEntity: 'd__' for: IASTVarEsoAt) entities:
+		       { 
+			       (self defaultNamedEntity: 'ptr' for: IASTVarAccess).
+			       ((self defaultNamedEntity: 'attr' for: IASTInvocation) 
+				        arguments: { 
+						        (self defaultNamedEntity: 'i' for: IASTParameter).
+						        ((self defaultNamedEntity: nil for: IASTVarEsoAt) 
+							         entities: { 
+									         (self defaultNamedEntity: 'p' for: IASTParameter).
+									         (self defaultNamedEntity: 'j' for: IASTParameter) }) }) }.
+
+	programFile progUnits: { (IASTSubroutine new
+			 entityName: 'sub';
+			 body: { d__ };
+			 yourself) }.
+	entity := programFile accept: visitor.
+
+	self assert: entity programUnits size equals: 1.
+
+	self assert: entity programUnits first accesses size equals: 5.
+
+	access := entity programUnits first accesses first.
+	self assert: access target isNil.
+	self assert: (access attributeAt: #entity ifAbsent: [  ]) isNotNil.
+	self
+		assert: (access attributeAt: #entity ifAbsent: [  ]) entityName
+		equals: 'ptr'.
+	self assert: (access attributeAt: #pointer ifAbsent: [  ]) isNil.
+
+	access := entity programUnits first accesses second.
+	self assert: access target isNil.
+	self assert: (access attributeAt: #entity ifAbsent: [  ]) isNotNil.
+	self
+		assert: (access attributeAt: #entity ifAbsent: [  ]) entityName
+		equals: 'i'.
+	self assert: (access attributeAt: #pointer ifAbsent: [  ]) isNil.
+
+	access := entity programUnits first accesses third.
+	self assert: access target isNil.
+	self assert: (access attributeAt: #entity ifAbsent: [  ]) isNotNil.
+	self
+		assert: (access attributeAt: #entity ifAbsent: [  ]) entityName
+		equals: 'p'.
+	self assert: (access attributeAt: #pointer ifAbsent: [  ]) isNil.
+
+	access := entity programUnits first accesses at: 4.
+	self assert: access target isNil.
+	self assert: (access attributeAt: #entity ifAbsent: [  ]) isNotNil.
+	self
+		assert: (access attributeAt: #entity ifAbsent: [  ]) entityName
+		equals: 'j'.
+	self assert: (access attributeAt: #pointer ifAbsent: [  ]) isNotNil.
+	self
+		assert: (access attributeAt: #pointer ifAbsent: [  ]) entityName
+		equals: 'p'.
+
+	access := entity programUnits first accesses at: 5.
+	self assert: access target isNil.
+	self assert: (access attributeAt: #entity ifAbsent: [  ]) isNotNil.
+	self
+		assert: (access attributeAt: #entity ifAbsent: [  ]) entityName
+		equals: 'attr'.
+	self assert: (access attributeAt: #pointer ifAbsent: [  ]) isNotNil.
+	self
+		assert: (access attributeAt: #pointer ifAbsent: [  ]) entityName
+		equals: 'ptr'
+]
+
+{ #category : #'tests-esope' }
+IASTToFamixVisitorTest >> testCreateFamixEsopeAccessorsWithDotArg [
+
+	"
+	d__(ptr,attr(d__(p,i)))
+	"
+
+	| d__ entity access |
+	d__ := (self defaultNamedEntity: nil for: IASTVarEsoAt) entities:
+		       { 
+			       (self defaultNamedEntity: 'ptr' for: IASTVarAccess).
+			       ((self defaultNamedEntity: 'attr' for: IASTInvocation) 
+				        arguments:
+					        { ((self defaultNamedEntity: nil for: IASTVarEsoAt) 
+						         entities: { 
+								         (self defaultNamedEntity: 'p' for: IASTParameter).
+								         (self defaultNamedEntity: 'i' for: IASTParameter) }) }) }.
+
+	programFile progUnits: { (IASTSubroutine new
+			 entityName: 'sub';
+			 body: { d__ };
+			 yourself) }.
+	entity := programFile accept: visitor.
+
+	self assert: entity programUnits size equals: 1.
+
+	self assert: entity programUnits first accesses size equals: 4.
+
+	access := entity programUnits first accesses first.
+	self assert: access target isNil.
+	self assert: (access attributeAt: #entity ifAbsent: [  ]) isNotNil.
+	self
+		assert: (access attributeAt: #entity ifAbsent: [  ]) entityName
+		equals: 'ptr'.
+	self assert: (access attributeAt: #pointer ifAbsent: [  ]) isNil.
+
+	access := entity programUnits first accesses second.
+	self assert: access target isNil.
+	self assert: (access attributeAt: #entity ifAbsent: [  ]) isNotNil.
+	self
+		assert: (access attributeAt: #entity ifAbsent: [  ]) entityName
+		equals: 'p'.
+	self assert: (access attributeAt: #pointer ifAbsent: [  ]) isNil.
+
+	access := entity programUnits first accesses at: 3.
+	self assert: access target isNil.
+	self assert: (access attributeAt: #entity ifAbsent: [  ]) isNotNil.
+	self
+		assert: (access attributeAt: #entity ifAbsent: [  ]) entityName
+		equals: 'i'.
+	self assert: (access attributeAt: #pointer ifAbsent: [  ]) isNotNil.
+	self
+		assert: (access attributeAt: #pointer ifAbsent: [  ]) entityName
+		equals: 'p'.
+
+	access := entity programUnits first accesses at: 4.
+	self assert: access target isNil.
+	self assert: (access attributeAt: #entity ifAbsent: [  ]) isNotNil.
+	self
+		assert: (access attributeAt: #entity ifAbsent: [  ]) entityName
+		equals: 'attr'.
+	self assert: (access attributeAt: #pointer ifAbsent: [  ]) isNotNil.
+	self
+		assert: (access attributeAt: #pointer ifAbsent: [  ]) entityName
+		equals: 'ptr'
+]
+
+{ #category : #'tests-esope' }
 IASTToFamixVisitorTest >> testCreateFamixEsopeCommandSegini [
 
 	"
@@ -158,7 +494,37 @@ IASTToFamixVisitorTest >> testCreateFamixEsopeCommandSegini [
 	self assert: famixSegini name equals: 'segini'.
 ]
 
-{ #category : #running }
+{ #category : #'tests-esope' }
+IASTToFamixVisitorTest >> testCreateFamixEsopePointerDeclaration [
+
+	"	
+      pointeur ptr.seg
+	"
+
+	| var entity |
+	var := IASTEsopePointer new
+		       sourceAnchor: (self anchorFrom: 2 @ 1 to: 2 @ 23 );
+		       entityName: 'ptr.seg';
+		       yourself.
+
+	programFile progUnits: { (IASTSubroutine new
+			 entityName: 'sub';
+			 body: { var };
+			 yourself) }.
+
+	entity := programFile accept: visitor.
+
+	self assert: entity programUnits size equals: 1.
+
+	self
+		assert: (visitor model allWithType: FamixFortran77Variable) size
+		equals: 1.
+	entity := (visitor model allWithType: FamixFortran77Variable) first.
+	self assert: entity name equals: 'ptr'.
+	self assert: entity declaredType name equals: 'seg'.
+]
+
+{ #category : #'tests-esope' }
 IASTToFamixVisitorTest >> testCreateFamixEsopeSegment [
 
 	"
