@@ -2,10 +2,50 @@ Class {
 	#name : #IASTAbstractVisitor,
 	#superclass : #Object,
 	#instVars : [
-		'model'
+		'model',
+		'stack'
 	],
 	#category : #'FortranCamfortImporter-Visitor'
 }
+
+{ #category : #'private-creation' }
+IASTAbstractVisitor >> createFamixF77Access: anIastObject [
+
+	^ (self newEntity: FamixFortran77Access)
+		  sourceAnchor:
+			  (self visitIndexedFileAnchor: anIastObject sourceAnchor);
+		  attributeAt: #entity put: anIastObject;
+		  accessor: stack top;
+		  yourself
+]
+
+{ #category : #'private-creation' }
+IASTAbstractVisitor >> createImplicitsDictionaryFor: anEntity [
+
+	anEntity attributeAt: #dicImplicit put: self defaultImplicit
+]
+
+{ #category : #'private-creation' }
+IASTAbstractVisitor >> createSymbolTableFor: anEntity [
+
+	anEntity attributeAt: #symbolTable put: Dictionary new
+]
+
+{ #category : #'private-creation' }
+IASTAbstractVisitor >> defaultImplicit [
+
+	^ (($a to: $z) collect: [ :char | 
+		   ('ijklmn' includes: char)
+			   ifTrue:  [ char -> #integer ]
+			   ifFalse: [ char -> #real ] ]) asDictionary
+]
+
+{ #category : #accessing }
+IASTAbstractVisitor >> initialize [
+
+	super initialize.
+	stack := Stack new.
+]
 
 { #category : #accessing }
 IASTAbstractVisitor >> model [
@@ -21,7 +61,8 @@ IASTAbstractVisitor >> model: anObject [
 
 { #category : #'private-creation' }
 IASTAbstractVisitor >> newEntity: aClass [
-	^aClass new
+
+	^ aClass new
 		  mooseModel: model;
 		  yourself
 ]
@@ -30,7 +71,44 @@ IASTAbstractVisitor >> newEntity: aClass [
 IASTAbstractVisitor >> spawn: aVisitorClass [
 	^aVisitorClass new
 		model: self model ;
+		stack: self stack ;
 		yourself
+]
+
+{ #category : #accessing }
+IASTAbstractVisitor >> stack [
+
+	^ stack
+]
+
+{ #category : #accessing }
+IASTAbstractVisitor >> stack: anObject [
+
+	stack := anObject
+]
+
+{ #category : #visiting }
+IASTAbstractVisitor >> symbolTable: anEntity at: key [
+
+	^ anEntity attributeAt: key asSymbol ifAbsent: [  ]
+]
+
+{ #category : #visiting }
+IASTAbstractVisitor >> symbolTable: anEntity at: key put: value [
+
+	(self symbolTable: anEntity at: #symbolTable)
+		at: key asSymbol
+		put: value
+]
+
+{ #category : #visiting }
+IASTAbstractVisitor >> visitIASTParameter: aParameter [
+
+	^ (self newEntity: FamixFortran77Parameter)
+		  sourceAnchor:
+			  (self visitIndexedFileAnchor: aParameter sourceAnchor);
+		  name: aParameter entityName;
+		  yourself
 ]
 
 { #category : #visiting }
@@ -49,26 +127,22 @@ IASTAbstractVisitor >> visitIASTTypeRef: aType [
 ]
 
 { #category : #visiting }
-IASTAbstractVisitor >> visitIASTVariable: aVariable [
+IASTAbstractVisitor >> visitIASTVarAccess: aVarAccess [
 
-	| var |
-	var := (self newEntity: FamixEsopeAttribute)
-		       sourceAnchor: (self visitIndexedFileAnchor: aVariable sourceAnchor);
-		       name: aVariable entityName;
-				 declaredType: (self visitIASTTypeRef: aVariable typeSpec);
-		       yourself.
-	^ var
+	^ (self createFamixF77Access: aVarAccess) isWrite: aVarAccess isWrite
 ]
 
 { #category : #visiting }
 IASTAbstractVisitor >> visitIndexedFileAnchor: aSourceAnchor [
-	^aSourceAnchor
-	ifNil: [ nil ]
-	ifNotNil: [	(self newEntity: FamixFortran77IndexedFileAnchor)
-		  startLine: aSourceAnchor startLine ;
-		  endLine: aSourceAnchor endLine ;
-		  startColumn: aSourceAnchor startColumn ;
-		  endColumn: aSourceAnchor endColumn ;
-		  fileName: aSourceAnchor fileName ;
-		  yourself ]
+
+	^ aSourceAnchor 
+		ifNil: [ nil ]
+		ifNotNil: [ 
+		  (self newEntity: FamixFortran77IndexedFileAnchor)
+			  startLine: aSourceAnchor startLine;
+			  endLine: aSourceAnchor endLine;
+			  startColumn: aSourceAnchor startColumn;
+			  endColumn: aSourceAnchor endColumn;
+			  fileName: aSourceAnchor fileName;
+			  yourself ]
 ]

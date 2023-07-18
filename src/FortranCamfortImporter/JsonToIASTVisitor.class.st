@@ -133,19 +133,25 @@ JsonToIASTVisitor >> visitBlock_data: aBlockDataNode [
 
 { #category : #'visiting statement' }
 JsonToIASTVisitor >> visitCallStatement: aCallNode [
+
 	| astNode data |
-	
 	data := super visitCallStatement: aCallNode.
 
 	astNode := (self isEsopeTransformation: data second)
-		ifTrue:  [ IASTVarEso newFrom: data second ]
-		ifFalse: [ IASTInvocation new entityName: data second ; yourself ].
+		           ifTrue: [ IASTVarEso newFrom: data second ]
+		           ifFalse: [ 
+			           IASTInvocation new
+				           entityName: data second;
+				           yourself ].
 
-	^{ astNode
+	"^{ astNode
 			sourceAnchor: (self makeIndexedAnchor: data first) ;
 			arguments: data third ;
-			yourself }
-
+			yourself }"
+	^ astNode
+		  sourceAnchor: (self makeIndexedAnchor: data first);
+		  arguments: data third;
+		  yourself
 ]
 
 { #category : #visiting }

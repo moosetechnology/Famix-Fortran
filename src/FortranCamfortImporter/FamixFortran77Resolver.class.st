@@ -154,16 +154,28 @@ FamixFortran77Resolver >> resolve [
 
 { #category : #'symbols resolution' }
 FamixFortran77Resolver >> resolveAccess: anAccess [
-	| target varAccessed var |
-	
-	varAccessed := self retrieveStoredIast: anAccess.
 
-	target := self retrieveVariable: varAccessed fromProgramUnit: anAccess accessor.
+	| target varAccessed var varPointer |
+	varAccessed := self retrieveStoredIast: anAccess forSymbol: #entity.
+	varPointer := self retrieveStoredIast: anAccess forSymbol: #pointer.
+
+	target := varPointer
+		          ifNotNil: [ 
+			          self
+				          retrieveVariable: varAccessed
+				          fromSegments: anAccess accessor types ]
+		          ifNil: [ 
+			          self
+				          retrieveVariable: varAccessed
+				          fromProgramUnit: anAccess accessor ].
+
 	target ifNotNil: [ ^ anAccess target: target ].
-	
-	var := self resolveAsImplicit: varAccessed fromProgramUnit: anAccess accessor.
+
+	var := self
+		       resolveAsImplicit: varAccessed
+		       fromProgramUnit: anAccess accessor.
 	anAccess accessor addLocalVariable: var.
-	^anAccess target: var
+	^ anAccess target: var
 ]
 
 { #category : #'symbols resolution' }
@@ -287,4 +299,23 @@ FamixFortran77Resolver >> retrieveVariable: aVariable fromProgramUnit: programUn
 		ifFalse: [ nil ].
 	target ifNotNil: [ ^target ].	
 	^self retrieveVariable: aVariable entityName fromList: programUnit localVariables.
+]
+
+{ #category : #'private-creation' }
+FamixFortran77Resolver >> retrieveVariable: aVariable fromSegments: segments [
+
+	"- Search in the known segments one whose containing the aVariable name"
+
+	"- compare their type also ?"
+
+	| target aBlock |
+	aBlock := [ :segment | 
+	          self
+		          retrieveVariable: aVariable entityName
+		          fromList: segment attributes ].
+	target := (segments collect: aBlock) anyOne.
+
+	target ifNotNil: [ ^ target ].
+
+	^ ((self model allWithType: FamixEsopeSegment) collect: aBlock) anyOne
 ]

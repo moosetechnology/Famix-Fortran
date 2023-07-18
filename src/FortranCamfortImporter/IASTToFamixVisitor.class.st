@@ -2,8 +2,7 @@ Class {
 	#name : #IASTToFamixVisitor,
 	#superclass : #IASTAbstractVisitor,
 	#instVars : [
-		'f77sourcefile',
-		'stack'
+		'f77sourcefile'
 	],
 	#category : #'FortranCamfortImporter-Visitor'
 }
@@ -54,8 +53,7 @@ IASTToFamixVisitor >> f77sourcefile: anObject [
 IASTToFamixVisitor >> initialize [
 
 	super initialize.
-	model := FamixFortran77Model new name: 'mooseModelF77'.
-	stack := Stack new.
+	model := FamixEsopeModel new name: 'mooseModelF77'.
 	f77sourcefile := ''
 ]
 
@@ -74,18 +72,6 @@ IASTToFamixVisitor >> newIndexedFileAnchor: filename [
 				   ifAbsent: [ 1 ]);
 		  fileName: file basename;
 		  yourself
-]
-
-{ #category : #accessing }
-IASTToFamixVisitor >> stack [
-
-	^ stack
-]
-
-{ #category : #accessing }
-IASTToFamixVisitor >> stack: anObject [
-
-	stack := anObject
 ]
 
 { #category : #visiting }
@@ -134,6 +120,17 @@ IASTToFamixVisitor >> visitIASTComment: aComment [
 ]
 
 { #category : #visiting }
+IASTToFamixVisitor >> visitIASTEsopePointer: aPointerVarDeclaration [
+
+	| varPointer |
+	varPointer := aPointerVarDeclaration accept:
+		              (self spawn: IASTToEsopeVisitor).
+	stack top addLocalVariable: varPointer.
+	stack top symbolTable at: varPointer name put: varPointer.
+	^ varPointer
+]
+
+{ #category : #visiting }
 IASTToFamixVisitor >> visitIASTEsopeSegCommand: aSegmentCommand [
 
 	^ aSegmentCommand accept: (self spawn: IASTToEsopeVisitor)
@@ -174,15 +171,12 @@ IASTToFamixVisitor >> visitIASTImplicit: anImplicit [
 { #category : #visiting }
 IASTToFamixVisitor >> visitIASTInvocation: anInvocation [
 
-	| invocation |
-	invocation := (self newEntity: FamixFortran77Invocation)
-		              sourceAnchor:
-			              (self visitIndexedFileAnchor:
-					               anInvocation sourceAnchor);
-		              attributeAt: #entity put: anInvocation;
-		              yourself.
-	stack top addOutgoingInvocation: invocation.
-	^ invocation
+	^ (self newEntity: FamixFortran77Invocation)
+		  sourceAnchor:
+			  (self visitIndexedFileAnchor: anInvocation sourceAnchor);
+		  attributeAt: #entity put: anInvocation;
+		  sender: stack top;
+		  yourself
 ]
 
 { #category : #visiting }
@@ -191,16 +185,6 @@ IASTToFamixVisitor >> visitIASTMainProgram: aMainProgram [
 	^ self
 		  visitIASTProgramUnit: aMainProgram
 		  toFamix: FamixFortran77PUMain
-]
-
-{ #category : #visiting }
-IASTToFamixVisitor >> visitIASTParameter: aParameter [
-
-	^ (self newEntity: FamixFortran77Parameter)
-		  sourceAnchor:
-			  (self visitIndexedFileAnchor: aParameter sourceAnchor);
-		  name: aParameter entityName;
-		  yourself
 ]
 
 { #category : #visiting }
@@ -226,12 +210,15 @@ IASTToFamixVisitor >> visitIASTProgramFile: aProgramFile [
 IASTToFamixVisitor >> visitIASTProgramUnit: aProgramUnit toFamix: aFamixFortranClass [
 
 	| progUnit |
+	
 	progUnit := (self newEntity: aFamixFortranClass)
 		            sourceAnchor:
 			            (self visitIndexedFileAnchor: aProgramUnit sourceAnchor);
 		            name: aProgramUnit entityName;
 		            yourself.
 	stack push: progUnit.
+	
+	self createSymbolTableFor: progUnit.
 
 	aProgramUnit body ifNotNil: [ :body | 
 		body do: [ :each | each accept: self ] ].
@@ -268,32 +255,28 @@ IASTToFamixVisitor >> visitIASTSubroutine: aSubroutine [
 ]
 
 { #category : #visiting }
-IASTToFamixVisitor >> visitIASTVarAccess: aVarAccess [
+IASTToFamixVisitor >> visitIASTVarEsoAt: aVarEso [
 
-	| access |
-	access := (self newEntity: FamixFortran77Access)
-		          sourceAnchor:
-			          (self visitIndexedFileAnchor: aVarAccess sourceAnchor);
-		          attributeAt: #entity put: aVarAccess;
-		          isWrite: aVarAccess isWrite;
-		          yourself.
-
-	stack top addAccess: access.
-
-	^ access
+	| varsAccesses |
+	varsAccesses := aVarEso accept: (self spawn: IASTToEsopeVisitor).
+	"varsAccesses accesses:
+		(aVarEso entities collect: [ :entity | entity accept: self ])."
+	self flag: #FIXME. "Add this to the current programUnit"
+	^ varsAccesses
 ]
 
 { #category : #visiting }
 IASTToFamixVisitor >> visitIASTVariable: aVariable [
 
 	| var |
-	var := (self newEntity: FamixFortran77Variable)
+	var := (self newEntity: stack top localVariableClass)
 		       sourceAnchor:
 			       (self visitIndexedFileAnchor: aVariable sourceAnchor);
 		       name: aVariable entityName;
 		       declaredType: (self visitIASTTypeRef: aVariable typeSpec);
 		       yourself.
-	stack top symbolTable at: var name put: var.
+	"stack top symbolTable at: var name put: var."
+	self symbolTable: stack top at: var name put: var. 
 	stack top addLocalVariable: var.
 	^ var
 ]
