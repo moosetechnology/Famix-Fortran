@@ -23,10 +23,17 @@ FamixFortran77ProgramUnit class >> annotation [
 
 { #category : #implicit }
 FamixFortran77ProgramUnit >> defaultImplicit [
-	^(($a to: $z)
-		collect: [ :char | ('ijklmn' includes: char)
-			ifTrue: [ char -> #integer ]
-			ifFalse: [ char -> #real ] ]) asDictionary
+
+	^ (($a to: $z) collect: [ :char | 
+		   ('ijklmn' includes: char)
+			   ifTrue:  [ char -> #integer ]
+			   ifFalse: [ char -> #real ] ]) asDictionary
+]
+
+{ #category : #accessing }
+FamixFortran77ProgramUnit >> dicImplicit [
+
+	^ self attributeAt: #dicImplicit ifAbsentPut: [ self defaultImplicit ]
 ]
 
 { #category : #testing }
@@ -60,4 +67,10 @@ FamixFortran77ProgramUnit >> programFileGroup [
 	<generated>
 	<navigation: 'ProgramFile'>
 	^ MooseSpecializedGroup with: self programFile
+]
+
+{ #category : #accessing }
+FamixFortran77ProgramUnit >> symbolTable [
+
+	^ self attributeAt: #symbolTable ifAbsentPut: [ Dictionary new ]
 ]

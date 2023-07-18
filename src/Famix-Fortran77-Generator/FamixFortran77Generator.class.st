@@ -249,35 +249,8 @@ FamixFortran77Generator >> defineProperties [
 	(programFile property: #filename type: #String) comment:
 		'Fortran name of the file'.
 
-	(programFile
-		 property: #symbolTable
-		 type: #Object
-		 defaultValue: 'Dictionary new') comment:
-		'Table of symbols for programFile'.
-
-	(puBlockdata
-		 property: #symbolTable
-		 type: #Object
-		 defaultValue: 'Dictionary new') comment:
-		'Table of symbols for blockdata'.
-	self implicitPropertyFor: puBlockdata.
-
 	(puFunction property: #isEsope type: #Boolean defaultValue: false) 
 		comment: 'It is kind of esope function ?'.
-
-	(puMain
-		 property: #symbolTable
-		 type: #Object
-		 defaultValue: 'Dictionary new') comment:
-		'Table of symbols for program'.
-	self implicitPropertyFor: puMain.
-
-	(puProcedure
-		 property: #symbolTable
-		 type: #Object
-		 defaultValue: 'Dictionary new') comment:
-		'Table of symbols for procedure(function, subroutine)'.
-	self implicitPropertyFor: puProcedure.
 
 	(variable property: #isEsope type: #Boolean defaultValue: false) 
 		comment: 'It is esope attribute variable from segment definition ?'.
