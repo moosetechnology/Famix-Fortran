@@ -186,6 +186,7 @@ FamixFortran77Resolver >> resolveAccesses [
 
 { #category : #'symbols resolution' }
 FamixFortran77Resolver >> resolveAccesses: anAccesses [
+
 	anAccesses do: [ :access | self resolveAccess: access ]
 ]
 
@@ -215,8 +216,9 @@ FamixFortran77Resolver >> resolveImplicitsDeclarations: programUnits [
 FamixFortran77Resolver >> resolveImplicitsFor: programUnit [
 
 	| implicits |
-
-	implicits := programUnit attributeAt: #implicits ifAbsent: [  ].
+	implicits := programUnit
+		             attributeAt: #implicits
+		             ifAbsent: [ "Nothing" ].
 	implicits ifNotNil: [ 
 		implicits do: [ :each | 
 			each ranges
@@ -246,17 +248,19 @@ FamixFortran77Resolver >> resolveInvocations: anInvocations [
 
 { #category : #'private-creation' }
 FamixFortran77Resolver >> retrieveEntity: entityName fromList: famixEntities [
-	^famixEntities 
-		detect: [ :entity | entity name = entityName ]
-		ifFound: [ :entity | entity ]
-		ifNone: [ nil ]
+
+	^ famixEntities
+		  detect: [ :entity | entity name = entityName ]
+		  ifFound: [ :entity | entity ]
+		  ifNone: [ nil ]
 ]
 
 { #category : #'private-creation' }
 FamixFortran77Resolver >> retrieveInvocables: name [
-	^self 
-		retrieveEntity: name
-		fromList: (model allWithSubTypesOf: FamixFortran77PUProcedure)
+
+	^ self
+		  retrieveEntity: name
+		  fromList: (model allWithSubTypesOf: FamixFortran77PUProcedure)
 ]
 
 { #category : #'symbols resolution' }
@@ -285,7 +289,8 @@ FamixFortran77Resolver >> retrieveStoredIast: anEntity forSymbol: aSymbol [
 
 { #category : #'private-creation' }
 FamixFortran77Resolver >> retrieveVariable: variableName fromList: variables [
-	^self retrieveEntity: variableName fromList: variables
+
+	^ self retrieveEntity: variableName fromList: variables
 ]
 
 { #category : #'private-creation' }

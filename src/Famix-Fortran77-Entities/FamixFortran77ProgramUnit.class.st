@@ -38,7 +38,8 @@ FamixFortran77ProgramUnit >> dicImplicit [
 
 { #category : #testing }
 FamixFortran77ProgramUnit >> implicits [
-	^self attributeAt: #implicits ifAbsent: [  ] 
+
+	^ self attributeAt: #implicits ifAbsent: [  ]
 ]
 
 { #category : #testing }
