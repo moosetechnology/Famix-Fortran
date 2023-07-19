@@ -144,12 +144,19 @@ FamixFortran77Resolver >> requalifyVariableDeclarations: variableDeclarations [
 
 { #category : #'symbols resolution' }
 FamixFortran77Resolver >> resolve [
-	self resolveImplicitsDeclarations: (self model allWithSubTypesOf: FamixFortran77ProgramUnit).
-	self requalifyParameters: (self model allWithType: FamixFortran77Parameter).
-	self requalifyFunctions: (self model allWithType: FamixFortran77PUFunction).
-	self requalifyVariableDeclarations: (self model allWithType: FamixFortran77Variable).
-	self resolveAccesses: (self model allWithType: FamixFortran77Access).
-	self resolveInvocations: (self model allWithType: FamixFortran77Invocation)
+
+	self resolveImplicitsDeclarations:
+		(self model allWithSubTypesOf: FamixFortran77ProgramUnit).
+	self requalifyParameters:
+		(self model allWithType: FamixFortran77Parameter).
+	self requalifyFunctions:
+		(self model allWithType: FamixFortran77PUFunction).
+	self requalifyVariableDeclarations:
+		(self model allWithType: FamixFortran77Variable).
+	self resolveAccesses:
+		(self model allWithSubTypesOf: FamixFortran77Access).
+	self resolveInvocations:
+		(self model allWithType: FamixFortran77Invocation)
 ]
 
 { #category : #'symbols resolution' }
@@ -179,12 +186,6 @@ FamixFortran77Resolver >> resolveAccess: anAccess [
 ]
 
 { #category : #'symbols resolution' }
-FamixFortran77Resolver >> resolveAccesses [
-	(self model allWithSubTypesOf: FamixFortran77Access) 
-		do: [ :access | self resolveAccess: access ]
-]
-
-{ #category : #'symbols resolution' }
 FamixFortran77Resolver >> resolveAccesses: anAccesses [
 
 	anAccesses do: [ :access | self resolveAccess: access ]
@@ -192,19 +193,25 @@ FamixFortran77Resolver >> resolveAccesses: anAccesses [
 
 { #category : #'symbols resolution' }
 FamixFortran77Resolver >> resolveAsImplicit: anImplicitVariable fromProgramUnit: progUnit [
+
 	| var type |
 	self flag: #FIXME. "how to build sourceAnchor for newly created var?"
-	type := self newEntity: FamixFortran77Type.
-	type name: (self 
-		defaultImplicitTyping: anImplicitVariable entityName
-		fromProgramUnit: progUnit).
+	type := progUnit types
+		        ifEmpty: [ 
+			        (self newEntity: FamixFortran77Type)
+				        name: (self
+						         defaultImplicitTyping: anImplicitVariable entityName
+						         fromProgramUnit: progUnit);
+				        yourself ]
+		        ifNotEmpty: [ 
+			        self
+				        retrieveEntity: anImplicitVariable entityName
+				        fromList: progUnit types ].
 
-	var := self newEntity: FamixFortran77Variable.
-	var 
-		name: anImplicitVariable entityName;
-		declaredType: type.
-	^var
-	
+	^ (self newEntity: FamixFortran77Variable)
+		  name: anImplicitVariable entityName;
+		  declaredType: type;
+		  yourself
 ]
 
 { #category : #'symbols resolution' }
@@ -297,13 +304,29 @@ FamixFortran77Resolver >> retrieveVariable: variableName fromList: variables [
 FamixFortran77Resolver >> retrieveVariable: aVariable fromProgramUnit: programUnit [
 
 	"- Search in the known parameters and variables for the one whose name matches the aVariable name"
+
 	"- compare their type also ?"
+
 	| target |
+	target := self
+		          retrieveEntity: aVariable entityName
+		          fromList:
+		          (programUnit types collect: [ :type | type attributes ])
+			          flattened.
+
+	target ifNotNil: [ ^ target ].
+
 	target := programUnit isInvocable
-		ifTrue: [ self retrieveVariable: aVariable entityName fromList: programUnit parameters ]
-		ifFalse: [ nil ].
-	target ifNotNil: [ ^target ].	
-	^self retrieveVariable: aVariable entityName fromList: programUnit localVariables.
+		          ifTrue: [ 
+			          self
+				          retrieveVariable: aVariable entityName
+				          fromList: programUnit parameters ]
+		          ifFalse: [ nil ].
+	target ifNotNil: [ ^ target ].
+
+	^ self
+		  retrieveVariable: aVariable entityName
+		  fromList: programUnit localVariables
 ]
 
 { #category : #'private-creation' }

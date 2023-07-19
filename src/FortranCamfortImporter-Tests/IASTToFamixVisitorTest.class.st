@@ -491,7 +491,7 @@ IASTToFamixVisitorTest >> testCreateFamixEsopeCommandSegini [
 
 	self assert: (visitor model allWithType: FamixEsopeCommand) size equals: 1.
 	famixSegini := (visitor model allWithType: FamixEsopeCommand) first.
-	self assert: famixSegini name equals: 'segini'.
+	self assert: famixSegini commandName equals: 'segini'.
 ]
 
 { #category : #'tests-esope' }

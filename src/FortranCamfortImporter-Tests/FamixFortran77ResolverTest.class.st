@@ -46,6 +46,16 @@ FamixFortran77ResolverTest >> defaultFunction: name [
 		  programFile: famixProgFile
 ]
 
+{ #category : #running }
+FamixFortran77ResolverTest >> defaultIASTEsopeCommand: commandName name: entityName [
+
+	^ IASTEsopeSegCommand new
+		  esopeCommand: commandName;
+		  entityName: entityName;
+		  sourceAnchor: self defaultAnchor;
+		  yourself
+]
+
 { #category : #'default values' }
 FamixFortran77ResolverTest >> defaultIASTInvocation: name [
 
@@ -76,9 +86,6 @@ FamixFortran77ResolverTest >> defaultImplicit: ranges for: typeName [
 FamixFortran77ResolverTest >> defaultImplicitNone [
 
 	^ IASTImplicit new
-		  forType: nil;
-		  ranges: nil;
-		  yourself
 ]
 
 { #category : #'default values' }
@@ -413,7 +420,7 @@ FamixFortran77ResolverTest >> testCreateFamixFortran77ResolveImplicitNone [
 	| famixSubroutine types subroutine |
 
 	subroutine := (self defaultSubroutine: 'sub')
-		attributeAt: #implicits put: { self defaultImplicitNone };
+		attributeAt: #implicits put: { IASTImplicit new };
 		addParameter: (self defaultParameter: 'var');
 		addAccess: (self defaultAccess: 'var' isWrite: false);
 		yourself.
@@ -649,6 +656,7 @@ FamixFortran77ResolverTest >> testResolveSegment [
       integer x,y
       end segment
       pointeur p.point
+      segini p
       p.x = 1
       p.y = p.x + 1
       end
@@ -687,6 +695,11 @@ FamixFortran77ResolverTest >> testResolveSegment [
 					              newNamedEntity: 'point'
 					              toFamix: FamixFortran77Type));
 		            accesses: { 
+				            ((self newEntity: FamixEsopeSegini)
+					             attributeAt: #entity
+					             put:
+						             (self defaultIASTEsopeCommand: 'segini' name: 'p');
+					             yourself).
 				            ((self newEntity: FamixFortran77Access)
 					             attributeAt: #entity
 					             put: (self defaultIASTVarAccess: 'p' isWrite: true);
@@ -724,25 +737,249 @@ FamixFortran77ResolverTest >> testResolveSegment [
 
 	resolver resolve.
 
-	self assert: sub accesses size equals: 6.
+	self assert: sub accesses size equals: 7.
 
 	access := sub accesses at: 1.
 	self assert: access variable equals: sub localVariables first.
 
-	access := sub accesses at: 3.
+	access := sub accesses at: 2.
 	self assert: access variable equals: sub localVariables first.
 
+	access := sub accesses at: 4.
+	self assert: access variable equals: sub localVariables first.
+
+	access := sub accesses at: 6.
+	self assert: access variable equals: sub localVariables first.
+
+	access := sub accesses at: 3.
+	self assert: access variable equals: sub types first attributes first.
+
 	access := sub accesses at: 5.
+	self
+		assert: access variable
+		equals: sub types first attributes second.
+
+	access := sub accesses at: 7.
+	self assert: access variable equals: sub types first attributes first
+]
+
+{ #category : #running }
+FamixFortran77ResolverTest >> testResolveSegmentWithImplicitPointer [
+
+	| sub access accessor |
+	"
+      subroutine demo
+      segment point
+      integer x,y
+      end segment
+      segini point
+      point.x = 1
+      point.y = point.x + 1
+      end
+	"
+	accessor := (self
+		             newNamedEntity: 'demo'
+		             toFamix: FamixFortran77PUSubroutine)
+		            programFile: famixProgFile;
+		            addType:
+			            ((self
+				              newNamedEntity: 'point'
+				              toFamix: FamixEsopeSegment) attributes: { 
+						             ((self
+							               newNamedEntity: 'x'
+							               toFamix: FamixEsopeAttribute)
+							              declaredType:
+								              (self
+									               newNamedEntity: 'integer'
+									               toFamix: FamixFortran77Type);
+							              isEsope: true;
+							              yourself).
+						             ((self
+							               newNamedEntity: 'y'
+							               toFamix: FamixEsopeAttribute)
+							              declaredType:
+								              (self
+									               newNamedEntity: 'integer'
+									               toFamix: FamixFortran77Type);
+							              isEsope: true;
+							              yourself) });
+		            accesses: { 
+				            ((self newEntity: FamixEsopeSegini)
+					             attributeAt: #entity
+					             put:
+						             (self
+							              defaultIASTEsopeCommand: 'segini'
+							              name: 'point');
+					             yourself).
+				            ((self newEntity: FamixFortran77Access)
+					             attributeAt: #entity
+					             put:
+						             (self defaultIASTVarAccess: 'point' isWrite: true);
+					             yourself).
+				            ((self newEntity: FamixFortran77Access)
+					             attributeAt: #entity
+					             put: (self defaultIASTVarAccess: 'x' isWrite: true);
+					             attributeAt: #pointer
+					             put:
+						             (self defaultIASTVarAccess: 'point' isWrite: true);
+					             yourself).
+				            ((self newEntity: FamixFortran77Access)
+					             attributeAt: #entity
+					             put:
+						             (self defaultIASTVarAccess: 'point' isWrite: true);
+					             yourself).
+				            ((self newEntity: FamixFortran77Access)
+					             attributeAt: #entity
+					             put: (self defaultIASTVarAccess: 'y' isWrite: true);
+					             attributeAt: #pointer
+					             put:
+						             (self defaultIASTVarAccess: 'point' isWrite: true);
+					             yourself).
+				            ((self newEntity: FamixFortran77Access)
+					             attributeAt: #entity
+					             put:
+						             (self defaultIASTVarAccess: 'point' isWrite: true);
+					             yourself).
+				            ((self newEntity: FamixFortran77Access)
+					             attributeAt: #entity
+					             put: (self defaultIASTVarAccess: 'x' isWrite: true);
+					             attributeAt: #pointer
+					             put:
+						             (self defaultIASTVarAccess: 'point' isWrite: true);
+					             yourself) }.
+
+
+	sub := (resolver model allWithSubTypesOf: FamixFortran77ProgramUnit)
+		       first.
+
+	self assert: sub localVariables size equals: 0.
+
+	resolver resolve.
+
+	self assert: sub accesses size equals: 7.
+
+	self assert: sub localVariables size equals: 1.
+	self
+		assert: sub localVariables first declaredType class
+		equals: FamixEsopeSegment.
+	self
+		assert: sub localVariables first declaredType name
+		equals: 'point'.
+
+	access := sub accesses at: 1.
+	self assert: access variable equals: sub localVariables first.
+
+	access := sub accesses at: 2.
+	self assert: access variable equals: sub localVariables first.
+
+	access := sub accesses at: 4.
+	self assert: access variable equals: sub localVariables first.
+
+	access := sub accesses at: 6.
+	self assert: access variable equals: sub localVariables first.
+
+	access := sub accesses at: 3.
+	self assert: access variable equals: sub types first attributes first.
+
+	access := sub accesses at: 5.
+	self
+		assert: access variable
+		equals: sub types first attributes second.
+
+	access := sub accesses at: 7.
+	self assert: access variable equals: sub types first attributes first
+]
+
+{ #category : #running }
+FamixFortran77ResolverTest >> testResolveSegmentWithImplicitPointerAndNoPrefix [
+
+	| sub access accessor |
+	"
+      subroutine demo
+      segment point
+      integer x,y
+      end segment
+      segini point
+      x = 1
+      y = x + 1
+      end
+	"
+	accessor := (self
+		             newNamedEntity: 'demo'
+		             toFamix: FamixFortran77PUSubroutine)
+		            programFile: famixProgFile;
+		            addType:
+			            ((self
+				              newNamedEntity: 'point'
+				              toFamix: FamixEsopeSegment) attributes: { 
+						             ((self
+							               newNamedEntity: 'x'
+							               toFamix: FamixEsopeAttribute)
+							              declaredType:
+								              (self
+									               newNamedEntity: 'integer'
+									               toFamix: FamixFortran77Type);
+							              isEsope: true;
+							              yourself).
+						             ((self
+							               newNamedEntity: 'y'
+							               toFamix: FamixEsopeAttribute)
+							              declaredType:
+								              (self
+									               newNamedEntity: 'integer'
+									               toFamix: FamixFortran77Type);
+							              isEsope: true;
+							              yourself) });
+		            accesses: { 
+				            ((self newEntity: FamixEsopeSegini)
+					             attributeAt: #entity
+					             put:
+						             (self
+							              defaultIASTEsopeCommand: 'segini'
+							              name: 'point');
+					             yourself).
+				            ((self newEntity: FamixFortran77Access)
+					             attributeAt: #entity
+					             put: (self defaultIASTVarAccess: 'x' isWrite: true);
+					             yourself).
+				            ((self newEntity: FamixFortran77Access)
+					             attributeAt: #entity
+					             put: (self defaultIASTVarAccess: 'y' isWrite: true);
+					             yourself).
+				            ((self newEntity: FamixFortran77Access)
+					             attributeAt: #entity
+					             put: (self defaultIASTVarAccess: 'x' isWrite: true);
+					             yourself) }.
+
+
+	sub := (resolver model allWithSubTypesOf: FamixFortran77ProgramUnit)
+		       first.
+
+	self assert: sub localVariables size equals: 0.
+
+	resolver resolve.
+
+	self assert: sub accesses size equals: 4.
+
+	self assert: sub localVariables size equals: 1.
+	self
+		assert: sub localVariables first declaredType class
+		equals: FamixEsopeSegment.
+	self
+		assert: sub localVariables first declaredType name
+		equals: 'point'.
+
+	access := sub accesses at: 1.
 	self assert: access variable equals: sub localVariables first.
 
 	access := sub accesses at: 2.
 	self assert: access variable equals: sub types first attributes first.
 
-	access := sub accesses at: 4.
+	access := sub accesses at: 3.
 	self
 		assert: access variable
 		equals: sub types first attributes second.
 
-	access := sub accesses at: 6.
+	access := sub accesses at: 4.
 	self assert: access variable equals: sub types first attributes first
 ]
