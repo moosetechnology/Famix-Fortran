@@ -194,8 +194,9 @@ FamixFortran77Resolver >> resolveAccesses: anAccesses [
 { #category : #'symbols resolution' }
 FamixFortran77Resolver >> resolveAsImplicit: anImplicitVariable fromProgramUnit: progUnit [
 
-	| var type |
+	| type |
 	self flag: #FIXME. "how to build sourceAnchor for newly created var?"
+
 	type := progUnit types
 		        ifEmpty: [ 
 			        (self newEntity: FamixFortran77Type)
