@@ -25,6 +25,19 @@ FASTFortranJsonExporterVisitor >> initialize [
 	sixSpaces := '      '
 ]
 
+{ #category : #'private - helpers' }
+FASTFortranJsonExporterVisitor >> numberOfSpaces: startPosition [
+
+	"
+	2 because of `@_#include` No need to have an prepend spaces
+	startPosition for this comment is 2: we skip the two first characters.
+	"
+
+	^ startPosition > 2
+		  ifFalse: [ '' ]
+		  ifTrue: [ sixSpaces ]
+]
+
 { #category : #accessing }
 FASTFortranJsonExporterVisitor >> output [
 
@@ -50,10 +63,11 @@ FASTFortranJsonExporterVisitor >> sixSpaces: anObject [
 ]
 
 { #category : #'private - helpers' }
-FASTFortranJsonExporterVisitor >> unmarkAsEsope: anEsopeCommentNode [
+FASTFortranJsonExporterVisitor >> unmarkAsEsope: anEsopeCommentNode from: startPosition [
+
 	output
-		<< sixSpaces ;
-		<< ((anEsopeCommentNode at: 'comment') allButFirst: 5) ;
+		<< (self numberOfSpaces: startPosition);
+		<< ((anEsopeCommentNode at: 'comment') allButFirst: startPosition);
 		cr
 ]
 
