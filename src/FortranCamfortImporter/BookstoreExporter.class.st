@@ -5,41 +5,24 @@ Given a directory containing esope source files, this class rewrites the esope s
 "
 Class {
 	#name : #BookstoreExporter,
-	#superclass : #Object,
+	#superclass : #FortranAbstractImExporter,
 	#category : #'FortranCamfortImporter-demos'
 }
 
-{ #category : #example }
-BookstoreExporter class >> annotateEsopeSourcesFrom [
+{ #category : #'private - accessing' }
+BookstoreExporter class >> buildPathName [
 
-	(self srcPath allChildrenMatching: '*.0.e') do: [ :esopeFile | 
-		PPEsopeRewriter
-			rewriteFrom: esopeFile
-			to: (self rewriterPath / ('' join: { 
-						  (esopeFile basename removeSuffix: self esopeSuffix).
-						  self fortranSuffix })) pathString ]
+	^ 'build'
 ]
 
-{ #category : #utilities }
-BookstoreExporter class >> buildPath [
-
-	^ (self rootPath / 'build') asFileReference ensureCreateDirectory
-]
-
-{ #category : #configuration }
-BookstoreExporter class >> esopeSuffix [
-
-	^ '.e'
-]
-
-{ #category : #demos }
+{ #category : #'private - accessing' }
 BookstoreExporter class >> export [
 
 	<script>
 	self fromPath: self srcPath
 ]
 
-{ #category : #example }
+{ #category : #'private - accessing' }
 BookstoreExporter class >> exportAstFrom: astFile [
 
 	| exporter outputFile |
@@ -59,109 +42,59 @@ BookstoreExporter class >> exportAstFrom: astFile [
 ]
 
 { #category : #example }
-BookstoreExporter class >> exportToEsope [
-
-	(self parserPath allChildrenMatching: self jsonFileRegex) do: [ 
-		:astFile | self exportAstFrom: astFile ]
-]
-
-{ #category : #configuration }
-BookstoreExporter class >> f77FileRegex [
-
-	^ '*.0.f'
-]
-
-{ #category : #configuration }
-BookstoreExporter class >> f77parser [
-
-	^ 'fortran-src-extras serialize -t json -v77l encode'
-]
-
-{ #category : #configuration }
-BookstoreExporter class >> fortranSuffix [
-
-	^ '.f'
-]
-
-{ #category : #example }
 BookstoreExporter class >> fromPath: srcPath [
-
+	"
+	1. #annotateEsopeSourcesFrom: Rewrite Esope source file by hidden ""all"" the esope constructs
+	            +----------+
+	==> *.E --> | ReWriter | --> *.E.f
+	            +----------+
+	
+	2. #parseAnnotatedFortranSources: use a traditional fortran77 parser to parse to input source and produce an AST in json format.
+	
+	           +-----------+
+	 *.E.f --> | F77Parser | --> AST (json)
+	           +-----------+
+	
+	3. #exportToEsope: apply an visitor in AST and reproduce the original code
+	
+	                +-----------+
+	 *.ast.json --> | Exporter  | --> *.E.copy
+	                +-----------+
+	"
 	srcPath exists ifFalse: [ ^ self ].
 
+	self handleIncludedFiles.
 	self annotateEsopeSourcesFrom.
 	self parseAnnotatedFortranSources.
 	self exportToEsope
 ]
 
-{ #category : #configuration }
-BookstoreExporter class >> jsonFileRegex [
+{ #category : #'private - accessing' }
+BookstoreExporter class >> parserPathName [
 
-	^ '*.0.json'
+	^ 'parser'
+]
+
+{ #category : #'private - accessing' }
+BookstoreExporter class >> rewriterPathName [
+
+	^ 'rewriter'
 ]
 
 { #category : #configuration }
-BookstoreExporter class >> jsonSuffix [
+BookstoreExporter class >> rootPathName [
 
-	^ '.0.json'
+	^ '/tmp/bookstore'
 ]
 
-{ #category : #example }
-BookstoreExporter class >> parseAnnotatedFortranSources [
+{ #category : #'private - accessing' }
+BookstoreExporter class >> srcPathName [
 
-	(self rewriterPath allChildrenMatching: self f77FileRegex) do: [ 
-		:annotatedFile | self parseToAst: annotatedFile ]
+	^ 'src'
 ]
 
-{ #category : #utilities }
-BookstoreExporter class >> parseToAst: f77file [
+{ #category : #'private - accessing' }
+BookstoreExporter class >> targetPathName [
 
-	| outputFile |
-	outputFile := self parserPath
-	              / (f77file basename removeSuffix: '.0.f').
-	LibC runCommand: ('{1} "{2}" > "{3}.0.json" 2> "{3}.0.err"' format: { 
-				 self f77parser.
-				 f77file pathString.
-				 outputFile pathString })
-]
-
-{ #category : #configuration }
-BookstoreExporter class >> parserPath [
-
-	^ (self buildPath / 'parser') asFileReference ensureCreateDirectory
-]
-
-{ #category : #configuration }
-BookstoreExporter class >> rewritedEsopeSuffix [
-
-	^ '.1.e'
-]
-
-{ #category : #configuration }
-BookstoreExporter class >> rewriterPath [
-
-	^ (self buildPath / 'rewriter') asFileReference ensureCreateDirectory
-]
-
-{ #category : #configuration }
-BookstoreExporter class >> rootName [
-
-	^ '/tmp'
-]
-
-{ #category : #utilities }
-BookstoreExporter class >> rootPath [
-
-	^ self rootName asPath
-]
-
-{ #category : #utilities }
-BookstoreExporter class >> srcPath [
-
-	^ (self rootPath / 'src') asFileReference
-]
-
-{ #category : #utilities }
-BookstoreExporter class >> targetPath [
-
-	^ (self buildPath / 'target') asFileReference ensureCreateDirectory
+	^ 'target'
 ]
