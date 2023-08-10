@@ -338,6 +338,16 @@ FortranAbstractJsonVisitor >> visitEsopeEndsegmentComment: anEsopeCommentNode [
 
 ]
 
+{ #category : #'visiting reflectivity' }
+FortranAbstractJsonVisitor >> visitEsopeIncludeComment: anEsopeIncludeCommentNode [
+
+	| key esopeCommand |
+	esopeCommand := self esopeCommand:
+		                (anEsopeIncludeCommentNode at: 'comment').
+	key := esopeCommand first asLowercase capitalized , 'Comment'.
+	^ self visitJsonNode: key value: anEsopeIncludeCommentNode
+]
+
 { #category : #'visiting esope' }
 FortranAbstractJsonVisitor >> visitEsopePointeurComment: anEsopeCommentNode [
 	| esopeCommand |
@@ -577,6 +587,19 @@ FortranAbstractJsonVisitor >> visitImplicitStatement: anImplicitStatementNode [
 { #category : #'visiting statement' }
 FortranAbstractJsonVisitor >> visitImplicitStatementRange: anImplicitStatementRangeNode [
 	^self visitJsonMap: anImplicitStatementRangeNode keys: #(span from to)
+]
+
+{ #category : #'visiting esope' }
+FortranAbstractJsonVisitor >> visitIncludeComment: anEsopeIncludeCommentNode [
+
+	| esopeCommand |
+
+	esopeCommand := self esopeCommand:
+		                (anEsopeIncludeCommentNode at: 'comment').
+	^ { 
+		  (self visitSpan: (anEsopeIncludeCommentNode at: 'span')).
+		  esopeCommand first.
+		  esopeCommand second }
 ]
 
 { #category : #'visiting statement' }
