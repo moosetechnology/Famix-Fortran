@@ -30,6 +30,20 @@ FamixFortran77ImportingContext >> importComment [
 ]
 
 { #category : #importing }
+FamixFortran77ImportingContext >> importInclude [
+
+	<generated>
+	^ self importAssociation: (self class fm3ClassNamed: #Include)
+]
+
+{ #category : #importing }
+FamixFortran77ImportingContext >> importIncludedFile [
+
+	<generated>
+	^ self importConcreteEntity: (self class fm3ClassNamed: #IncludedFile)
+]
+
+{ #category : #importing }
 FamixFortran77ImportingContext >> importIndexedFileAnchor [
 
 	<generated>
@@ -160,6 +174,20 @@ FamixFortran77ImportingContext >> shouldImportComment [
 
 	<generated>
 	^ self shouldImport: #Comment
+]
+
+{ #category : #testing }
+FamixFortran77ImportingContext >> shouldImportInclude [
+
+	<generated>
+	^ self shouldImport: #Include
+]
+
+{ #category : #testing }
+FamixFortran77ImportingContext >> shouldImportIncludedFile [
+
+	<generated>
+	^ self shouldImport: #IncludedFile
 ]
 
 { #category : #testing }

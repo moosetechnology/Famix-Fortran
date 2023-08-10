@@ -7,6 +7,7 @@ Class {
 	#traits : 'FamixTSourceEntity + FamixTWithComments + TEntityMetaLevelDependency',
 	#classTraits : 'FamixTSourceEntity classTrait + FamixTWithComments classTrait + TEntityMetaLevelDependency classTrait',
 	#instVars : [
+		'#includes => FMMany type: #FamixFortran77Include opposite: #includedBy',
 		'#programFile => FMOne type: #FamixFortran77ProgramFile opposite: #programUnits'
 	],
 	#category : #'Famix-Fortran77-Entities-Entities'
@@ -19,6 +20,12 @@ FamixFortran77ProgramUnit class >> annotation [
 	<package: #'Famix-Fortran77-Entities'>
 	<generated>
 	^ self
+]
+
+{ #category : #adding }
+FamixFortran77ProgramUnit >> addInclude: anObject [
+	<generated>
+	^ self includes add: anObject
 ]
 
 { #category : #implicit }
@@ -40,6 +47,23 @@ FamixFortran77ProgramUnit >> dicImplicit [
 FamixFortran77ProgramUnit >> implicits [
 
 	^ self attributeAt: #implicits ifAbsent: [  ]
+]
+
+{ #category : #accessing }
+FamixFortran77ProgramUnit >> includes [
+	"Relation named: #includes type: #FamixFortran77Include opposite: #includedBy"
+
+	<generated>
+	<FMComment: 'All inclusions made by this programUnits'>
+	<derived>
+	^ includes
+]
+
+{ #category : #accessing }
+FamixFortran77ProgramUnit >> includes: anObject [
+
+	<generated>
+	includes value: anObject
 ]
 
 { #category : #testing }
