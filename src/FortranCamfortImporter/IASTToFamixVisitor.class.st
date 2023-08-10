@@ -37,6 +37,45 @@ IASTToFamixVisitor >> defaultImplicitTyping: firstLetter [
 		  ifFalse: [ #TypeReal ]
 ]
 
+{ #category : #visiting }
+IASTToFamixVisitor >> ensureInclude: name [
+
+	^ (self model allWithType: FamixFortran77Include)
+		  detect: [ :each | each name = name ]
+		  ifFound: [ :each | each ]
+		  ifNone: [ nil ]
+]
+
+{ #category : #initialization }
+IASTToFamixVisitor >> f77InstrinsicTypes [
+
+	^ { 
+		  (#integer -> (FamixFortran77Type new
+			    name: 'integer';
+			    mooseModel: model;
+			    yourself)).
+		  (#real -> (FamixFortran77Type new
+			    name: 'real';
+			    mooseModel: model;
+			    yourself)).
+		  (#complex -> (FamixFortran77Type new
+			    name: 'complex';
+			    mooseModel: model;
+			    yourself)).
+		  (#logical -> (FamixFortran77Type new
+			    name: 'logical';
+			    mooseModel: model;
+			    yourself)).
+		  (#character -> (FamixFortran77Type new
+			    name: 'character';
+			    mooseModel: model;
+			    yourself)).
+		  (#doublePrecision -> (FamixFortran77Type new
+			    name: 'double precision';
+			    mooseModel: model;
+			    yourself)) } asDictionary
+]
+
 { #category : #accessing }
 IASTToFamixVisitor >> f77sourcefile [
 
@@ -53,8 +92,23 @@ IASTToFamixVisitor >> f77sourcefile: anObject [
 IASTToFamixVisitor >> initialize [
 
 	super initialize.
-	model := FamixEsopeModel new name: 'mooseModelF77'.
+	self initializeModel.
 	f77sourcefile := ''
+]
+
+{ #category : #initialization }
+IASTToFamixVisitor >> initializeModel [
+
+	model := FamixEsopeModel new name: 'mooseModelF77'.
+	"model
+		attributeAt: #intrinsicTypes put: self f77InstrinsicTypes;
+		attributeAt: #includes put: Dictionary new"
+]
+
+{ #category : #testing }
+IASTToFamixVisitor >> isDummySubroutine: name [
+
+	^ name sameAs: '__$__'
 ]
 
 { #category : #'private-creation' }
@@ -169,6 +223,31 @@ IASTToFamixVisitor >> visitIASTImplicit: anImplicit [
 ]
 
 { #category : #visiting }
+IASTToFamixVisitor >> visitIASTInclude: anInclude [
+
+	self flag: #FIXME.
+	"how to set the source ?"
+	^ (self newEntity: FamixFortran77Include)
+		  sourceAnchor:
+			  (self visitIndexedFileAnchor: anInclude sourceAnchor);
+		  filename: anInclude entityName;
+		  includedBy: stack top;
+		  "source: stack top programFile;"yourself
+]
+
+{ #category : #visiting }
+IASTToFamixVisitor >> visitIASTIncludedFile: anIncludedFile [
+
+	anIncludedFile sourceAnchor
+		startLine: anIncludedFile sourceAnchor startLine + 1;
+		endLine: anIncludedFile sourceAnchor endLine - 1.
+
+	^ self
+		  visitIASTProgramUnit: anIncludedFile
+		  toFamix: FamixFortran77IncludedFile
+]
+
+{ #category : #visiting }
 IASTToFamixVisitor >> visitIASTInvocation: anInvocation [
 
 	^ (self newEntity: FamixFortran77Invocation)
@@ -210,18 +289,24 @@ IASTToFamixVisitor >> visitIASTProgramFile: aProgramFile [
 IASTToFamixVisitor >> visitIASTProgramUnit: aProgramUnit toFamix: aFamixFortranClass [
 
 	| progUnit |
-	
 	progUnit := (self newEntity: aFamixFortranClass)
 		            sourceAnchor:
 			            (self visitIndexedFileAnchor: aProgramUnit sourceAnchor);
 		            name: aProgramUnit entityName;
 		            yourself.
 	stack push: progUnit.
-	
+
 	self createSymbolTableFor: progUnit.
 
 	aProgramUnit body ifNotNil: [ :body | 
-		body do: [ :each | each accept: self ] ].
+		body do: [ :node | 
+			node isArray
+				ifTrue: [ 
+					self flag: #FIXME. "1 halt."
+					node flattened
+						reject: [ :each | each isPoint ]
+						thenDo: [ :stmt | stmt accept: self ] ]
+				ifFalse: [ node accept: self ] ] ].
 
 	"aProgramUnit localVariables do: [ :localVariable | 
 		progUnit addLocalVariable: (localVariable accept: self) ].
@@ -255,7 +340,7 @@ IASTToFamixVisitor >> visitIASTSubroutine: aSubroutine [
 ]
 
 { #category : #visiting }
-IASTToFamixVisitor >> visitIASTVarEsoAt: aVarEso [
+IASTToFamixVisitor >> visitIASTVarEso: aVarEso [
 
 	| varsAccesses |
 	varsAccesses := aVarEso accept: (self spawn: IASTToEsopeVisitor).
@@ -263,6 +348,18 @@ IASTToFamixVisitor >> visitIASTVarEsoAt: aVarEso [
 		(aVarEso entities collect: [ :entity | entity accept: self ])."
 	self flag: #FIXME. "Add this to the current programUnit"
 	^ varsAccesses
+]
+
+{ #category : #visiting }
+IASTToFamixVisitor >> visitIASTVarEsoAt: aVarEso [
+
+	^ self visitIASTVarEso: aVarEso
+]
+
+{ #category : #visiting }
+IASTToFamixVisitor >> visitIASTVarEsoSl: aVarEso [
+
+	^ self visitIASTVarEso: aVarEso
 ]
 
 { #category : #visiting }
