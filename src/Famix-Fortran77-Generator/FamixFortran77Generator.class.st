@@ -53,7 +53,9 @@ Class {
 		'type',
 		'eComment',
 		'eEntity',
-		'typeIntrinsic'
+		'typeIntrinsic',
+		'include',
+		'includedFile'
 	],
 	#category : #'Famix-Fortran77-Generator'
 }
@@ -113,7 +115,12 @@ FamixFortran77Generator >> defineClasses [
 		              newClassNamed: #Invocation
 		              comment: self invocationEntityComment.
 
-	"include := builder newClassNamed: #Include comment: ''."
+	include := builder
+		           newClassNamed: #Include
+		           comment: self includeComment.
+	includedFile := builder
+		                newClassNamed: #IncludedFile
+		                comment: 'includedFile'.
 
 	parameter := builder
 		             newClassNamed: #Parameter
@@ -184,6 +191,12 @@ FamixFortran77Generator >> defineHierarchy [
 
 	invocation --|> #TInvocation.
 	invocation --|> #TEntityMetaLevelDependency.
+	
+	include --|> #TAssociation.
+	
+	includedFile --|> programUnit.
+	includedFile --|> #TWithLocalVariables.
+	includedFile --|> #TWithTypes.
 
 	parameter --|> #TParameter.
 
@@ -237,6 +250,12 @@ FamixFortran77Generator >> defineProperties [
 	(comment property: #isEsope type: #Boolean defaultValue: false) 
 		comment: 'It is esope comment ?'.
 
+	(include property: #isLocal type: #Boolean) comment:
+		'Whether this is a local include (with "included.h") or a system one (with <included.h>)'.
+
+	(include property: #filename type: #String) comment:
+		'Hold the name of the file included. Will be used to link this relation with the includedFile entity'.
+
 	(type property: #length type: #Number) comment: 'length attribute'.
 	(type property: #kind type: #Number) comment: 'kind attribute'.
 
@@ -265,6 +284,16 @@ FamixFortran77Generator >> defineRelations [
 	super defineRelations.
 
 	programFile <>-* programUnit.
+
+	((include property: #included)
+		 comment: 'File included';
+		 target) *- ((includedFile property: #inclusions) comment:
+		 'All inclusions of this file').
+
+	((include property: #includedBy)
+		 comment: 'File including the receiver';
+		 source) *- ((programUnit property: #includes) comment:
+		 'All inclusions made by this programUnits')
 ]
 
 { #category : #'class comment' }
@@ -286,6 +315,14 @@ FamixFortran77Generator >> implicitPropertyFor: anInstanceVar [
 		 type: #Object
 		 defaultValue: 'Dictionary new') comment:
 		'dictionary to carry implicits declaration rule for each type'.
+]
+
+{ #category : #definition }
+FamixFortran77Generator >> includeComment [
+
+	^ 'Entity to hold `#include "file.inc"` directive
+	we need to have a path pointed by the file and the relation with all the subroutine including this file
+	'
 ]
 
 { #category : #'class comment' }
