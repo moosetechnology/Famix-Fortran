@@ -261,13 +261,14 @@ JsonToIASTVisitor >> visitEsopePointeurComment: anEsopeCommentNode [
 
 { #category : #'visiting esope' }
 JsonToIASTVisitor >> visitEsopeSegactComment: anEsopeCommentNode [
+
 	| data |
 	data := super visitEsopeSegactComment: anEsopeCommentNode.
-	^IASTEsopeSegCommand new
-		sourceAnchor: (self makeIndexedAnchor: data first) ;
-		esopeCommand: data second ;
-		entityName: data third ;
-		yourself
+	^ IASTEsopeSegCommand new
+		  sourceAnchor: (self makeIndexedAnchor: data first);
+		  esopeCommand: data second;
+		  entityName: data third;
+		  yourself
 ]
 
 { #category : #'visiting esope' }
@@ -341,6 +342,15 @@ JsonToIASTVisitor >> visitEsopeSegsupComment: anEsopeCommentNode [
 		yourself
 ]
 
+{ #category : #'visiting esope' }
+JsonToIASTVisitor >> visitExternalStatement: anExternalStatementNode [
+
+	| data |
+	data := super visitExternalStatement: anExternalStatementNode.
+	self flag: #FIXME. "Take an account the external statement"
+	^ data second
+]
+
 { #category : #'visiting statement' }
 JsonToIASTVisitor >> visitFortranComment: aFortranCommentNode [
 	| data |
@@ -398,30 +408,31 @@ JsonToIASTVisitor >> visitFunctionWithBlocks: aFunctionNode [
 
 { #category : #'visiting statement' }
 JsonToIASTVisitor >> visitIf: aIfNode [
+
 	| data |
 	data := super visitIf: aIfNode.
 
-	^(data allButFirst: 2) flattened reject: #isNil
+	self flag: #FIXME. "Filter and return only accesses and invocation"
+	"^ (data allButFirst: 2) flattened reject: #isNil"
+	^ (data allButFirst: 2) flattened select: [ :each | 
+		  each class = IASTVarAccess or: [ each class = IASTInvocation ] ]
 ]
 
 { #category : #'visiting statement' }
 JsonToIASTVisitor >> visitImplicitStatement: anImplicitStatementNode [
+
 	| data implicit |
-	
 	data := super visitImplicitStatement: anImplicitStatementNode.
 
 	implicit := IASTImplicit new
-		flag: 'TODO: span = data first' ;
-		yourself.
-	data second
-		ifNotNil: [
-			implicit
-				forType: data second first ;
-				ranges: data second second
-		 ].
+		            sourceAnchor: (self makeIndexedAnchor: data first);
+		            yourself.
+	data second ifNotNil: [ 
+		implicit
+			forType: data second first;
+			ranges: data second second ].
 
-	^implicit
-
+	^ implicit
 ]
 
 { #category : #'visiting statement' }
@@ -432,6 +443,18 @@ JsonToIASTVisitor >> visitImplicitStatementRange: anImplicitStatementRangeNode [
 	^data third
 		ifNil: [ { data second . data second } ]
 		ifNotNil: [ { data second . data third } ]
+]
+
+{ #category : #'visiting esope' }
+JsonToIASTVisitor >> visitIncludeComment: anEsopeIncludeCommentNode [
+
+	| data |
+	data := super visitIncludeComment: anEsopeIncludeCommentNode.
+	^ IASTInclude new
+		  sourceAnchor: (self makeIndexedAnchor: data first);
+		  entityName: data third;
+		  includeCommand: data second;
+		  yourself
 ]
 
 { #category : #'visiting expression' }
@@ -498,15 +521,21 @@ JsonToIASTVisitor >> visitStatement: aStatementNode [
 
 { #category : #'visiting prog-unit' }
 JsonToIASTVisitor >> visitSubroutine: aSubroutineNode [
-	| data |
+
+	| data entity |
 	data := super visitSubroutine: aSubroutineNode.
 
-	^IASTSubroutine new
-		sourceAnchor: (self makeIndexedAnchor: data first) ;
-		entityName: data second ;
-		parameters: data third ;
-		body: data fourth ;
-		yourself
+	entity := data second = EsopeUitils dummySubroutineName
+		          ifTrue: [ IASTIncludedFile new ]
+		          ifFalse: [ 
+			          IASTSubroutine new
+				          parameters: data third;
+				          yourself ].
+	^ entity
+		  sourceAnchor: (self makeIndexedAnchor: data first);
+		  entityName: data second;
+		  entityName: data second;
+		  body: data fourth
 ]
 
 { #category : #visiting }
@@ -530,16 +559,15 @@ JsonToIASTVisitor >> visitUnary: aUnaryNode [
 
 { #category : #'visiting expression' }
 JsonToIASTVisitor >> visitValue: aValueNode [
-	| data |
 
+	| data |
 	data := super visitValue: aValueNode.
 
-	^data second
-		ifNil: [ nil ]
-		ifNotNil: [ :var |
-			var
-				sourceAnchor: (self makeIndexedAnchor: data first) ;
-				yourself ]
+	^ data second ifNil: [ nil ] ifNotNil: [ :var | 
+		  (var isString or: [ var isArray ]) ifFalse: [ 
+			  var
+				  sourceAnchor: (self makeIndexedAnchor: data first);
+				  yourself ] ]
 ]
 
 { #category : #'visiting expression' }
