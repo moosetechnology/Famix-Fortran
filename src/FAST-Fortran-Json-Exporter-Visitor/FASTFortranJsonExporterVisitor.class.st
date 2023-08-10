@@ -307,49 +307,60 @@ FASTFortranJsonExporterVisitor >> visitEq: anEqualtoOperatorNode [
 { #category : #'visiting esope' }
 FASTFortranJsonExporterVisitor >> visitEsopeEndsegmentComment: anEsopeCommentNode [
 
-	self unmarkAsEsope: anEsopeCommentNode
+	self unmarkAsEsope: anEsopeCommentNode from: 5
+]
+
+{ #category : #'visiting esope' }
+FASTFortranJsonExporterVisitor >> visitEsopeIncludeComment: anEsopeIncludeCommentNode [
+
+	"An include comment looks like this: 
+	 - @_#include ""file.inc""
+	 - @_#include <file.inc>
+	So we need to skip the only two first characters, ie @_
+	"
+	self unmarkAsEsope: anEsopeIncludeCommentNode from: 2
 ]
 
 { #category : #'visiting esope' }
 FASTFortranJsonExporterVisitor >> visitEsopePointeurComment: anEsopeCommentNode [
 
-	self unmarkAsEsope: anEsopeCommentNode
+	self unmarkAsEsope: anEsopeCommentNode from: 5
 ]
 
 { #category : #'visiting esope' }
 FASTFortranJsonExporterVisitor >> visitEsopeSegactComment: anEsopeCommentNode [
 
-	self unmarkAsEsope: anEsopeCommentNode
+	self unmarkAsEsope: anEsopeCommentNode from: 5
 ]
 
 { #category : #'visiting esope' }
 FASTFortranJsonExporterVisitor >> visitEsopeSegadjComment: anEsopeCommentNode [
 
-	self unmarkAsEsope: anEsopeCommentNode
+	self unmarkAsEsope: anEsopeCommentNode from: 5
 ]
 
 { #category : #'visiting esope' }
 FASTFortranJsonExporterVisitor >> visitEsopeSegdesComment: anEsopeCommentNode [
 
-	self unmarkAsEsope: anEsopeCommentNode
+	self unmarkAsEsope: anEsopeCommentNode from: 5
 ]
 
 { #category : #'visiting esope' }
 FASTFortranJsonExporterVisitor >> visitEsopeSeginiComment: anEsopeCommentNode [
 
-	self unmarkAsEsope: anEsopeCommentNode
+	self unmarkAsEsope: anEsopeCommentNode from: 5
 ]
 
 { #category : #'visiting esope' }
 FASTFortranJsonExporterVisitor >> visitEsopeSegmentComment: anEsopeCommentNode [
 
-	self unmarkAsEsope: anEsopeCommentNode
+	self unmarkAsEsope: anEsopeCommentNode from: 5
 ]
 
 { #category : #'visiting esope' }
 FASTFortranJsonExporterVisitor >> visitEsopeSegsupComment: anEsopeCommentNode [
 
-	self unmarkAsEsope: anEsopeCommentNode
+	self unmarkAsEsope: anEsopeCommentNode from: 5
 ]
 
 { #category : #'visiting statement' }
