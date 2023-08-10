@@ -145,6 +145,7 @@ FamixFortran77Resolver >> requalifyVariableDeclarations: variableDeclarations [
 { #category : #'symbols resolution' }
 FamixFortran77Resolver >> resolve [
 
+	self resolveIncludes: (self model allWithType: FamixFortran77Include).
 	self resolveImplicitsDeclarations:
 		(self model allWithSubTypesOf: FamixFortran77ProgramUnit).
 	self requalifyParameters:
@@ -170,7 +171,7 @@ FamixFortran77Resolver >> resolveAccess: anAccess [
 		          ifNotNil: [ 
 			          self
 				          retrieveVariable: varAccessed
-				          fromSegments: anAccess accessor types ]
+				          fromSegments: "anAccess accessor types" anAccess accessor allTypes ]
 		          ifNil: [ 
 			          self
 				          retrieveVariable: varAccessed
@@ -217,7 +218,9 @@ FamixFortran77Resolver >> resolveAsImplicit: anImplicitVariable fromProgramUnit:
 
 { #category : #'symbols resolution' }
 FamixFortran77Resolver >> resolveImplicitsDeclarations: programUnits [
-	programUnits do: [ :programUnit | self resolveImplicitsFor: programUnit ]
+
+	programUnits do: [ :programUnit | 
+		self resolveImplicitsFor: programUnit ]
 ]
 
 { #category : #'symbols resolution' }
@@ -236,22 +239,38 @@ FamixFortran77Resolver >> resolveImplicitsFor: programUnit [
 							at: letter
 							put: each forType name asSymbol ] ]
 				ifNil: [ 
-					($a to: $z) do: [ :letter | 
+					Character alphabet do: [ :letter | 
 						programUnit dicImplicit at: letter put: nil ] ] ] ]
 ]
 
 { #category : #'symbols resolution' }
+FamixFortran77Resolver >> resolveIncludes: includes [
+
+	| includedFiles |
+	includedFiles := self model allWithType: FamixFortran77IncludedFile.
+	includes do: [ :include | 
+		includedFiles
+			detect: [ :includedFile | includedFile name = include filename ]
+			ifFound: [ :includedFile | include included: includedFile ]
+			ifNone: [ 
+			Notification signal: 'IncludedFile: No such file or directory' ] ]
+]
+
+{ #category : #'symbols resolution' }
 FamixFortran77Resolver >> resolveInvocation: anInvocation [
+
 	| invocated |
 	invocated := self retrieveStoredIast: anInvocation.
-	anInvocation addCandidate: (self retrieveInvocables: invocated entityName)
-	
+	(self retrieveInvocables: invocated entityName) ifNotNil: [ 
+		:invocatedFound | anInvocation addCandidate: invocatedFound ]
 ]
 
 { #category : #'symbols resolution' }
 FamixFortran77Resolver >> resolveInvocations: anInvocations [
-	anInvocations
-		do: [ :invocation | self resolveInvocation: invocation ]
+
+	anInvocations do: [ :invocation | 
+		(invocation sourceText beginsWith: 'write' caseSensitive: false) 
+			ifFalse: [ self resolveInvocation: invocation ] ]
 ]
 
 { #category : #'private-creation' }
@@ -308,7 +327,7 @@ FamixFortran77Resolver >> retrieveVariable: aVariable fromProgramUnit: programUn
 
 	"- compare their type also ?"
 
-	| target |
+	| target localVariables |
 	target := self
 		          retrieveEntity: aVariable entityName
 		          fromList:
@@ -325,9 +344,13 @@ FamixFortran77Resolver >> retrieveVariable: aVariable fromProgramUnit: programUn
 		          ifFalse: [ nil ].
 	target ifNotNil: [ ^ target ].
 
+	localVariables := programUnit isSubroutine
+		                  ifTrue: [ programUnit allLocalVariables ]
+		                  ifFalse: [ programUnit localVariables ].
+
 	^ self
 		  retrieveVariable: aVariable entityName
-		  fromList: programUnit localVariables
+		  fromList: localVariables
 ]
 
 { #category : #'private-creation' }
@@ -337,14 +360,16 @@ FamixFortran77Resolver >> retrieveVariable: aVariable fromSegments: segments [
 
 	"- compare their type also ?"
 
-	| target aBlock |
-	aBlock := [ :segment | 
-	          self
+	| target attributes |
+	attributes := segments collect: [ :segment | segment attributes ].
+
+	target := self
 		          retrieveVariable: aVariable entityName
-		          fromList: segment attributes ].
-	target := (segments collect: aBlock) anyOne.
+		          fromList: attributes flattened.
 
 	target ifNotNil: [ ^ target ].
 
-	^ ((self model allWithType: FamixEsopeSegment) collect: aBlock) anyOne
+	^ self
+		  retrieveVariable: (self model allWithType: FamixEsopeSegment)
+		  fromList: attributes flattened
 ]
