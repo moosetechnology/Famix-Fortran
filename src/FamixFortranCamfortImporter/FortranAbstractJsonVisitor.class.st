@@ -72,7 +72,11 @@ FortranAbstractJsonVisitor >> isEsopeTransformation: aString [
 
 { #category : #testing }
 FortranAbstractJsonVisitor >> isTaggedStatement: aStatementNode [
-	^(aStatementNode at: 'statement') includesKey: 'tag'
+
+	"If aStatementNode has already a statement, no need to do (aStatementNode at: 'statement')"
+
+	^ (aStatementNode at: 'statement' ifAbsent: [ aStatementNode ]) 
+		  includesKey: 'tag'
 ]
 
 { #category : #'visiting expression' }
@@ -461,7 +465,8 @@ FortranAbstractJsonVisitor >> visitExpression: aExpressionNode [
 
 { #category : #'visiting statement' }
 FortranAbstractJsonVisitor >> visitExternalStatement: anExternalStatementNode [
-	^self visitJsonMap: anExternalStatementNode keys: #(span vars)
+
+	^ self visitJsonMap: anExternalStatementNode keys: #( span vars )
 ]
 
 { #category : #'visiting expression' }
@@ -710,12 +715,14 @@ FortranAbstractJsonVisitor >> visitJsonTaggedElement: jsonDictionary [
 
 { #category : #'visiting reflectivity' }
 FortranAbstractJsonVisitor >> visitJsonTaggedStatement: aStatementNode [
+
 	"a statementNode containing a tagged element
 	 Similar to #visitJsonTaggedElement: on the tagged element, but adds 'Statement' to the selector"
+
 	| key value |
-	value := (aStatementNode at: 'statement').
+	value := aStatementNode at: 'statement' ifAbsent: [ aStatementNode ].
 	key := value removeKey: 'tag'.
-	^self visitJsonNode: key , 'Statement' value: value
+	^ self visitJsonNode: key , 'Statement' value: value
 ]
 
 { #category : #visiting }
