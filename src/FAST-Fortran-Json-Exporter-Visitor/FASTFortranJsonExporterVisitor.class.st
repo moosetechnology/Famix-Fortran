@@ -780,15 +780,19 @@ FASTFortranJsonExporterVisitor >> visitSubroutine: aSubroutineNode [
 
 	"^self visitJsonMap: aSubroutineNode keys: #(span name arguments blocks)"
 
-	output
-		<< sixSpaces;
-		<< 'subroutine ';
-		<< (aSubroutineNode at: 'name').
-	(aSubroutineNode at: 'arguments') ifNotNil: [ :parameters | 
-		self visitFunctionParameters: parameters ].
-	output cr.
+	| isDummySubroutine |
+	isDummySubroutine := (aSubroutineNode at: 'name')
+	                     = EsopeUitils dummySubroutineName.
+	isDummySubroutine ifFalse: [ 
+		output
+			<< sixSpaces;
+			<< 'subroutine ';
+			<< (aSubroutineNode at: 'name').
+		(aSubroutineNode at: 'arguments') ifNotNil: [ :parameters | 
+			self visitFunctionParameters: parameters ].
+		output cr ].
 	self visitJsonElement: (aSubroutineNode at: 'blocks').
-	self endProgramUnit
+	isDummySubroutine ifFalse: [ self endProgramUnit ]
 ]
 
 { #category : #'visiting expression' }
