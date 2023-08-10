@@ -22,33 +22,40 @@ FortranAbstractJsonVisitor >> esopeCommand: anEsopeCommentString [
 
 { #category : #'private - helpers' }
 FortranAbstractJsonVisitor >> findWordBoundaries: anEsopeCommentString [
+
 	"search for word boundaries starting from 6th position"
+
 	| wordBoundaries i inWord |
+	self flag: #FIXME. "This not work for #include.
+	The #include start from the first position. So its need to be update in order
+	to handle this issue.
+	"
 
 	wordBoundaries := OrderedCollection new: 6.
 	i := 1.
 	inWord := false.
 
-	(anEsopeCommentString allButFirst: 5) do: [ :char |
-		"for now, treat . as a letter: lb.pstr"
+	(anEsopeCommentString allButFirst: 5) do: [ :char | "for now, treat . as a letter: lb.pstr"
 		(char isLetter or: [ char = $. ])
-		ifTrue: [
-			inWord ifFalse:[ "begining of a word"
-				wordBoundaries add: i + 5.
-				inWord := true
-			]
-		]
-		ifFalse: [
-			inWord ifTrue: [ "end of a word"
-				wordBoundaries add: i + 4.
-				inWord := false
-			]
-		].
-		i := i+1
-	].
+			ifTrue: [ 
+				inWord ifFalse: [ "begining of a word"
+					wordBoundaries add: i + 5.
+					inWord := true ] ]
+			ifFalse: [ 
+				inWord ifTrue: [ "end of a word"
+					wordBoundaries add: i + 4.
+					inWord := false ] ].
+		i := i + 1 ].
 	wordBoundaries add: i + 4.
-	^wordBoundaries
 
+	self flag: #FIXME. "Do not forget to grab the '#' to distinguish between #include and include statement.
+	2 dont take the #
+	3 take the #
+	"
+	(anEsopeCommentString beginsWith: '@_#include') ifTrue: [ 
+		wordBoundaries at: 1 put: wordBoundaries first - 2 ].
+
+	^ wordBoundaries
 ]
 
 { #category : #testing }
