@@ -138,6 +138,16 @@ IASTToFamixVisitorTest >> defaultVarEsoAt: entities [
 		  yourself
 ]
 
+{ #category : #'tests-esope' }
+IASTToFamixVisitorTest >> defaultVarEsoSl: entities [
+
+	^ IASTVarEsoSl new
+		  sourceAnchor: self defaultAnchor;
+		  entities:
+			  (entities collect: [ :entity | self defaultVarAccess: entity ]);
+		  yourself
+]
+
 { #category : #'default values' }
 IASTToFamixVisitorTest >> defaultVariable: assoc [
 
@@ -167,6 +177,54 @@ IASTToFamixVisitorTest >> setUp [
 	
 	programFile := IASTProgramFile new filename: 'fortran77.f' ; yourself.
 	visitor := IASTToFamixVisitor new.
+]
+
+{ #category : #'tests-esope' }
+IASTToFamixVisitorTest >> testCreateDummyFamixFortran77Subroutine [
+
+	"
+      subroutine __$__
+      integer l
+c@_   segment point
+      real abs, ord
+c@_   end segment
+      end
+	"
+
+	| l segment entity |
+	l := self defaultVariable: 'l' withType: 'integer'.
+	segment := self defaultSegment: 'point' with: { 
+			           (#abs -> #real).
+			           (#ord -> #real) }.
+
+	programFile progUnits: { (IASTIncludedFile new
+			 entityName: 'point.seg';
+			 sourceAnchor: self defaultAnchor;
+			 body: { 
+					 l.
+					 segment };
+			 yourself) }.
+
+	entity := programFile accept: visitor.
+
+	self assert: entity programUnits size equals: 1.
+
+	entity := entity programUnits first.
+	self assert: entity class equals: FamixFortran77IncludedFile.
+	self assert: entity name equals: 'point.seg'.
+
+	self assert: entity programFile isNotNil.
+	self assert: entity inclusion isEmpty.
+
+	self assert: entity types size equals: 1.
+	self assert: entity types first name equals: 'point'.
+	self assert: entity types first attributes size equals: 2.
+	self assert: entity types first attributes first name equals: 'abs'.
+	self assert: entity types first attributes second name equals: 'ord'.
+
+
+	self assert: entity localVariables size equals: 1.
+	self assert: entity localVariables first name equals: 'l'
 ]
 
 { #category : #'tests-esope' }
@@ -573,6 +631,51 @@ IASTToFamixVisitorTest >> testCreateFamixEsopeSegment [
 	self assert: attribute declaredType name equals: 'integer'.
 ]
 
+{ #category : #'tests-esope' }
+IASTToFamixVisitorTest >> testCreateFamixEsopeSlashWithLitteralDim [
+
+	"
+c  lb.bref(/1)
+	s__(d__(ptr,attr),1)
+	"
+
+	| s__ entity access |
+	self skip.
+	self flag: #TODO.
+	s__ := self defaultVarEsoSl: #( #ptr #attr ).
+
+	programFile progUnits: { (IASTSubroutine new
+			 entityName: 'sub';
+			 body: { s__ };
+			 yourself) }.
+
+	entity := programFile accept: visitor.
+
+	self assert: entity programUnits size equals: 1.
+
+	self assert: entity programUnits first accesses size equals: 2.
+
+	access := entity programUnits first accesses first.
+	self assert: access target isNil.
+	self assert: (access attributeAt: #entity ifAbsent: [  ]) isNotNil.
+	self
+		assert: (access attributeAt: #entity ifAbsent: [  ]) entityName
+		equals: 'ptr'.
+	self assert: (access attributeAt: #pointer ifAbsent: [  ]) isNil.
+
+
+	access := entity programUnits first accesses second.
+	self assert: access target isNil.
+	self assert: (access attributeAt: #entity ifAbsent: [  ]) isNotNil.
+	self
+		assert: (access attributeAt: #entity ifAbsent: [  ]) entityName
+		equals: 'attr'.
+	self assert: (access attributeAt: #pointer ifAbsent: [  ]) isNotNil.
+	self
+		assert: (access attributeAt: #pointer ifAbsent: [  ]) entityName
+		equals: 'ptr'
+]
+
 { #category : #running }
 IASTToFamixVisitorTest >> testCreateFamixFortran77 [
 
@@ -842,4 +945,38 @@ IASTToFamixVisitorTest >> testCreateFamixFortran77SubroutineWithSimpleImplicit [
 	self assert: sub implicits first class equals: IASTImplicit.
 	self assert: sub implicits second class equals: IASTImplicit.
 	
+]
+
+{ #category : #'tests-esope' }
+IASTToFamixVisitorTest >> testCreateIncludeFamixFortran77Subroutine [
+
+	"
+      subroutine test
+c@_#include ""point.seg""
+      end
+	"
+
+	| pf sub include includeStmt |
+	includeStmt := IASTInclude new
+		               includeCommand: '#include';
+		               entityName: 'point.seg';
+		               yourself.
+	programFile progUnits: { (IASTSubroutine new
+			 entityName: 'test';
+			 body: { includeStmt };
+			 yourself) }.
+
+	pf := programFile accept: visitor.
+
+	self assert: pf programUnits size equals: 1.
+
+	sub := pf programUnits first.
+	self assert: sub class equals: FamixFortran77PUSubroutine.
+	self assert: sub includes size equals: 1.
+
+	include := sub includes first.
+	self assert: include class equals: FamixFortran77Include.
+	self assert: include filename equals: 'point.seg'.
+	self assert: include includedBy equals: sub "
+	self assert: include source equals: programFile."
 ]

@@ -39,6 +39,15 @@ FamixFortran77ResolverTest >> defaultAnchor [
 	^ self anchorFrom: 1 @ 7 to: 2 @ 10
 ]
 
+{ #category : #running }
+FamixFortran77ResolverTest >> defaultAttribute: varName withType: typeName [
+
+	^ (self newEntity: FamixEsopeAttribute)
+		  sourceAnchor: (self anchorFrom: 2 @ 7 to: 2 @ 19);
+		  name: varName;
+		  declaredType: (self defaultType: typeName)
+]
+
 { #category : #'default values' }
 FamixFortran77ResolverTest >> defaultFunction: name [
 
@@ -116,6 +125,24 @@ FamixFortran77ResolverTest >> defaultProgramFile: aFilename [
 
 	^ (self newNamedEntity: aFilename toFamix: FamixFortran77ProgramFile)
 		  filename: aFilename;
+		  yourself
+]
+
+{ #category : #'default values' }
+FamixFortran77ResolverTest >> defaultProgramUnit: name forType: aFamixClass belongsTo: aFamixProgramFile [
+
+	^ (self newNamedEntity: name toFamix: aFamixClass) programFile:
+		  aFamixProgramFile
+]
+
+{ #category : #running }
+FamixFortran77ResolverTest >> defaultSegment: segmentName with: dictDeclarations [
+
+	^ (self newEntity: FamixEsopeSegment)
+		  name: segmentName;
+		  sourceAnchor: (self anchorFrom: 2 @ 7 to: 2 @ 8);
+		  attributes: (dictDeclarations collect: [ :assoc | 
+					   self defaultAttribute: assoc key withType: assoc value ]);
 		  yourself
 ]
 
@@ -276,7 +303,7 @@ FamixFortran77ResolverTest >> testCreateFamixFortran77InvocationInDifferentFiles
 	| invocation callee caller famixProgFile1 main sub |
 
 	famixProgFile1  := self defaultProgramFile: './sub.f'.
-	
+
 	caller := (self defaultMain: 'main')
 		addOutgoingInvocation: (self defaultInvocation: 'sub');
 		yourself.
@@ -644,6 +671,112 @@ FamixFortran77ResolverTest >> testResolveImplicitNoneWithParameterDeclared [
 
 	self assert: function parameters first declaredType name equals: 'integer'.
 	self assert: function declaredType isNil
+]
+
+{ #category : #running }
+FamixFortran77ResolverTest >> testResolveIncludeDirective [
+
+	"
++------ point.seg ----------------------------------+
+|      subroutine __$__                             |
+|      integer l                                    |
+|      segment point                                |
+|      real x, y                                    |
+|      end segment                                  |
+|      end                                          |
++---------------------------------------------------+
++------ main.E -------------------------------------+
+|      program main                                 |
+|#include ""point.seg""                             |
+|      end                                          |
++---------------------------------------------------+
++------ mpoint.E -----------------------------------+
+|      subroutine init(p)                           |
+|#include ""point.seg""                             |
+|      end                                          |
+|      subroutine print(p)                          |
+|#include ""point.seg""                             |
+|      end                                          |
++---------------------------------------------------+
+	"
+
+	| dummySub main initSub printSub includedFile mainFile mpointFile pUnits puIncFile puMain puSubs |
+	includedFile := self defaultProgramFile: 'point.seg.E'.
+	mainFile := self defaultProgramFile: 'main.E'.
+	mpointFile := self defaultProgramFile: 'mpoint.E'.
+
+	dummySub := (self
+		             defaultProgramUnit: 'point.seg'
+		             forType: FamixFortran77IncludedFile
+		             belongsTo: includedFile)
+		            types: { (self defaultSegment: 'point' with: { 
+						             (#x -> #real).
+						             (#y -> #real) }) };
+		            localVariables:
+			            { (self defaultVariable: 'l' withType: 'integer') };
+		            yourself.
+
+	main := (self
+		         defaultProgramUnit: 'main'
+		         forType: FamixFortran77PUMain
+		         belongsTo: mainFile)
+		        includes: { ((self newEntity: FamixFortran77Include)
+				         filename: 'point.seg';
+				         yourself) };
+		        yourself.
+
+	initSub := (self
+		            defaultProgramUnit: 'init'
+		            forType: FamixFortran77PUSubroutine
+		            belongsTo: mpointFile)
+		           includes: { ((self newEntity: FamixFortran77Include)
+				            filename: 'point.seg';
+				            yourself) };
+		           yourself.
+	printSub := (self
+		             defaultProgramUnit: 'print'
+		             forType: FamixFortran77PUSubroutine
+		             belongsTo: mpointFile)
+		            includes: { ((self newEntity: FamixFortran77Include)
+				             filename: 'point.seg';
+				             yourself) };
+		            yourself.
+
+	resolver resolve.
+
+	pUnits := resolver model allWithSubTypesOf: FamixFortran77ProgramUnit.
+	self assert: pUnits size equals: 4.
+
+	puIncFile := resolver model allWithType: FamixFortran77IncludedFile.
+	self assert: puIncFile size equals: 1.
+
+	puSubs := resolver model allWithType: FamixFortran77PUSubroutine.
+	self assert: puSubs size equals: 2.
+
+	puMain := resolver model allWithType: FamixFortran77PUMain.
+	self assert: puMain size equals: 1.
+
+	self assert: puMain first includes size equals: 1.
+	self
+		assert: puMain first includes first included
+		equals: puIncFile first.
+	"self assert: puMain localVariables size equals: 1."
+
+	self assert: puSubs first includes size equals: 1.
+	self
+		assert: puSubs first includes first included
+		equals: puIncFile first.
+	self assert: puSubs first allLocalVariables size equals: 1.
+	self assert: puSubs first allTypes size equals: 1.
+
+	self assert: puSubs second includes size equals: 1.
+	self
+		assert: puSubs second includes first included
+		equals: puIncFile first.
+	self assert: puSubs first allLocalVariables size equals: 1.
+	self assert: puSubs first allTypes size equals: 1.
+
+	self assert: puIncFile first inclusions size equals: 3
 ]
 
 { #category : #running }

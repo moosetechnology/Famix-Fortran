@@ -750,6 +750,26 @@ JsonToIASTVisitorTest >> testImplicitStatementSimpleRange [
 
 ]
 
+{ #category : #'tests-esope' }
+JsonToIASTVisitorTest >> testIncludeFile [
+
+	"      subroutine hello( )
+c@_#include ""file.inc""
+      end
+"
+
+	| programFile stmt |
+	programFile := self visitJsonCode:
+		               '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"comment":"@_#include \"file.inc\"","span":"(2:1)-(2:22)","tag":"comment"}],"name":"hello","options":[null,null],"span":"(1:7)-(3:9)","subprograms":null,"tag":"subroutine"}]}'.
+
+
+	self assert: programFile progUnits first body size equals: 1.
+	stmt := programFile progUnits first body first.
+	self assert: stmt class equals: IASTInclude.
+	self assert: stmt includeCommand equals: 'include'.
+	self assert: stmt entityName equals: 'file.inc'
+]
+
 { #category : #'tests-statement' }
 JsonToIASTVisitorTest >> testIntegerVariableDeclaration [
 	"subroutine hello
@@ -1135,6 +1155,53 @@ c@_   segsup, lb
 ]
 
 { #category : #'tests-statement' }
+JsonToIASTVisitorTest >> testSpecialSubroutine [
+
+	"      subroutine __$__
+      integer l
+c@_   segment point
+      real abs, ord
+      character*(l) label
+c@_   end segment
+      end
+"
+
+	| programFile entity dummySub segment |
+	programFile := self visitJsonCode:
+		               '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"label":null,"span":"(2:7)-(2:15)","statement":{"anno":[],"attributes":null,"declarators":{"anno":[],"list":[{"anno":[],"initial":null,"length":null,"span":"(2:15)-(2:15)","type":"scalar","variable":{"anno":[],"span":"(2:15)-(2:15)","tag":"value","value":{"contents":"l","tag":"variable"}}}],"span":"(2:15)-(2:15)"},"span":"(2:7)-(2:15)","tag":"declaration","type":{"anno":[],"base_type":"integer","selector":null,"span":"(2:7)-(2:13)"}},"tag":"statement"},{"anno":[],"comment":"@_   segment point","span":"(3:1)-(3:19)","tag":"comment"},{"anno":[],"label":null,"span":"(4:7)-(4:19)","statement":{"anno":[],"attributes":null,"declarators":{"anno":[],"list":[{"anno":[],"initial":null,"length":null,"span":"(4:12)-(4:14)","type":"scalar","variable":{"anno":[],"span":"(4:12)-(4:14)","tag":"value","value":{"contents":"abs","tag":"variable"}}},{"anno":[],"initial":null,"length":null,"span":"(4:17)-(4:19)","type":"scalar","variable":{"anno":[],"span":"(4:17)-(4:19)","tag":"value","value":{"contents":"ord","tag":"variable"}}}],"span":"(4:12)-(4:19)"},"span":"(4:7)-(4:19)","tag":"declaration","type":{"anno":[],"base_type":"real","selector":null,"span":"(4:7)-(4:10)"}},"tag":"statement"},{"anno":[],"label":null,"span":"(5:7)-(5:25)","statement":{"anno":[],"attributes":null,"declarators":{"anno":[],"list":[{"anno":[],"initial":null,"length":null,"span":"(5:21)-(5:25)","type":"scalar","variable":{"anno":[],"span":"(5:21)-(5:25)","tag":"value","value":{"contents":"label","tag":"variable"}}}],"span":"(5:21)-(5:25)"},"span":"(5:7)-(5:25)","tag":"declaration","type":{"anno":[],"base_type":"character","selector":{"anno":[],"kind":null,"length":{"anno":[],"span":"(5:17)-(5:19)","tag":"value","value":{"contents":"l","tag":"variable"}},"span":"(5:16)-(5:19)"},"span":"(5:7)-(5:19)"}},"tag":"statement"},{"anno":[],"comment":"@_   end segment","span":"(6:1)-(6:17)","tag":"comment"}],"name":"__$__","options":[null,null],"span":"(1:7)-(7:9)","subprograms":null,"tag":"subroutine"}]}'.
+
+
+	dummySub := programFile progUnits first.
+	self assert: dummySub class equals: IASTIncludedFile.
+	self assert: dummySub body size equals: 2.
+	self assert: dummySub localVariables size equals: 1.
+
+	entity := programFile progUnits first body first.
+	self assert: entity first class equals: IASTVariable.
+	self assert: entity first entityName equals: 'l'.
+
+	segment := programFile progUnits first body second.
+	self assert: segment class equals: IASTEsopeSegment.
+	self assert: segment entityName equals: 'point'.
+	self assert: segment declarations size equals: 3.
+
+	entity := segment declarations first.
+	self assert: entity class equals: IASTVariable.
+	self assert: entity entityName equals: 'abs'.
+	self assert: entity typeSpec entityName equals: 'real'.
+
+	entity := segment declarations second.
+	self assert: entity class equals: IASTVariable.
+	self assert: entity entityName equals: 'ord'.
+	self assert: entity typeSpec entityName equals: 'real'.
+
+	entity := segment declarations third.
+	self assert: entity class equals: IASTVariable.
+	self assert: entity entityName equals: 'label'.
+	self assert: entity typeSpec entityName equals: 'character'
+]
+
+{ #category : #'tests-statement' }
 JsonToIASTVisitorTest >> testStringVariableDeclaration [
 	"subroutine hello
       character*8 str
@@ -1222,6 +1289,24 @@ JsonToIASTVisitorTest >> testTwoIntegerVariableDeclarations [
 	self assert: var entityName equals: 'j'.
 	self assert: var typeSpec class equals: IASTTypeRef.
 	self assert: var typeSpec entityName equals: 'integer'.
+]
+
+{ #category : #'tests-esope' }
+JsonToIASTVisitorTest >> testWriteStatementWithStringArgument [
+	"
+      subroutine print
+       write(*,*) 'hello'      
+      end	
+	"
+	| programFile stmt |
+	programFile :=  self visitJsonCode: '{"meta":{"miVersion":"fortran77","miFilename":"<stdin>"},"program_units":[{"anno":[],"arguments":null,"blocks":[{"anno":[],"label":null,"span":"(2:8)-(2:25)","statement":{"anno":[],"arguments":{"anno":[],"list":[{"anno":[],"span":"(2:19)-(2:25)","tag":"value","value":{"contents":"hello","tag":"string"}}],"span":"(2:19)-(2:25)"},"format":{"anno":[],"list":[{"anno":[],"expr":{"anno":[],"span":"(2:14)-(2:14)","tag":"value","value":{"tag":"star"}},"name":null,"span":"(2:14)-(2:14)"},{"anno":[],"expr":{"anno":[],"span":"(2:16)-(2:16)","tag":"value","value":{"tag":"star"}},"name":null,"span":"(2:16)-(2:16)"}],"span":"(2:13)-(2:17)"},"span":"(2:8)-(2:25)","tag":"write"},"tag":"statement"}],"name":"print","options":[null,null],"span":"(1:7)-(3:9)","subprograms":null,"tag":"subroutine"}]}'.
+
+
+	self assert: programFile progUnits first body first size equals: 1.
+	stmt := programFile progUnits first body first first.
+	self assert: stmt class equals: IASTInvocation.
+	self assert: stmt entityName equals: 'write'.
+	self assert: stmt arguments size equals: 0.
 ]
 
 { #category : #running }
