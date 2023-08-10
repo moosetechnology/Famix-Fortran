@@ -66,7 +66,9 @@ IASTToEsopeVisitor >> visitIASTInvocation: anInvocation [
 
 	| arguments |
 	arguments := anInvocation arguments collect: [ :arg | 
-		             arg accept: self ].
+		             arg isArray
+			             ifTrue: [ arg collect: [ :each | each accept: self ] ]
+			             ifFalse: [ arg accept: self ] ].
 
 	^ ({ (self createFamixF77Access: anInvocation) } , arguments)
 		  flattened
@@ -114,7 +116,8 @@ IASTToEsopeVisitor >> visitIASTVarEsoAt: aVarEsoAt [
 IASTToEsopeVisitor >> visitIASTVarEsoSl: aVarEsoSl [
 
 	self flag: #TODO.
-	1halt.
+
+	^ aVarEsoSl entities collect: [ :each | each accept: self ]
 ]
 
 { #category : #visiting }
