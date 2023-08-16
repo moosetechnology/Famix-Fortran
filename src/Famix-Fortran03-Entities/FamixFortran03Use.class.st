@@ -7,7 +7,7 @@ Class {
 	#traits : 'FamixTAssociation',
 	#classTraits : 'FamixTAssociation classTrait',
 	#instVars : [
-		'#used => FMOne type: #FamixFortran03Module opposite: #usages',
+		'#used => FMOne type: #FamixFortran03Module opposite: #users',
 		'#usedBy => FMOne type: #FamixFortran03ProgramUnit opposite: #uses'
 	],
 	#category : #'Famix-Fortran03-Entities-Entities'
@@ -24,7 +24,7 @@ FamixFortran03Use class >> annotation [
 
 { #category : #accessing }
 FamixFortran03Use >> used [
-	"Relation named: #used type: #FamixFortran03Module opposite: #usages"
+	"Relation named: #used type: #FamixFortran03Module opposite: #users"
 
 	<generated>
 	<FMComment: 'Module used'>

@@ -5,7 +5,7 @@ Class {
 	#name : #FamixFortran03Module,
 	#superclass : #FamixFortran03ProgramUnit,
 	#instVars : [
-		'#usages => FMMany type: #FamixFortran03Use opposite: #used'
+		'#users => FMMany type: #FamixFortran03Use opposite: #used'
 	],
 	#category : #'Famix-Fortran03-Entities-Entities'
 }
@@ -20,24 +20,24 @@ FamixFortran03Module class >> annotation [
 ]
 
 { #category : #adding }
-FamixFortran03Module >> addUsage: anObject [
+FamixFortran03Module >> addUser: anObject [
 	<generated>
-	^ self usages add: anObject
+	^ self users add: anObject
 ]
 
 { #category : #accessing }
-FamixFortran03Module >> usages [
-	"Relation named: #usages type: #FamixFortran03Use opposite: #used"
+FamixFortran03Module >> users [
+	"Relation named: #users type: #FamixFortran03Use opposite: #used"
 
 	<generated>
-	<FMComment: 'All usages of this module'>
+	<FMComment: 'All users of this module'>
 	<derived>
-	^ usages
+	^ users
 ]
 
 { #category : #accessing }
-FamixFortran03Module >> usages: anObject [
+FamixFortran03Module >> users: anObject [
 
 	<generated>
-	usages value: anObject
+	users value: anObject
 ]

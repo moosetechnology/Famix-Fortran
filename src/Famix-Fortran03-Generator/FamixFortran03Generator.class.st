@@ -155,7 +155,7 @@ FamixFortran03Generator >> defineRelations [
 	((use property: #used)
 		 comment: 'Module used';
 		 target)
-	*- ((module property: #usages) comment: 'All usages of this module').
+	*- ((module property: #users) comment: 'All users of this module').
 
 	((use property: #usedBy)
 		 comment: 'used by this program unit';
