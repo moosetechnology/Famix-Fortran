@@ -122,6 +122,7 @@ FamixFortran03Generator >> defineHierarchy [
 	programFile --|> #TCompilationUnit.
 
 	programUnit --|> abstractProgramUnit.
+	programUnit --|> #TNamedEntity.
 	programUnit --|> #TWithStatements.
 	programUnit --|> #TWithLocalVariables.
 

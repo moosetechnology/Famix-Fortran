@@ -87,6 +87,13 @@ FamixFortran03TEntityCreator >> newProgramUnit [
 ]
 
 { #category : #'entity creation' }
+FamixFortran03TEntityCreator >> newProgramUnitNamed: aName [
+
+	<generated>
+	^ self add: (FamixFortran03ProgramUnit named: aName)
+]
+
+{ #category : #'entity creation' }
 FamixFortran03TEntityCreator >> newSourceLanguage [
 
 	<generated>
