@@ -36,8 +36,6 @@ Class {
 	#superclass : #FamixBasicInfrastructureGenerator,
 	#instVars : [
 		'access',
-		'argument',
-		'body',
 		'invocation',
 		'parameter',
 		'programUnit',
@@ -51,8 +49,6 @@ Class {
 		'indexedFileAnchor',
 		'programFile',
 		'type',
-		'eComment',
-		'eEntity',
 		'typeIntrinsic',
 		'include',
 		'includedFile'
