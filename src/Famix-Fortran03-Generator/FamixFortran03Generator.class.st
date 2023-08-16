@@ -140,7 +140,7 @@ FamixFortran03Generator >> defineHierarchy [
 { #category : #definition }
 FamixFortran03Generator >> defineProperties [
 
-	super defineProperties.
+	super defineProperties
 ]
 
 { #category : #definition }
