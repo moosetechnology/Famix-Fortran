@@ -14,3 +14,29 @@ FamixFortran03SourceLanguage class >> annotation [
 	<generated>
 	^ self
 ]
+
+{ #category : #accessing }
+FamixFortran03SourceLanguage >> isFortran [
+
+	^ true
+]
+
+{ #category : #accessing }
+FamixFortran03SourceLanguage >> name [
+	
+	<FMProperty: #name type: #String> 
+	<derived>
+	<FMComment: 'The name of the language'>
+	
+	^ 'Fortran'
+]
+
+{ #category : #accessing }
+FamixFortran03SourceLanguage >> version [
+	
+	<FMProperty: #version type: #String> 
+	<derived>
+	<FMComment: 'The version of the language'>
+	
+	^ '2003'
+]
