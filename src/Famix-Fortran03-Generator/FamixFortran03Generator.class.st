@@ -105,7 +105,6 @@ FamixFortran03Generator >> defineHierarchy [
 
 	super defineHierarchy.
 
-	abstractProgramUnit --|> #TWithTypes.
 	abstractProgramUnit --|> #TWithComments.
 
 	function --|> procedure.
@@ -123,8 +122,9 @@ FamixFortran03Generator >> defineHierarchy [
 
 	programUnit --|> abstractProgramUnit.
 	programUnit --|> #TNamedEntity.
-	programUnit --|> #TWithStatements.
 	programUnit --|> #TWithLocalVariables.
+	programUnit --|> #TWithStatements.
+	programUnit --|> #TWithTypes.
 
 	puComment --|> abstractProgramUnit.
 

@@ -4,8 +4,8 @@ Im a program unit with a special fake program unit PUComment
 Class {
 	#name : #FamixFortran03AbstractProgramUnit,
 	#superclass : #FamixFortran03Entity,
-	#traits : 'FamixTWithComments + FamixTWithTypes',
-	#classTraits : 'FamixTWithComments classTrait + FamixTWithTypes classTrait',
+	#traits : 'FamixTWithComments',
+	#classTraits : 'FamixTWithComments classTrait',
 	#instVars : [
 		'#programFile => FMOne type: #FamixFortran03ProgramFile opposite: #abstractProgramUnits'
 	],

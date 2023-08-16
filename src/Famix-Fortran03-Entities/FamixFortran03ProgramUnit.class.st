@@ -4,8 +4,8 @@ Im a genuine program unit. I contains a statement
 Class {
 	#name : #FamixFortran03ProgramUnit,
 	#superclass : #FamixFortran03AbstractProgramUnit,
-	#traits : 'FamixTNamedEntity + FamixTWithLocalVariables + FamixTWithStatements',
-	#classTraits : 'FamixTNamedEntity classTrait + FamixTWithLocalVariables classTrait + FamixTWithStatements classTrait',
+	#traits : 'FamixTNamedEntity + FamixTWithLocalVariables + FamixTWithStatements + FamixTWithTypes',
+	#classTraits : 'FamixTNamedEntity classTrait + FamixTWithLocalVariables classTrait + FamixTWithStatements classTrait + FamixTWithTypes classTrait',
 	#instVars : [
 		'#procedures => FMMany type: #FamixFortran03Procedure opposite: #programUnit',
 		'#uses => FMMany type: #FamixFortran03Use opposite: #usedBy'
