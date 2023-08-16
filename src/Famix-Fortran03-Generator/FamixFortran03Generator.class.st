@@ -13,7 +13,8 @@ Class {
 		'subroutine',
 		'type',
 		'use',
-		'variable'
+		'variable',
+		'indexedFileAnchor'
 	],
 	#category : #'Famix-Fortran03-Generator'
 }
@@ -50,6 +51,11 @@ FamixFortran03Generator >> defineClasses [
 		            newClassNamed: #Function
 		            comment:
 		            'Im a function. You can use me in a expression and I have a declaredType: r = fct(p1,...,pN)'.
+
+	indexedFileAnchor := builder
+		                     newClassNamed: #IndexedFileAnchor
+		                     comment:
+		                     'I hold the position in the source file'.
 
 	module := builder
 		          newClassNamed: #Module
@@ -109,6 +115,9 @@ FamixFortran03Generator >> defineHierarchy [
 
 	function --|> procedure.
 	function --|> #TFunction.
+
+	indexedFileAnchor --|> sourceAnchor.
+	indexedFileAnchor --|> #TFileNavigation.
 
 	module --|> programUnit.
 

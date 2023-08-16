@@ -45,6 +45,13 @@ FamixFortran03TEntityCreator >> newFunctionNamed: aName [
 ]
 
 { #category : #'entity creation' }
+FamixFortran03TEntityCreator >> newIndexedFileAnchor [
+
+	<generated>
+	^ self add: FamixFortran03IndexedFileAnchor new
+]
+
+{ #category : #'entity creation' }
 FamixFortran03TEntityCreator >> newModule [
 
 	<generated>
