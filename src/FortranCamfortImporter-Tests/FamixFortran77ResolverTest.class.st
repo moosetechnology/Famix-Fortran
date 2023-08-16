@@ -760,7 +760,7 @@ FamixFortran77ResolverTest >> testResolveIncludeDirective [
 	self
 		assert: puMain first includes first included
 		equals: puIncFile first.
-	"self assert: puMain localVariables size equals: 1."
+	"self assert: puMain first localVariables size equals: 1."
 
 	self assert: puSubs first includes size equals: 1.
 	self
