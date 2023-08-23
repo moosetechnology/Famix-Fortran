@@ -1054,3 +1054,7 @@ c desactivate structure
 
 '
 ]
+
+{ #category : #'see class side' }
+DemosCodes >> seeClassSide [ 
+]
