@@ -165,3 +165,7 @@ BookstoreExporter class >> targetPath [
 
 	^ (self buildPath / 'target') asFileReference ensureCreateDirectory
 ]
+
+{ #category : #'see class side' }
+BookstoreExporter >> seeClassSide [ 
+]

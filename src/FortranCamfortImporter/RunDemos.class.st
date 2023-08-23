@@ -147,3 +147,7 @@ RunDemos class >> runner: anEsopeSourceCode [
 
 	refVisitor model inspect
 ]
+
+{ #category : #'see class side' }
+RunDemos >> seeClassSide [ 
+]
