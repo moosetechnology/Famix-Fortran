@@ -1,5 +1,5 @@
 "
-Im a Fortran Type
+Im a Abstract Type, can be subclassed by TypeInstrinsic and Segment
 "
 Class {
 	#name : #FamixFortran77Type,

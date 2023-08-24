@@ -9,7 +9,6 @@ Class {
 	#instVars : [
 		'#filename => FMProperty',
 		'#programUnits => FMMany type: #FamixFortran77ProgramUnit opposite: #programFile',
-		'#symbolTable => FMProperty defaultValue: ((Dictionary new))',
 		'#version => FMProperty'
 	],
 	#category : #'Famix-Fortran77-Entities-Entities'
@@ -70,13 +69,8 @@ FamixFortran77ProgramFile >> programUnitsGroup [
 
 { #category : #accessing }
 FamixFortran77ProgramFile >> symbolTable [
-	^symbolTable ifNil: [ symbolTable := Dictionary new ]
-]
 
-{ #category : #accessing }
-FamixFortran77ProgramFile >> symbolTable: anObject [
-	<generated>
-	symbolTable := anObject
+	^ self attributeAt: #symbolTable ifAbsentPut: [ Dictionary new ]
 ]
 
 { #category : #accessing }

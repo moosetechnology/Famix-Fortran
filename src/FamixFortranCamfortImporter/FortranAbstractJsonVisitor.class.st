@@ -22,33 +22,40 @@ FortranAbstractJsonVisitor >> esopeCommand: anEsopeCommentString [
 
 { #category : #'private - helpers' }
 FortranAbstractJsonVisitor >> findWordBoundaries: anEsopeCommentString [
+
 	"search for word boundaries starting from 6th position"
+
 	| wordBoundaries i inWord |
+	self flag: #FIXME. "This not work for #include.
+	The #include start from the first position. So its need to be update in order
+	to handle this issue.
+	"
 
 	wordBoundaries := OrderedCollection new: 6.
 	i := 1.
 	inWord := false.
 
-	(anEsopeCommentString allButFirst: 5) do: [ :char |
-		"for now, treat . as a letter: lb.pstr"
+	(anEsopeCommentString allButFirst: 5) do: [ :char | "for now, treat . as a letter: lb.pstr"
 		(char isLetter or: [ char = $. ])
-		ifTrue: [
-			inWord ifFalse:[ "begining of a word"
-				wordBoundaries add: i + 5.
-				inWord := true
-			]
-		]
-		ifFalse: [
-			inWord ifTrue: [ "end of a word"
-				wordBoundaries add: i + 4.
-				inWord := false
-			]
-		].
-		i := i+1
-	].
+			ifTrue: [ 
+				inWord ifFalse: [ "begining of a word"
+					wordBoundaries add: i + 5.
+					inWord := true ] ]
+			ifFalse: [ 
+				inWord ifTrue: [ "end of a word"
+					wordBoundaries add: i + 4.
+					inWord := false ] ].
+		i := i + 1 ].
 	wordBoundaries add: i + 4.
-	^wordBoundaries
 
+	self flag: #FIXME. "Do not forget to grab the '#' to distinguish between #include and include statement.
+	2 dont take the #
+	3 take the #
+	"
+	(anEsopeCommentString beginsWith: '@_#include') ifTrue: [ 
+		wordBoundaries at: 1 put: wordBoundaries first - 2 ].
+
+	^ wordBoundaries
 ]
 
 { #category : #testing }
@@ -65,7 +72,11 @@ FortranAbstractJsonVisitor >> isEsopeTransformation: aString [
 
 { #category : #testing }
 FortranAbstractJsonVisitor >> isTaggedStatement: aStatementNode [
-	^(aStatementNode at: 'statement') includesKey: 'tag'
+
+	"If aStatementNode has already a statement, no need to do (aStatementNode at: 'statement')"
+
+	^ (aStatementNode at: 'statement' ifAbsent: [ aStatementNode ]) 
+		  includesKey: 'tag'
 ]
 
 { #category : #'visiting expression' }
@@ -87,6 +98,12 @@ FortranAbstractJsonVisitor >> visitArgument: anArgumentNode [
 FortranAbstractJsonVisitor >> visitArguments: anArgumentList [
 	anArgumentList ifNil: [ ^#() ].
 	^(anArgumentList at: 'list') collect: [ :each | self visitArgument: each]
+]
+
+{ #category : #'visiting expression' }
+FortranAbstractJsonVisitor >> visitArrayDimensionBoundary: aLimit [
+
+	^ aLimit ifNotNil: [ self visitJsonElement: (aLimit at: 'value') ]
 ]
 
 { #category : #'visiting expression' }
@@ -325,6 +342,16 @@ FortranAbstractJsonVisitor >> visitEsopeEndsegmentComment: anEsopeCommentNode [
 
 ]
 
+{ #category : #'visiting reflectivity' }
+FortranAbstractJsonVisitor >> visitEsopeIncludeComment: anEsopeIncludeCommentNode [
+
+	| key esopeCommand |
+	esopeCommand := self esopeCommand:
+		                (anEsopeIncludeCommentNode at: 'comment').
+	key := esopeCommand first asLowercase capitalized , 'Comment'.
+	^ self visitJsonNode: key value: anEsopeIncludeCommentNode
+]
+
 { #category : #'visiting esope' }
 FortranAbstractJsonVisitor >> visitEsopePointeurComment: anEsopeCommentNode [
 	| esopeCommand |
@@ -438,7 +465,8 @@ FortranAbstractJsonVisitor >> visitExpression: aExpressionNode [
 
 { #category : #'visiting statement' }
 FortranAbstractJsonVisitor >> visitExternalStatement: anExternalStatementNode [
-	^self visitJsonMap: anExternalStatementNode keys: #(span vars)
+
+	^ self visitJsonMap: anExternalStatementNode keys: #( span vars )
 ]
 
 { #category : #'visiting expression' }
@@ -566,6 +594,19 @@ FortranAbstractJsonVisitor >> visitImplicitStatementRange: anImplicitStatementRa
 	^self visitJsonMap: anImplicitStatementRangeNode keys: #(span from to)
 ]
 
+{ #category : #'visiting esope' }
+FortranAbstractJsonVisitor >> visitIncludeComment: anEsopeIncludeCommentNode [
+
+	| esopeCommand |
+
+	esopeCommand := self esopeCommand:
+		                (anEsopeIncludeCommentNode at: 'comment').
+	^ { 
+		  (self visitSpan: (anEsopeIncludeCommentNode at: 'span')).
+		  esopeCommand first.
+		  esopeCommand second }
+]
+
 { #category : #'visiting statement' }
 FortranAbstractJsonVisitor >> visitIncrement: anIncrementNode [
 	^self visitJsonElement: anIncrementNode
@@ -674,12 +715,21 @@ FortranAbstractJsonVisitor >> visitJsonTaggedElement: jsonDictionary [
 
 { #category : #'visiting reflectivity' }
 FortranAbstractJsonVisitor >> visitJsonTaggedStatement: aStatementNode [
+
 	"a statementNode containing a tagged element
 	 Similar to #visitJsonTaggedElement: on the tagged element, but adds 'Statement' to the selector"
+
 	| key value |
-	value := (aStatementNode at: 'statement').
+	value := aStatementNode at: 'statement' ifAbsent: [ aStatementNode ].
 	key := value removeKey: 'tag'.
-	^self visitJsonNode: key , 'Statement' value: value
+	^ self visitJsonNode: key , 'Statement' value: value
+]
+
+{ #category : #visiting }
+FortranAbstractJsonVisitor >> visitKind: aKindNode [
+
+	self flag: #TODO.
+	^ nil
 ]
 
 { #category : #'visiting statement' }
@@ -731,6 +781,12 @@ FortranAbstractJsonVisitor >> visitLogicalLiteralValue: aString [
 	^(aString = 'true')
 		ifTrue: [ self visitTrueLiteralValue: aString ]
 		ifFalse: [ self visitFalseLiteralValue: aString ]
+]
+
+{ #category : #'visiting expression' }
+FortranAbstractJsonVisitor >> visitLower: aLowerNode [
+
+	^ self visitArrayDimensionBoundary: aLowerNode
 ]
 
 { #category : #'visiting expression' }
@@ -984,6 +1040,12 @@ FortranAbstractJsonVisitor >> visitType: aTypeNode [
 { #category : #'visiting expression' }
 FortranAbstractJsonVisitor >> visitUnary: aUnaryNode [
 	^self visitJsonMap: aUnaryNode keys: #(span op expression)
+]
+
+{ #category : #'visiting expression' }
+FortranAbstractJsonVisitor >> visitUpper: aUpperNode [
+
+	^ self visitArrayDimensionBoundary: aUpperNode
 ]
 
 { #category : #'visiting expression' }

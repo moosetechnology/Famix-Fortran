@@ -31,17 +31,17 @@ FamixFortran77TEntityCreator >> newComment [
 ]
 
 { #category : #'entity creation' }
-FamixFortran77TEntityCreator >> newEComment [
+FamixFortran77TEntityCreator >> newInclude [
 
 	<generated>
-	^ self add: FamixFortran77EComment new
+	^ self add: FamixFortran77Include new
 ]
 
 { #category : #'entity creation' }
-FamixFortran77TEntityCreator >> newEEntity [
+FamixFortran77TEntityCreator >> newIncludedFile [
 
 	<generated>
-	^ self add: FamixFortran77EEntity new
+	^ self add: FamixFortran77IncludedFile new
 ]
 
 { #category : #'entity creation' }
@@ -147,6 +147,13 @@ FamixFortran77TEntityCreator >> newType [
 
 	<generated>
 	^ self add: FamixFortran77Type new
+]
+
+{ #category : #'entity creation' }
+FamixFortran77TEntityCreator >> newTypeIntrinsic [
+
+	<generated>
+	^ self add: FamixFortran77TypeIntrinsic new
 ]
 
 { #category : #'entity creation' }

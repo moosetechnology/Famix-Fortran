@@ -30,17 +30,17 @@ FamixFortran77ImportingContext >> importComment [
 ]
 
 { #category : #importing }
-FamixFortran77ImportingContext >> importEComment [
+FamixFortran77ImportingContext >> importInclude [
 
 	<generated>
-	^ self importConcreteEntity: (self class fm3ClassNamed: #EComment)
+	^ self importAssociation: (self class fm3ClassNamed: #Include)
 ]
 
 { #category : #importing }
-FamixFortran77ImportingContext >> importEEntity [
+FamixFortran77ImportingContext >> importIncludedFile [
 
 	<generated>
-	^ self importConcreteEntity: (self class fm3ClassNamed: #EEntity)
+	^ self importConcreteEntity: (self class fm3ClassNamed: #IncludedFile)
 ]
 
 { #category : #importing }
@@ -142,6 +142,13 @@ FamixFortran77ImportingContext >> importType [
 ]
 
 { #category : #importing }
+FamixFortran77ImportingContext >> importTypeIntrinsic [
+
+	<generated>
+	^ self importConcreteEntity: (self class fm3ClassNamed: #TypeIntrinsic)
+]
+
+{ #category : #importing }
 FamixFortran77ImportingContext >> importUnknownSourceLanguage [
 
 	<generated>
@@ -170,17 +177,17 @@ FamixFortran77ImportingContext >> shouldImportComment [
 ]
 
 { #category : #testing }
-FamixFortran77ImportingContext >> shouldImportEComment [
+FamixFortran77ImportingContext >> shouldImportInclude [
 
 	<generated>
-	^ self shouldImport: #EComment
+	^ self shouldImport: #Include
 ]
 
 { #category : #testing }
-FamixFortran77ImportingContext >> shouldImportEEntity [
+FamixFortran77ImportingContext >> shouldImportIncludedFile [
 
 	<generated>
-	^ self shouldImport: #EEntity
+	^ self shouldImport: #IncludedFile
 ]
 
 { #category : #testing }
@@ -279,6 +286,13 @@ FamixFortran77ImportingContext >> shouldImportType [
 
 	<generated>
 	^ self shouldImport: #Type
+]
+
+{ #category : #testing }
+FamixFortran77ImportingContext >> shouldImportTypeIntrinsic [
+
+	<generated>
+	^ self shouldImport: #TypeIntrinsic
 ]
 
 { #category : #testing }
