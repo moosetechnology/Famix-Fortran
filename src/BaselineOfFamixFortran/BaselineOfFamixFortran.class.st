@@ -22,8 +22,6 @@ BaselineOfFamixFortran >> defineDependencies: spec [
 		baseline: 'Famix'
 		with: [ 
 			spec repository: 'github://moosetechnology/Famix:development/src' ];
-		baseline: 'Esope'
-		with: [ spec repository: 'github://moosetechnology/Esope' ];
 		baseline: 'NeoJSON'
 		with: [ spec repository: 'github://svenvc/NeoJSON' ]
 ]
@@ -38,11 +36,6 @@ BaselineOfFamixFortran >> definePackages: spec [
 			with: [ spec requires: #( Famix ) ];
 		package: 'Famix-Fortran77-Tests'
 			with: [ spec requires: #( NeoJSON Famix ) ];
-		package: 'Famix-Esope-Entities' with: [ spec requires: #( Esope ) ];
-		package: 'Famix-Esope-Generator'
-			with: [ spec requires: #( Esope ) ];
-		package: 'Famix-Esope-Tests'
-			with: [ spec requires: #( NeoJSON Esope ) ];
 		package: 'FamixFortranCamfortImporter'
 			with: [ spec requires: #( Famix ) ];
 		package: 'FortranCamfortImporter' with: [ 
