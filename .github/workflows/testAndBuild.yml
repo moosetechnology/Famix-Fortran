@@ -20,7 +20,7 @@ jobs:
       PROJECT_NAME: ${{ matrix.smalltalk }}-FAST-Fortran
     strategy:
       matrix:
-        smalltalk: [ Moose-10, Moose-11 ]
+        smalltalk: [ Moose64-10, Moose64-11 ]
     name: ${{ matrix.smalltalk }}
     steps:
       - uses: actions/checkout@v3
