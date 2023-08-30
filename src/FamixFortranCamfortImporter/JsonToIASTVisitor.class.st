@@ -406,6 +406,22 @@ JsonToIASTVisitor >> visitFunctionWithBlocks: aFunctionNode [
 
 ]
 
+{ #category : #'visiting expression' }
+JsonToIASTVisitor >> visitFunction_call: aFunctionCallNode [
+
+	| astNode data |
+	data := super visitFunction_call: aFunctionCallNode.
+
+	astNode := IASTInvocation new
+		entityName: data second;
+		yourself.
+
+	^ astNode
+		  sourceAnchor: (self makeIndexedAnchor: data first);
+		  arguments: data third;
+		  yourself
+]
+
 { #category : #'visiting statement' }
 JsonToIASTVisitor >> visitIf: aIfNode [
 
@@ -525,12 +541,9 @@ JsonToIASTVisitor >> visitSubroutine: aSubroutineNode [
 	| data entity |
 	data := super visitSubroutine: aSubroutineNode.
 
-	entity := data second = EsopeUitils dummySubroutineName
-		          ifTrue: [ IASTIncludedFile new ]
-		          ifFalse: [ 
-			          IASTSubroutine new
+	entity := IASTSubroutine new
 				          parameters: data third;
-				          yourself ].
+				          yourself.
 	^ entity
 		  sourceAnchor: (self makeIndexedAnchor: data first);
 		  entityName: data second;

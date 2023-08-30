@@ -129,7 +129,7 @@ FortranProjectImporter >> esopeFiles [
 { #category : #fast }
 FortranProjectImporter >> fortranSrcPath [
 
-	^ 'fortran-src-extras'
+	^self class defaultFortranParser
 ]
 
 { #category : #initialization }
@@ -151,7 +151,7 @@ FortranProjectImporter >> initialize [
 FortranProjectImporter >> model [
 
 	^ model ifNil: [ 
-		  model := FamixFortranModel new name:
+		  model := FamixEsopeModel new name:
 			           'fortran model esope ' , DateAndTime today asString ]
 ]
 
