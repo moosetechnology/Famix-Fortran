@@ -214,7 +214,7 @@ c@_   end segment
 	self assert: entity name equals: 'point.seg'.
 
 	self assert: entity programFile isNotNil.
-	self assert: entity inclusion isEmpty.
+	self assert: entity inclusions isEmpty.
 
 	self assert: entity types size equals: 1.
 	self assert: entity types first name equals: 'point'.

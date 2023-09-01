@@ -177,13 +177,13 @@ FamixFortran77Resolver >> resolveAccess: anAccess [
 				          retrieveVariable: varAccessed
 				          fromProgramUnit: anAccess accessor ].
 
-	target ifNotNil: [ ^ anAccess target: target ].
+	target ifNotNil: [ ^ anAccess variable: target ].
 
 	var := self
 		       resolveAsImplicit: varAccessed
 		       fromProgramUnit: anAccess accessor.
 	anAccess accessor addLocalVariable: var.
-	^ anAccess target: var
+	^ anAccess variable: var
 ]
 
 { #category : #'symbols resolution' }
