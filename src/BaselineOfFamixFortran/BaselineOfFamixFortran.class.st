@@ -20,27 +20,14 @@ BaselineOfFamixFortran >> defineDependencies: spec [
 
 	spec
 		baseline: 'Famix'
-		with: [ 
-			spec repository: 'github://moosetechnology/Famix:development/src' ];
-		baseline: 'NeoJSON'
-		with: [ spec repository: 'github://svenvc/NeoJSON' ]
+		with: [ spec repository: 'github://moosetechnology/Famix:development/src' ]
 ]
 
 { #category : #baselines }
 BaselineOfFamixFortran >> definePackages: spec [
 
 	spec
-		package: 'Famix-Fortran77-Entities'
-			with: [ spec requires: #( Famix ) ];
-		package: 'Famix-Fortran77-Generator'
-			with: [ spec requires: #( Famix ) ];
-		package: 'Famix-Fortran77-Tests'
-			with: [ spec requires: #( NeoJSON Famix ) ];
-		package: 'FamixFortranCamfortImporter'
-			with: [ spec requires: #( Famix ) ];
-		package: 'FortranCamfortImporter' with: [ 
-			spec requires: #( FamixFortranCamfortImporter
-				   Famix ) ];
-		package: 'FortranCamfortImporter-Tests'
-			with: [ spec requires: #( Famix ) ]
+		package: 'Famix-Fortran77-Entities' with: [ spec requires: #( Famix ) ];
+		package: 'Famix-Fortran77-Generator' with: [ spec requires: #( Famix ) ];
+		package: 'Famix-Fortran77-Tests' with: [ spec requires: #( NeoJSON Famix ) ]
 ]
