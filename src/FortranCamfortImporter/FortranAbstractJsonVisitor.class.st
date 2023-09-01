@@ -1,7 +1,12 @@
+"
+An abstrat visitor for the JSON output of [camfort/fortran-src](https://github.com/camfort/fortran-src)
+
+Defines all the needed `#visitXYZ:` methods and go to the JSON tree
+"
 Class {
 	#name : #FortranAbstractJsonVisitor,
 	#superclass : #Object,
-	#category : #'FamixFortranCamfortImporter-Visitor'
+	#category : #'FortranCamfortImporter-Visitor'
 }
 
 { #category : #'private - helpers' }

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'model'
 	],
-	#category : #'FortranCamfortImporter-Resolver'
+	#category : #'FortranCamfortImporter-Importer'
 }
 
 { #category : #'private-helper' }
