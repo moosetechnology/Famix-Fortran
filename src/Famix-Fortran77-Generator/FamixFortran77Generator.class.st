@@ -65,13 +65,7 @@ FamixFortran77Generator class >> packageName [
 { #category : #accessing }
 FamixFortran77Generator class >> prefix [
 
-	^ #'FamixFortran77'
-]
-
-{ #category : #accessing }
-FamixFortran77Generator class >> submetamodels [
-
-	^ { FamixGenerator }
+	^ #'FamixF77'
 ]
 
 { #category : #'class comment' }
