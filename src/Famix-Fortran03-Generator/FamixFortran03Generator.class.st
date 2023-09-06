@@ -2,19 +2,17 @@ Class {
 	#name : #FamixFortran03Generator,
 	#superclass : #FamixBasicInfrastructureGenerator,
 	#instVars : [
-		'abstractProgramUnit',
-		'function',
+		'attribute',
+		'derivedType',
+		'userDefinedType',
+		'indexedFileAnchor',
+		'inheritance',
+		'method',
 		'module',
-		'procedure',
-		'program',
-		'programFile',
 		'programUnit',
-		'puComment',
-		'subroutine',
-		'type',
-		'use',
-		'variable',
-		'indexedFileAnchor'
+		'parameter',
+		'tHasIntent',
+		'use'
 	],
 	#category : #'Famix-Fortran03-Generator'
 }
@@ -28,82 +26,55 @@ FamixFortran03Generator class >> packageName [
 { #category : #accessing }
 FamixFortran03Generator class >> prefix [
 
-	^ #'FamixFortran03'
+	^ #'FamixF03'
 ]
 
 { #category : #accessing }
 FamixFortran03Generator class >> submetamodels [
 
-	^ { FamixGenerator }
+	^ {
+		  FamixFortran77Generator.
+		  FamixFortranUDTGenerator }
 ]
 
 { #category : #definition }
 FamixFortran03Generator >> defineClasses [
 
 	super defineClasses.
-	abstractProgramUnit := builder
-		                       newClassNamed: #AbstractProgramUnit
-		                       comment:
-		                       'Im a program unit with a special fake program unit PUComment'.
 
+	attribute := self remoteEntity: #Attribute withPrefix: #FamixFortran.
 
-	function := builder
-		            newClassNamed: #Function
-		            comment:
-		            'Im a function. You can use me in a expression and I have a declaredType: r = fct(p1,...,pN)'.
+	derivedType := builder
+		               newClassNamed: #DerivedType
+		               comment: self derivedTypeComment.
 
-	indexedFileAnchor := builder
-		                     newClassNamed: #IndexedFileAnchor
-		                     comment:
-		                     'I hold the position in the source file'.
+	indexedFileAnchor := self
+		                     remoteEntity: #IndexedFileAnchor
+		                     withPrefix: #FamixF77.
 
-	module := builder
-		          newClassNamed: #Module
+	inheritance := builder
+		               newClassNamed: #Inheritance
+		               comment: 'I an inheritance association'.
+
+	method := builder
+		          newClassNamed: #Method
 		          comment:
-		          'Im a module. Use me if you want to organize your projet and avoid some legacy constructs like common, equivalence and so on...'.
+		          'I am a type-bound-procedure in a user-defined-type'.
 
-	procedure := builder
-		             newClassNamed: #Procedure
-		             comment:
-		             'Im an invocable subprogram. I may be either a Function or Subroutine. Im also can be an internal or external(In this case, replace me with a Module)'.
+	module := builder newClassNamed: #Module comment: self moduleComment.
 
-	program := builder
-		           newClassNamed: #Program
-		           comment: 'Im a main program'.
+	parameter := self remoteEntity: #Parameter withPrefix: #FamixF77.
 
-	programFile := builder
-		               newClassNamed: #ProgramFile
-		               comment: 'Im a file containing a ProgUnit'.
-
-	programUnit := builder
-		               newClassNamed: #ProgramUnit
-		               comment:
-		               'Im a genuine program unit. I contains a statement'.
-
-	puComment := builder
-		             newClassNamed: #PUComment
-		             comment:
-		             'Im a special program unit. Im here for distinguish Comment belongs to ProgramUnit and comment not belongs to programUnit. Im a the later one'.
-
-	subroutine := builder
-		              newClassNamed: #Subroutine
-		              comment:
-		              'Im a subroutine. You can use me only as a statement, e.g: `call sub(p1,...,pN)`'.
-
-	type := builder
-		        newClassNamed: #Type
-		        comment:
-		        'Im a type. I can be either a Instrinsic or User-defined-type'.
+	programUnit := self remoteEntity: #ProgramUnit withPrefix: #FamixF77.
 
 	use := builder
 		       newClassNamed: #Use
 		       comment:
 		       'Thanks to me, you can import a procedures, variables, constants,... defined in a module. Im an association between a program unit and a module'.
 
-	variable := builder
-		            newClassNamed: #Variable
-		            comment:
-		            'Im a local variable defined inside a program unit. I have a declared type. My type can be explicit or implicit (in this case, my first letter is used to infere my type)'
+	userDefinedType := self
+		                   remoteEntity: #UserDefinedType
+		                   withPrefix: #FamixFortran
 ]
 
 { #category : #definition }
@@ -111,56 +82,41 @@ FamixFortran03Generator >> defineHierarchy [
 
 	super defineHierarchy.
 
-	abstractProgramUnit --|> #TWithComments.
+	attribute --|> #TCanBeFinal.
+	attribute --|> #THasVisibility.
 
-	function --|> procedure.
-	function --|> #TFunction.
+	derivedType --|> userDefinedType.
+	derivedType --|> #TWithAttributes.
+	derivedType --|> #TWithMethods.
 
 	indexedFileAnchor --|> sourceAnchor.
 	indexedFileAnchor --|> #TFileNavigation.
 
+	inheritance --|> #TInheritance.
+
+	method --|> #TMethod.
+
 	module --|> programUnit.
+	
+	parameter --|> tHasIntent.
 
-	procedure --|> programUnit.
-	procedure --|> #THasSignature.
-	procedure --|> #TWithParameters.
-
-	program --|> programUnit.
-
-	programFile --|> #TCompilationUnit.
-
-	programUnit --|> abstractProgramUnit.
-	programUnit --|> #TNamedEntity.
-	programUnit --|> #TWithLocalVariables.
-	programUnit --|> #TWithStatements.
-	programUnit --|> #TWithTypes.
-
-	puComment --|> abstractProgramUnit.
-
-	subroutine --|> procedure.
-
-	type --|> #TType.
-
-	use --|> #TAssociation.
-
-	variable --|> #TLocalVariable
+	use --|> #TAssociation
 ]
 
 { #category : #definition }
 FamixFortran03Generator >> defineProperties [
 
-	super defineProperties
+	super defineProperties.
+
+	(tHasIntent property: #intent type: #String) comment:
+		'intent of the entity (work only for dummy argument)'
+
 ]
 
 { #category : #definition }
 FamixFortran03Generator >> defineRelations [
 
 	super defineRelations.
-
-	programFile <>-* abstractProgramUnit.
-
-	programUnit <>-* procedure.
-
 
 	((use property: #used)
 		 comment: 'Module used';
@@ -171,4 +127,73 @@ FamixFortran03Generator >> defineRelations [
 		 comment: 'used by this program unit';
 		 source) *- ((programUnit property: #uses) comment:
 		 'All uses made by this programUnits')
+]
+
+{ #category : #definition }
+FamixFortran03Generator >> defineTraits [
+
+	super defineTraits.
+
+	tHasIntent := builder
+		              newTraitNamed: #THasIntent
+		              comment:
+		              'Dummy parameter can express his intent amongs: in, out, inout'
+]
+
+{ #category : #definition }
+FamixFortran03Generator >> derivedTypeComment [
+
+	^ 'Im a User-defined-type
+```fortran
+type [,attribute-list] :: name [(parameterized-declaration-list)]
+  [parameterized-definition-statements]
+  [private statement or sequence statement]
+  [member-variables]
+contains
+  [type-bound-procedures]
+end type
+```
+		'
+]
+
+{ #category : #definition }
+FamixFortran03Generator >> moduleComment [
+
+	^ 'Fortran modules contain definitions that are made accessible to programs, procedures, and other modules through the use statement. They can contain data objects, type definitions, procedures, and interfaces.
+
+    Modules allow controlled scoping extension whereby entity access is made explicit
+
+    Modules automatically generate explicit interfaces required for modern procedures
+
+    It is recommended to always place functions and subroutines within modules.
+
+### Example:
+
+```fortran
+module my_mod
+  implicit none
+
+  private  ! All entities are now module-private by default
+  public public_var, print_matrix  ! Explicitly export public entities
+
+  real, parameter :: public_var = 2
+  integer :: private_var
+
+contains
+
+  ! Print matrix A to screen
+  subroutine print_matrix(A)
+    real, intent(in) :: A(:,:)  ! An assumed-shape dummy argument
+
+    integer :: i
+
+    do i = 1, size(A,1)
+      print *, A(i,:)
+    end do
+
+  end subroutine print_matrix
+
+end module my_mod
+```
+'
 ]

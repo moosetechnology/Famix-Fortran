@@ -29,5 +29,10 @@ BaselineOfFamixFortran >> definePackages: spec [
 	spec
 		package: 'Famix-Fortran77-Entities' with: [ spec requires: #( Famix ) ];
 		package: 'Famix-Fortran77-Generator' with: [ spec requires: #( Famix ) ];
-		package: 'Famix-Fortran77-Tests' with: [ spec requires: #( Famix ) ]
+		package: 'Famix-Fortran77-Tests' with: [ spec requires: #( Famix ) ];
+		package: 'Famix-FortranUDT-Generator' with: [ spec requires: #( Famix ) ];
+		package: 'Famix-FortranUDT-Entities' with: [ spec requires: #( Famix ) ];
+		package: 'Famix-Fortran03-Entities' with: [ spec requires: #( Famix 'Famix-FortranUDT-Entities') ];
+		package: 'Famix-Fortran03-Generator' with: [ spec requires: #( Famix 'Famix-FortranUDT-Entities') ];
+		package: 'Famix-Fortran03-Tests' with: [ spec requires: #( Famix ) ]
 ]
