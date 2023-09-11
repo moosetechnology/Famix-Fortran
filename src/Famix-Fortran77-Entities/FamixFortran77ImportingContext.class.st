@@ -12,7 +12,7 @@ Class {
 FamixFortran77ImportingContext class >> importedMetamodel [
 
 	<generated>
-	^ FamixFortran77Model metamodel
+	^ FamixF77Model metamodel
 ]
 
 { #category : #importing }
