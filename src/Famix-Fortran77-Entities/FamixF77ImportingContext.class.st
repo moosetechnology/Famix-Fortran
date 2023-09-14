@@ -114,13 +114,6 @@ FamixF77ImportingContext >> importProgramFile [
 ]
 
 { #category : #importing }
-FamixF77ImportingContext >> importProgramUnit [
-
-	<generated>
-	^ self importConcreteEntity: (self class fm3ClassNamed: #ProgramUnit)
-]
-
-{ #category : #importing }
 FamixF77ImportingContext >> importSourceLanguage [
 
 	<generated>
@@ -146,6 +139,13 @@ FamixF77ImportingContext >> importTypeIntrinsic [
 
 	<generated>
 	^ self importConcreteEntity: (self class fm3ClassNamed: #TypeIntrinsic)
+]
+
+{ #category : #importing }
+FamixF77ImportingContext >> importTypeUnknown [
+
+	<generated>
+	^ self importConcreteEntity: (self class fm3ClassNamed: #TypeUnknown)
 ]
 
 { #category : #importing }
@@ -261,13 +261,6 @@ FamixF77ImportingContext >> shouldImportProgramFile [
 ]
 
 { #category : #testing }
-FamixF77ImportingContext >> shouldImportProgramUnit [
-
-	<generated>
-	^ self shouldImport: #ProgramUnit
-]
-
-{ #category : #testing }
 FamixF77ImportingContext >> shouldImportSourceLanguage [
 
 	<generated>
@@ -293,6 +286,13 @@ FamixF77ImportingContext >> shouldImportTypeIntrinsic [
 
 	<generated>
 	^ self shouldImport: #TypeIntrinsic
+]
+
+{ #category : #testing }
+FamixF77ImportingContext >> shouldImportTypeUnknown [
+
+	<generated>
+	^ self shouldImport: #TypeUnknown
 ]
 
 { #category : #testing }

@@ -19,7 +19,15 @@ FamixF77ProgramUnit class >> annotation [
 	<FMClass: #ProgramUnit super: #FamixF77NamedEntity>
 	<package: #'Famix-Fortran77-Entities'>
 	<generated>
+	<abstract>
 	^ self
+]
+
+{ #category : #testing }
+FamixF77ProgramUnit class >> isAbstract [
+
+	<generated>
+	^ self == FamixF77ProgramUnit
 ]
 
 { #category : #adding }
