@@ -122,13 +122,6 @@ FamixF77TEntityCreator >> newProgramFile [
 ]
 
 { #category : #'entity creation' }
-FamixF77TEntityCreator >> newProgramUnit [
-
-	<generated>
-	^ self add: FamixF77ProgramUnit new
-]
-
-{ #category : #'entity creation' }
 FamixF77TEntityCreator >> newSourceLanguage [
 
 	<generated>
@@ -161,6 +154,13 @@ FamixF77TEntityCreator >> newTypeNamed: aName [
 
 	<generated>
 	^ self add: (FamixF77Type named: aName)
+]
+
+{ #category : #'entity creation' }
+FamixF77TEntityCreator >> newTypeUnknown [
+
+	<generated>
+	^ self add: FamixF77TypeUnknown new
 ]
 
 { #category : #'entity creation' }

@@ -51,7 +51,8 @@ Class {
 		'type',
 		'typeIntrinsic',
 		'include',
-		'includedFile'
+		'includedFile',
+		'typeUnknown'
 	],
 	#category : #'Famix-Fortran77-Generator'
 }
@@ -95,6 +96,10 @@ FamixFortran77Generator >> defineClasses [
 		          newClassNamed: #Access
 		          comment: self accessEntityComment.
 
+	"character := builder newClassNamed: #Character comment: 'Im a character'.
+
+	complex := builder newClassNamed: #Complex comment: 'Im a complex'."
+
 	comment comment: self fCommentEntityComment.
 
 	indexedFileAnchor := builder
@@ -112,18 +117,20 @@ FamixFortran77Generator >> defineClasses [
 		                newClassNamed: #IncludedFile
 		                comment: 'includedFile'.
 
+	"integer := builder newClassNamed: #Integer comment: 'Im an integer'.
+
+	logical := builder newClassNamed: #Logical comment: 'Im a logical'."
+
 	parameter := builder
 		             newClassNamed: #Parameter
 		             comment: self parameterEntityComment.
-
-
 
 	programFile := builder
 		               newClassNamed: #ProgramFile
 		               comment: self fileEntityComment.
 
 	programUnit := builder
-		               newClassNamed: #ProgramUnit
+		               newAbstractClassNamed: #ProgramUnit
 		               comment: self programUnitEntityComment.
 
 	puBlockdata := builder
@@ -150,6 +157,7 @@ FamixFortran77Generator >> defineClasses [
 		                newClassNamed: #PUSubroutine
 		                comment: self puSubroutineEntityComment.
 
+	"real := builder newClassNamed: #Real comment: 'Im a real'."
 
 	type := builder newClassNamed: #Type comment: self typeComment.
 
@@ -157,6 +165,9 @@ FamixFortran77Generator >> defineClasses [
 		                 newClassNamed: #TypeIntrinsic
 		                 comment: self typeIntrinsicComment.
 
+	typeUnknown := builder
+		                 newClassNamed: #TypeUnknown
+		                 comment: self typeIntrinsicComment.
 
 	variable := builder
 		            newClassNamed: #Variable
@@ -171,29 +182,37 @@ FamixFortran77Generator >> defineHierarchy [
 	access --|> #TAccess.
 	access --|> #TEntityMetaLevelDependency.
 
-	programFile --|> namedEntity.
-	programFile --|> #TCompilationUnit.
-	programFile --|> #TEntityMetaLevelDependency.
-	programFile --|> #TSourceEntity.
+	"character --|> typeIntrinsic.
+	
+	complex --|> typeIntrinsic."
 
 	indexedFileAnchor --|> sourceAnchor.
 	indexedFileAnchor --|> #TFileNavigation.
 
 	invocation --|> #TInvocation.
 	invocation --|> #TEntityMetaLevelDependency.
-	
+
 	include --|> #TAssociation.
-	
+
 	includedFile --|> programUnit.
 	includedFile --|> #TWithLocalVariables.
 	includedFile --|> #TWithTypes.
 
+	"integer --|> typeIntrinsic.
+
+	logical --|> typeIntrinsic."
+
 	parameter --|> #TParameter.
 
+	programFile --|> namedEntity.
+	programFile --|> #TCompilationUnit.
+	programFile --|> #TEntityMetaLevelDependency.
+	programFile --|> #TSourceEntity.
+
+	programUnit --|> namedEntity.
 	programUnit --|> #TSourceEntity.
 	programUnit --|> #TEntityMetaLevelDependency.
 	programUnit --|> #TWithComments.
-	programUnit --|> namedEntity.
 
 	puBlockdata --|> programUnit.
 	puBlockdata --|> #TWithAccesses.
@@ -226,10 +245,15 @@ FamixFortran77Generator >> defineHierarchy [
 
 	puSubroutine --|> puProcedure.
 
-	variable --|> #TLocalVariable.
+	"real --|> typeIntrinsic."
 
 	type --|> #TType.
-	typeIntrinsic --|> type
+
+	typeIntrinsic --|> type.
+
+	typeUnknown --|> type.
+
+	variable --|> #TLocalVariable
 ]
 
 { #category : #definition }
