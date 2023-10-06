@@ -52,7 +52,9 @@ Class {
 		'typeIntrinsic',
 		'include',
 		'includedFile',
-		'typeUnknown'
+		'typeUnknown',
+		'externalDeclaration',
+		'implicit'
 	],
 	#category : #'Famix-Fortran77-Generator'
 }
@@ -101,6 +103,12 @@ FamixFortran77Generator >> defineClasses [
 	complex := builder newClassNamed: #Complex comment: 'Im a complex'."
 
 	comment comment: self fCommentEntityComment.
+
+	externalDeclaration := builder
+		                       newClassNamed: #ExternalDeclaration
+		                       comment: self externalDeclarationComment.
+	
+	implicit := builder newClassNamed: #Implicit comment: self implicitComment.
 
 	indexedFileAnchor := builder
 		                     newClassNamed: #IndexedFileAnchor
@@ -166,8 +174,8 @@ FamixFortran77Generator >> defineClasses [
 		                 comment: self typeIntrinsicComment.
 
 	typeUnknown := builder
-		                 newClassNamed: #TypeUnknown
-		                 comment: self typeIntrinsicComment.
+		               newClassNamed: #TypeUnknown
+		               comment: self typeIntrinsicComment.
 
 	variable := builder
 		            newClassNamed: #Variable
@@ -185,6 +193,8 @@ FamixFortran77Generator >> defineHierarchy [
 	"character --|> typeIntrinsic.
 	
 	complex --|> typeIntrinsic."
+	
+	externalDeclaration --|> namedEntity.
 
 	indexedFileAnchor --|> sourceAnchor.
 	indexedFileAnchor --|> #TFileNavigation.
@@ -263,6 +273,9 @@ FamixFortran77Generator >> defineProperties [
 
 	(comment property: #isEsope type: #Boolean defaultValue: false) 
 		comment: 'It is esope comment ?'.
+		
+	(implicit property: #letters type: #Object) comment: ''.
+	(implicit property: #type type: #FamixTType) comment: ''.
 
 	(include property: #isLocal type: #Boolean) comment:
 		'Whether this is a local include (with "included.h") or a system one (with <included.h>)'.
@@ -310,6 +323,13 @@ FamixFortran77Generator >> defineRelations [
 		 'All inclusions made by this programUnits')
 ]
 
+{ #category : #definition }
+FamixFortran77Generator >> externalDeclarationComment [
+
+	^ 'Im a external declaration. 
+	[See more](https://docs.oracle.com/cd/E19957-01/805-4939/6j4m0vn9d/index.html)'
+]
+
 { #category : #'class comment' }
 FamixFortran77Generator >> fCommentEntityComment [
 
@@ -320,6 +340,12 @@ FamixFortran77Generator >> fCommentEntityComment [
 FamixFortran77Generator >> fileEntityComment [
 
 	^ 'a fortran file'
+]
+
+{ #category : #definition }
+FamixFortran77Generator >> implicitComment [
+
+	^ '[Implicit](https://docs.oracle.com/cd/E19957-01/805-4939/6j4m0vn9v/index.html) statement'
 ]
 
 { #category : #'private - utility' }
