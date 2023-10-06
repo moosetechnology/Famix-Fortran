@@ -31,6 +31,13 @@ FamixF77TEntityCreator >> newComment [
 ]
 
 { #category : #'entity creation' }
+FamixF77TEntityCreator >> newExternalDeclaration [
+
+	<generated>
+	^ self add: FamixF77ExternalDeclaration new
+]
+
+{ #category : #'entity creation' }
 FamixF77TEntityCreator >> newInclude [
 
 	<generated>

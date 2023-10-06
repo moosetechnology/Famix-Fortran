@@ -52,7 +52,8 @@ Class {
 		'typeIntrinsic',
 		'include',
 		'includedFile',
-		'typeUnknown'
+		'typeUnknown',
+		'externalDeclaration'
 	],
 	#category : #'Famix-Fortran77-Generator'
 }
@@ -101,6 +102,10 @@ FamixFortran77Generator >> defineClasses [
 	complex := builder newClassNamed: #Complex comment: 'Im a complex'."
 
 	comment comment: self fCommentEntityComment.
+
+	externalDeclaration := builder
+		                       newClassNamed: #ExternalDeclaration
+		                       comment: self externalDeclarationComment.
 
 	indexedFileAnchor := builder
 		                     newClassNamed: #IndexedFileAnchor
@@ -166,8 +171,8 @@ FamixFortran77Generator >> defineClasses [
 		                 comment: self typeIntrinsicComment.
 
 	typeUnknown := builder
-		                 newClassNamed: #TypeUnknown
-		                 comment: self typeIntrinsicComment.
+		               newClassNamed: #TypeUnknown
+		               comment: self typeIntrinsicComment.
 
 	variable := builder
 		            newClassNamed: #Variable
@@ -185,6 +190,8 @@ FamixFortran77Generator >> defineHierarchy [
 	"character --|> typeIntrinsic.
 	
 	complex --|> typeIntrinsic."
+	
+	externalDeclaration --|> namedEntity.
 
 	indexedFileAnchor --|> sourceAnchor.
 	indexedFileAnchor --|> #TFileNavigation.
@@ -308,6 +315,13 @@ FamixFortran77Generator >> defineRelations [
 		 comment: 'File including the receiver';
 		 source) *- ((programUnit property: #includes) comment:
 		 'All inclusions made by this programUnits')
+]
+
+{ #category : #definition }
+FamixFortran77Generator >> externalDeclarationComment [
+
+	^ 'Im a external declaration. 
+	[See more](https://docs.oracle.com/cd/E19957-01/805-4939/6j4m0vn9d/index.html)'
 ]
 
 { #category : #'class comment' }
