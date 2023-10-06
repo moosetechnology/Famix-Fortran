@@ -37,6 +37,13 @@ FamixF77ImportingContext >> importExternalDeclaration [
 ]
 
 { #category : #importing }
+FamixF77ImportingContext >> importImplicit [
+
+	<generated>
+	^ self importConcreteEntity: (self class fm3ClassNamed: #Implicit)
+]
+
+{ #category : #importing }
 FamixF77ImportingContext >> importInclude [
 
 	<generated>
@@ -188,6 +195,13 @@ FamixF77ImportingContext >> shouldImportExternalDeclaration [
 
 	<generated>
 	^ self shouldImport: #ExternalDeclaration
+]
+
+{ #category : #testing }
+FamixF77ImportingContext >> shouldImportImplicit [
+
+	<generated>
+	^ self shouldImport: #Implicit
 ]
 
 { #category : #testing }
