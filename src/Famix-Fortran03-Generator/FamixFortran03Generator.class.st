@@ -97,6 +97,7 @@ FamixFortran03Generator >> defineHierarchy [
 	method --|> #TMethod.
 
 	module --|> programUnit.
+	module --|> #TWithTypes.
 	
 	parameter --|> tHasIntent.
 
