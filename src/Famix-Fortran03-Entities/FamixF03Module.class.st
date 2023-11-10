@@ -40,6 +40,8 @@ end module my_mod
 Class {
 	#name : #FamixF03Module,
 	#superclass : #FamixF77ProgramUnit,
+	#traits : 'FamixTWithTypes',
+	#classTraits : 'FamixTWithTypes classTrait',
 	#instVars : [
 		'#users => FMMany type: #FamixF03Use opposite: #used'
 	],
