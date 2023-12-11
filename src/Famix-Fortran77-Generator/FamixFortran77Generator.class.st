@@ -195,6 +195,7 @@ FamixFortran77Generator >> defineHierarchy [
 	complex --|> typeIntrinsic."
 	
 	externalDeclaration --|> namedEntity.
+	externalDeclaration --|> #TSourceEntity.
 
 	indexedFileAnchor --|> sourceAnchor.
 	indexedFileAnchor --|> #TFileNavigation.
@@ -311,6 +312,7 @@ FamixFortran77Generator >> defineRelations [
 	super defineRelations.
 
 	programFile <>-* programUnit.
+	programUnit <>-* externalDeclaration.
 
 	((include property: #included)
 		 comment: 'File included';
