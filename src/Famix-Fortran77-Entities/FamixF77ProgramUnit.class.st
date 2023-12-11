@@ -7,6 +7,7 @@ Class {
 	#traits : 'FamixTSourceEntity + FamixTWithComments + TEntityMetaLevelDependency',
 	#classTraits : 'FamixTSourceEntity classTrait + FamixTWithComments classTrait + TEntityMetaLevelDependency classTrait',
 	#instVars : [
+		'#externalDeclarations => FMMany type: #FamixF77ExternalDeclaration opposite: #programUnit',
 		'#includes => FMMany type: #FamixF77Include opposite: #includedBy',
 		'#programFile => FMOne type: #FamixF77ProgramFile opposite: #programUnits'
 	],
@@ -31,6 +32,12 @@ FamixF77ProgramUnit class >> isAbstract [
 ]
 
 { #category : #adding }
+FamixF77ProgramUnit >> addExternalDeclaration: anObject [
+	<generated>
+	^ self externalDeclarations add: anObject
+]
+
+{ #category : #adding }
 FamixF77ProgramUnit >> addInclude: anObject [
 	<generated>
 	^ self includes add: anObject
@@ -49,6 +56,29 @@ FamixF77ProgramUnit >> defaultImplicit [
 FamixF77ProgramUnit >> dicImplicit [
 
 	^ self attributeAt: #dicImplicit ifAbsentPut: [ self defaultImplicit ]
+]
+
+{ #category : #accessing }
+FamixF77ProgramUnit >> externalDeclarations [
+	"Relation named: #externalDeclarations type: #FamixF77ExternalDeclaration opposite: #programUnit"
+
+	<generated>
+	<derived>
+	^ externalDeclarations
+]
+
+{ #category : #accessing }
+FamixF77ProgramUnit >> externalDeclarations: anObject [
+
+	<generated>
+	externalDeclarations value: anObject
+]
+
+{ #category : #navigation }
+FamixF77ProgramUnit >> externalDeclarationsGroup [
+	<generated>
+	<navigation: 'ExternalDeclarations'>
+	^ MooseSpecializedGroup withAll: self externalDeclarations asSet
 ]
 
 { #category : #testing }

@@ -5,6 +5,11 @@ Im a external declaration.
 Class {
 	#name : #FamixF77ExternalDeclaration,
 	#superclass : #FamixF77NamedEntity,
+	#traits : 'FamixTSourceEntity',
+	#classTraits : 'FamixTSourceEntity classTrait',
+	#instVars : [
+		'#programUnit => FMOne type: #FamixF77ProgramUnit opposite: #externalDeclarations'
+	],
 	#category : #'Famix-Fortran77-Entities-Entities'
 }
 
@@ -15,4 +20,27 @@ FamixF77ExternalDeclaration class >> annotation [
 	<package: #'Famix-Fortran77-Entities'>
 	<generated>
 	^ self
+]
+
+{ #category : #accessing }
+FamixF77ExternalDeclaration >> programUnit [
+	"Relation named: #programUnit type: #FamixF77ProgramUnit opposite: #externalDeclarations"
+
+	<generated>
+	<container>
+	^ programUnit
+]
+
+{ #category : #accessing }
+FamixF77ExternalDeclaration >> programUnit: anObject [
+
+	<generated>
+	programUnit := anObject
+]
+
+{ #category : #navigation }
+FamixF77ExternalDeclaration >> programUnitGroup [
+	<generated>
+	<navigation: 'ProgramUnit'>
+	^ MooseSpecializedGroup with: self programUnit
 ]
