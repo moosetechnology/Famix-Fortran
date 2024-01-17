@@ -1,3 +1,11 @@
+"
+## Properties
+======================
+
+| Name | Type | Default value | Comment |
+| `name` | `String` | nil | Basic name of the entity, not full reference.|
+
+"
 Class {
 	#name : #FamixF77NamedEntity,
 	#superclass : #FamixF77Entity,

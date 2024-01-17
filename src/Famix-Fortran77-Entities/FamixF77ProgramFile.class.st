@@ -1,5 +1,32 @@
 "
 a fortran file
+
+## Relations
+======================
+
+### Parents
+| Relation | Origin | Opposite | Type | Comment |
+| `compilationUnitOwner` | `FamixTCompilationUnit` | `compilationUnit` | `FamixTWithCompilationUnits` | The compilation unit that defines this module|
+| `parentFolder` | `FamixTFileSystemEntity` | `childrenFileSystemEntities` | `FamixTFolder` | Folder entity containing this file.|
+
+### Children
+| Relation | Origin | Opposite | Type | Comment |
+| `programUnits` | `FamixF77ProgramFile` | `programFile` | `FamixF77ProgramUnit` | |
+
+### Other
+| Relation | Origin | Opposite | Type | Comment |
+| `entities` | `FamixTFile` | `containerFiles` | `FamixTWithFiles` | List of entities defined in the file|
+| `sourceAnchor` | `FamixTSourceEntity` | `element` | `FamixTSourceAnchor` | SourceAnchor entity linking to the original source code for this entity|
+
+
+## Properties
+======================
+
+| Name | Type | Default value | Comment |
+| `filename` | `String` | nil | Fortran name of the file|
+| `isStub` | `Boolean` | false | Flag true if the entity attributes are incomplete, either because the entity is missing or not imported.|
+| `version` | `String` | nil | Fortran version of the file|
+
 "
 Class {
 	#name : #FamixF77ProgramFile,

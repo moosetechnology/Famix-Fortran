@@ -1,5 +1,13 @@
 "
 [Implicit](https://docs.oracle.com/cd/E19957-01/805-4939/6j4m0vn9v/index.html) statement
+
+## Properties
+======================
+
+| Name | Type | Default value | Comment |
+| `letters` | `Object` | nil | |
+| `type` | `FamixTType` | nil | |
+
 "
 Class {
 	#name : #FamixF77Implicit,

@@ -1,5 +1,20 @@
 "
 a function procedure
+
+## Relations
+======================
+
+### Other
+| Relation | Origin | Opposite | Type | Comment |
+| `declaredType` | `FamixTTypedEntity` | `typedEntities` | `FamixTType` | Type of the entity, if any|
+
+
+## Properties
+======================
+
+| Name | Type | Default value | Comment |
+| `isEsope` | `Boolean` | false | It is kind of esope function ?|
+
 "
 Class {
 	#name : #FamixF77PUFunction,

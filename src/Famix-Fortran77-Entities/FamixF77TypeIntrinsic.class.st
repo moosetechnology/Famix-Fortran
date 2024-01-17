@@ -7,6 +7,8 @@ Im an fortran77 instrinsic type.
 	- Character
 	- Logical
 	
+
+
 "
 Class {
 	#name : #FamixF77TypeIntrinsic,

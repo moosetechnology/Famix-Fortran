@@ -1,6 +1,25 @@
 "
 Im a external declaration. 
 	[See more](https://docs.oracle.com/cd/E19957-01/805-4939/6j4m0vn9d/index.html)
+
+## Relations
+======================
+
+### Parents
+| Relation | Origin | Opposite | Type | Comment |
+| `programUnit` | `FamixF77ExternalDeclaration` | `externalDeclarations` | `FamixF77ProgramUnit` | |
+
+### Other
+| Relation | Origin | Opposite | Type | Comment |
+| `sourceAnchor` | `FamixTSourceEntity` | `element` | `FamixTSourceAnchor` | SourceAnchor entity linking to the original source code for this entity|
+
+
+## Properties
+======================
+
+| Name | Type | Default value | Comment |
+| `isStub` | `Boolean` | false | Flag true if the entity attributes are incomplete, either because the entity is missing or not imported.|
+
 "
 Class {
 	#name : #FamixF77ExternalDeclaration,

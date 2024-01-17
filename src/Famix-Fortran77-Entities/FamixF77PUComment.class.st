@@ -1,5 +1,20 @@
 "
 a comment belongs to fortran file
+
+## Relations
+======================
+
+### Other
+| Relation | Origin | Opposite | Type | Comment |
+| `commentedEntity` | `FamixTComment` | `comments` | `FamixTWithComments` | Source code commented by the comment|
+
+
+## Properties
+======================
+
+| Name | Type | Default value | Comment |
+| `content` | `String` | nil | Content of the comment as a String|
+
 "
 Class {
 	#name : #FamixF77PUComment,
