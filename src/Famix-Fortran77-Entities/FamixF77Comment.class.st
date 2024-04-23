@@ -4,8 +4,9 @@ a fortran comment
 ## Relations
 ======================
 
-### Other
+### Parents
 | Relation | Origin | Opposite | Type | Comment |
+|---|
 | `commentedEntity` | `FamixTComment` | `comments` | `FamixTWithComments` | Source code commented by the comment|
 
 
@@ -13,6 +14,7 @@ a fortran comment
 ======================
 
 | Name | Type | Default value | Comment |
+|---|
 | `content` | `String` | nil | Content of the comment as a String|
 | `isEsope` | `Boolean` | false | It is esope comment ?|
 

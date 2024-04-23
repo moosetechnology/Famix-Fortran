@@ -1,5 +1,13 @@
 "
 Dummy parameter can express his intent amongs: in, out, inout
+
+## Properties
+======================
+
+| Name | Type | Default value | Comment |
+|---|
+| `intent` | `String` | nil | intent of the entity (work only for dummy argument)|
+
 "
 Trait {
 	#name : #FamixF03THasIntent,

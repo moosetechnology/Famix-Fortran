@@ -8,14 +8,17 @@ Entity to hold `#include ""file.inc""` directive
 
 ### Association source
 | Relation | Origin | Opposite | Type | Comment |
+|---|
 | `includedBy` | `FamixF77Include` | `includes` | `FamixF77ProgramUnit` | File including the receiver|
 
 ### Association target
 | Relation | Origin | Opposite | Type | Comment |
+|---|
 | `included` | `FamixF77Include` | `inclusions` | `FamixF77IncludedFile` | File included|
 
 ### Other
 | Relation | Origin | Opposite | Type | Comment |
+|---|
 | `next` | `FamixTAssociation` | `previous` | `FamixTAssociation` | Next association in an ordered collection of associations. Currently not supported by the Moose importer|
 | `previous` | `FamixTAssociation` | `next` | `FamixTAssociation` | Previous association in an ordered collection of associations. Currently not supported by the Moose importer|
 | `sourceAnchor` | `FamixTSourceEntity` | `element` | `FamixTSourceAnchor` | SourceAnchor entity linking to the original source code for this entity|
@@ -25,6 +28,7 @@ Entity to hold `#include ""file.inc""` directive
 ======================
 
 | Name | Type | Default value | Comment |
+|---|
 | `filename` | `String` | nil | Hold the name of the file included. Will be used to link this relation with the includedFile entity|
 | `isLocal` | `Boolean` | nil | Whether this is a local include (with ""included.h"") or a system one (with <included.h>)|
 | `isStub` | `Boolean` | false | Flag true if the entity attributes are incomplete, either because the entity is missing or not imported.|
@@ -36,10 +40,10 @@ Class {
 	#traits : 'FamixTAssociation',
 	#classTraits : 'FamixTAssociation classTrait',
 	#instVars : [
+		'#isLocal => FMProperty',
 		'#filename => FMProperty',
 		'#included => FMOne type: #FamixF77IncludedFile opposite: #inclusions',
-		'#includedBy => FMOne type: #FamixF77ProgramUnit opposite: #includes',
-		'#isLocal => FMProperty'
+		'#includedBy => FMOne type: #FamixF77ProgramUnit opposite: #includes'
 	],
 	#category : #'Famix-Fortran77-Entities-Entities'
 }

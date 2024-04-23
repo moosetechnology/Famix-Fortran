@@ -7,10 +7,12 @@ Im a external declaration.
 
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
+|---|
 | `programUnit` | `FamixF77ExternalDeclaration` | `externalDeclarations` | `FamixF77ProgramUnit` | |
 
 ### Other
 | Relation | Origin | Opposite | Type | Comment |
+|---|
 | `sourceAnchor` | `FamixTSourceEntity` | `element` | `FamixTSourceAnchor` | SourceAnchor entity linking to the original source code for this entity|
 
 
@@ -18,6 +20,7 @@ Im a external declaration.
 ======================
 
 | Name | Type | Default value | Comment |
+|---|
 | `isStub` | `Boolean` | false | Flag true if the entity attributes are incomplete, either because the entity is missing or not imported.|
 
 "

@@ -64,6 +64,13 @@ FamixF77Entity >> isLocalVariable [
 ]
 
 { #category : #testing }
+FamixF77Entity >> isQueryable [
+
+	<generated>
+	^ false
+]
+
+{ #category : #testing }
 FamixF77Entity >> isStructuralEntity [
 
 	<generated>

@@ -6,19 +6,23 @@ a program unit
 
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
+|---|
 | `programFile` | `FamixF77ProgramUnit` | `programUnits` | `FamixF77ProgramFile` | |
 
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
+|---|
+| `comments` | `FamixTWithComments` | `commentedEntity` | `FamixTComment` | List of comments for the entity|
 | `externalDeclarations` | `FamixF77ProgramUnit` | `programUnit` | `FamixF77ExternalDeclaration` | |
 
 ### Outgoing dependencies
 | Relation | Origin | Opposite | Type | Comment |
+|---|
 | `includes` | `FamixF77ProgramUnit` | `includedBy` | `FamixF77Include` | All inclusions made by this programUnits|
 
 ### Other
 | Relation | Origin | Opposite | Type | Comment |
-| `comments` | `FamixTWithComments` | `commentedEntity` | `FamixTComment` | List of comments for the entity|
+|---|
 | `sourceAnchor` | `FamixTSourceEntity` | `element` | `FamixTSourceAnchor` | SourceAnchor entity linking to the original source code for this entity|
 
 
@@ -26,6 +30,7 @@ a program unit
 ======================
 
 | Name | Type | Default value | Comment |
+|---|
 | `isStub` | `Boolean` | false | Flag true if the entity attributes are incomplete, either because the entity is missing or not imported.|
 
 "
@@ -35,9 +40,9 @@ Class {
 	#traits : 'FamixTSourceEntity + FamixTWithComments + TEntityMetaLevelDependency',
 	#classTraits : 'FamixTSourceEntity classTrait + FamixTWithComments classTrait + TEntityMetaLevelDependency classTrait',
 	#instVars : [
+		'#programFile => FMOne type: #FamixF77ProgramFile opposite: #programUnits',
 		'#externalDeclarations => FMMany type: #FamixF77ExternalDeclaration opposite: #programUnit',
-		'#includes => FMMany type: #FamixF77Include opposite: #includedBy',
-		'#programFile => FMOne type: #FamixF77ProgramFile opposite: #programUnits'
+		'#includes => FMMany type: #FamixF77Include opposite: #includedBy'
 	],
 	#category : #'Famix-Fortran77-Entities-Entities'
 }
@@ -71,21 +76,6 @@ FamixF77ProgramUnit >> addInclude: anObject [
 	^ self includes add: anObject
 ]
 
-{ #category : #implicit }
-FamixF77ProgramUnit >> defaultImplicit [
-
-	^ (($a to: $z) collect: [ :char | 
-		   ('ijklmn' includes: char)
-			   ifTrue:  [ char -> #integer ]
-			   ifFalse: [ char -> #real ] ]) asDictionary
-]
-
-{ #category : #accessing }
-FamixF77ProgramUnit >> dicImplicit [
-
-	^ self attributeAt: #dicImplicit ifAbsentPut: [ self defaultImplicit ]
-]
-
 { #category : #accessing }
 FamixF77ProgramUnit >> externalDeclarations [
 	"Relation named: #externalDeclarations type: #FamixF77ExternalDeclaration opposite: #programUnit"
@@ -109,12 +99,6 @@ FamixF77ProgramUnit >> externalDeclarationsGroup [
 	^ MooseSpecializedGroup withAll: self externalDeclarations asSet
 ]
 
-{ #category : #testing }
-FamixF77ProgramUnit >> implicits [
-
-	^ self attributeAt: #implicits ifAbsent: [  ]
-]
-
 { #category : #accessing }
 FamixF77ProgramUnit >> includes [
 	"Relation named: #includes type: #FamixF77Include opposite: #includedBy"
@@ -130,11 +114,6 @@ FamixF77ProgramUnit >> includes: anObject [
 
 	<generated>
 	includes value: anObject
-]
-
-{ #category : #testing }
-FamixF77ProgramUnit >> isInvocable [
-	^false
 ]
 
 { #category : #accessing }
@@ -158,10 +137,4 @@ FamixF77ProgramUnit >> programFileGroup [
 	<generated>
 	<navigation: 'ProgramFile'>
 	^ MooseSpecializedGroup with: self programFile
-]
-
-{ #category : #accessing }
-FamixF77ProgramUnit >> symbolTable [
-
-	^ self attributeAt: #symbolTable ifAbsentPut: [ Dictionary new ]
 ]

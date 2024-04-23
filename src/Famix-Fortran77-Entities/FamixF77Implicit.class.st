@@ -5,6 +5,7 @@
 ======================
 
 | Name | Type | Default value | Comment |
+|---|
 | `letters` | `Object` | nil | |
 | `type` | `FamixTType` | nil | |
 
