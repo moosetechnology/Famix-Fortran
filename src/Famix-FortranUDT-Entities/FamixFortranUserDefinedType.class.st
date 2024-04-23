@@ -1,3 +1,15 @@
+"
+## Relations
+======================
+
+### Children
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `attributes` | `FamixFortranUserDefinedType` | `userDefinedType` | `FamixFortranAttribute` | |
+
+
+
+"
 Class {
 	#name : #FamixFortranUserDefinedType,
 	#superclass : #FamixF77Type,

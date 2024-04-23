@@ -55,3 +55,10 @@ FamixF03Entity >> isMethod [
 	<generated>
 	^ false
 ]
+
+{ #category : #testing }
+FamixF03Entity >> isQueryable [
+
+	<generated>
+	^ false
+]

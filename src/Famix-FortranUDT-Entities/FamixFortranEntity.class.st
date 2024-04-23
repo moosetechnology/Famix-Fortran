@@ -36,6 +36,13 @@ FamixFortranEntity >> isAttribute [
 ]
 
 { #category : #testing }
+FamixFortranEntity >> isQueryable [
+
+	<generated>
+	^ false
+]
+
+{ #category : #testing }
 FamixFortranEntity >> isStructuralEntity [
 
 	<generated>
