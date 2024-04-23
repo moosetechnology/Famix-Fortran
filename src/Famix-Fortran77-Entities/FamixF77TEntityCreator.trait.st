@@ -180,13 +180,6 @@ FamixF77TEntityCreator >> newTypeUnknown [
 ]
 
 { #category : #'entity creation' }
-FamixF77TEntityCreator >> newUnknownSourceLanguage [
-
-	<generated>
-	^ self add: FamixF77UnknownSourceLanguage new
-]
-
-{ #category : #'entity creation' }
 FamixF77TEntityCreator >> newVariable [
 
 	<generated>

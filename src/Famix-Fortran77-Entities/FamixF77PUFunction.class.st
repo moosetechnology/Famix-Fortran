@@ -6,6 +6,7 @@ a function procedure
 
 ### Other
 | Relation | Origin | Opposite | Type | Comment |
+|---|
 | `declaredType` | `FamixTTypedEntity` | `typedEntities` | `FamixTType` | Type of the entity, if any|
 
 
@@ -13,6 +14,7 @@ a function procedure
 ======================
 
 | Name | Type | Default value | Comment |
+|---|
 | `isEsope` | `Boolean` | false | It is kind of esope function ?|
 
 "

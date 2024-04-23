@@ -163,13 +163,6 @@ FamixF77ImportingContext >> importTypeUnknown [
 ]
 
 { #category : #importing }
-FamixF77ImportingContext >> importUnknownSourceLanguage [
-
-	<generated>
-	^ self importConcreteEntity: (self class fm3ClassNamed: #UnknownSourceLanguage)
-]
-
-{ #category : #importing }
 FamixF77ImportingContext >> importVariable [
 
 	<generated>
@@ -321,13 +314,6 @@ FamixF77ImportingContext >> shouldImportTypeUnknown [
 
 	<generated>
 	^ self shouldImport: #TypeUnknown
-]
-
-{ #category : #testing }
-FamixF77ImportingContext >> shouldImportUnknownSourceLanguage [
-
-	<generated>
-	^ self shouldImport: #UnknownSourceLanguage
 ]
 
 { #category : #testing }
