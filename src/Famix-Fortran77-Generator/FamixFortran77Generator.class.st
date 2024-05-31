@@ -216,9 +216,9 @@ FamixFortran77Generator >> defineHierarchy [
 	parameter --|> #TParameter.
 
 	programFile --|> namedEntity.
+	programFile inheritsFromTrait: #TSourceEntity without: { #sourceText }.
 	programFile --|> #TCompilationUnit.
 	programFile --|> #TEntityMetaLevelDependency.
-	programFile --|> #TSourceEntity.
 
 	programUnit --|> namedEntity.
 	programUnit --|> #TSourceEntity.
