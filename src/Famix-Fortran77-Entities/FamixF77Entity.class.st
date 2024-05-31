@@ -50,6 +50,13 @@ FamixF77Entity >> isBehavioural [
 ]
 
 { #category : #testing }
+FamixF77Entity >> isFileAnchor [
+
+	<generated>
+	^ false
+]
+
+{ #category : #testing }
 FamixF77Entity >> isInvocation [
 
 	<generated>
@@ -58,6 +65,13 @@ FamixF77Entity >> isInvocation [
 
 { #category : #testing }
 FamixF77Entity >> isLocalVariable [
+
+	<generated>
+	^ false
+]
+
+{ #category : #testing }
+FamixF77Entity >> isNamedEntity [
 
 	<generated>
 	^ false
