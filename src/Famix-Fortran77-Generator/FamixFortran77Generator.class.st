@@ -208,6 +208,9 @@ FamixFortran77Generator >> defineHierarchy [
 	includedFile --|> programUnit.
 	includedFile --|> #TWithLocalVariables.
 	includedFile --|> #TWithTypes.
+	includedFile --|> #TWithAccesses.
+	includedFile --|> #TWithInvocations.
+	includedFile --|> #TWithTypes.
 
 	"integer --|> typeIntrinsic.
 
