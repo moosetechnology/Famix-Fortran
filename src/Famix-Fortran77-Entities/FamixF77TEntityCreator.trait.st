@@ -152,6 +152,13 @@ FamixF77TEntityCreator >> newSourceTextAnchor [
 ]
 
 { #category : #'entity creation' }
+FamixF77TEntityCreator >> newStatementFunction [
+
+	<generated>
+	^ self add: FamixF77StatementFunction new
+]
+
+{ #category : #'entity creation' }
 FamixF77TEntityCreator >> newType [
 
 	<generated>

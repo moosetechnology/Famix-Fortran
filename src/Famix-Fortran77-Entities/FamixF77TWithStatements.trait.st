@@ -1,5 +1,5 @@
 "
-a main program
+A trait that factorize several interesting properties for entities with statements
 
 ## Relations
 ======================
@@ -10,7 +10,6 @@ a main program
 | `comments` | `FamixTWithComments` | `commentedEntity` | `FamixTComment` | List of comments for the entity|
 | `localVariables` | `FamixTWithLocalVariables` | `parentBehaviouralEntity` | `FamixTLocalVariable` | Variables locally defined by this behaviour.|
 | `statementFunctions` | `FamixF77TWithStatements` | `parentEntity` | `FamixF77StatementFunction` | Statement functions defined in the body|
-| `types` | `FamixTWithTypes` | `typeContainer` | `FamixTType` | Types contained (declared) in this entity, if any. #types is declared in ContainerEntity because different kinds of container can embed types. Types are usually contained in a Famix.Namespace. But types can also be contained in a Famix.Class or Famix.Method (in Java with inner classes for example). Famix.Function can also contain some types such as structs.|
 
 ### Outgoing dependencies
 | Relation | Origin | Opposite | Type | Comment |
@@ -38,19 +37,51 @@ a main program
 | `isStub` | `Boolean` | false | Flag true if the entity attributes are incomplete, either because the entity is missing or not imported.|
 
 "
-Class {
-	#name : #FamixF77PUMain,
-	#superclass : #FamixF77ProgramUnit,
-	#traits : 'FamixF77TWithStatements + FamixTWithTypes',
-	#classTraits : 'FamixF77TWithStatements classTrait + FamixTWithTypes classTrait',
-	#category : #'Famix-Fortran77-Entities-Entities'
+Trait {
+	#name : #FamixF77TWithStatements,
+	#instVars : [
+		'#statementFunctions => FMMany type: #FamixF77StatementFunction opposite: #parentEntity'
+	],
+	#traits : 'FamixTInvocable + FamixTWithAccesses + FamixTWithComments + FamixTWithInvocations + FamixTWithLocalVariables + FamixTWithStatements + TEntityMetaLevelDependency',
+	#classTraits : 'FamixTInvocable classTrait + FamixTWithAccesses classTrait + FamixTWithComments classTrait + FamixTWithInvocations classTrait + FamixTWithLocalVariables classTrait + FamixTWithStatements classTrait + TEntityMetaLevelDependency classTrait',
+	#category : #'Famix-Fortran77-Entities-Traits'
 }
 
 { #category : #meta }
-FamixF77PUMain class >> annotation [
+FamixF77TWithStatements classSide >> annotation [
 
-	<FMClass: #PUMain super: #FamixF77ProgramUnit>
+	<FMClass: #TWithStatements super: #Object>
 	<package: #'Famix-Fortran77-Entities'>
 	<generated>
 	^ self
+]
+
+{ #category : #adding }
+FamixF77TWithStatements >> addStatementFunction: anObject [
+	<generated>
+	^ self statementFunctions add: anObject
+]
+
+{ #category : #accessing }
+FamixF77TWithStatements >> statementFunctions [
+	"Relation named: #statementFunctions type: #FamixF77StatementFunction opposite: #parentEntity"
+
+	<generated>
+	<FMComment: 'Statement functions defined in the body'>
+	<derived>
+	^ statementFunctions
+]
+
+{ #category : #accessing }
+FamixF77TWithStatements >> statementFunctions: anObject [
+
+	<generated>
+	statementFunctions value: anObject
+]
+
+{ #category : #navigation }
+FamixF77TWithStatements >> statementFunctionsGroup [
+	<generated>
+	<navigation: 'StatementFunctions'>
+	^ MooseSpecializedGroup withAll: self statementFunctions asSet
 ]

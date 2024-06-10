@@ -12,7 +12,6 @@ a program unit
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `comments` | `FamixTWithComments` | `commentedEntity` | `FamixTComment` | List of comments for the entity|
 | `externalDeclarations` | `FamixF77ProgramUnit` | `programUnit` | `FamixF77ExternalDeclaration` | |
 
 ### Outgoing dependencies
@@ -37,8 +36,8 @@ a program unit
 Class {
 	#name : #FamixF77ProgramUnit,
 	#superclass : #FamixF77NamedEntity,
-	#traits : 'FamixTSourceEntity + FamixTWithComments + TEntityMetaLevelDependency',
-	#classTraits : 'FamixTSourceEntity classTrait + FamixTWithComments classTrait + TEntityMetaLevelDependency classTrait',
+	#traits : 'FamixTSourceEntity',
+	#classTraits : 'FamixTSourceEntity classTrait',
 	#instVars : [
 		'#programFile => FMOne type: #FamixF77ProgramFile opposite: #programUnits',
 		'#externalDeclarations => FMMany type: #FamixF77ExternalDeclaration opposite: #programUnit',
