@@ -54,7 +54,9 @@ Class {
 		'includedFile',
 		'typeUnknown',
 		'externalDeclaration',
-		'implicit'
+		'implicit',
+		'statementFunction',
+		'tWithStatements'
 	],
 	#category : #'Famix-Fortran77-Generator'
 }
@@ -158,12 +160,16 @@ FamixFortran77Generator >> defineClasses [
 		          comment: self puMainEntityComment.
 
 	puProcedure := builder
-		               newClassNamed: #PUProcedure
-		               comment: self puProcedureEntityComment.
+		newClassNamed: #PUProcedure
+		comment: self puProcedureEntityComment.
 
 	puSubroutine := builder
-		                newClassNamed: #PUSubroutine
-		                comment: self puSubroutineEntityComment.
+		newClassNamed: #PUSubroutine
+		comment: self puSubroutineEntityComment.
+
+	statementFunction := builder
+		newClassNamed: #StatementFunction
+		comment: self statementFunctionEntityComment.
 
 	"real := builder newClassNamed: #Real comment: 'Im a real'."
 
@@ -225,13 +231,21 @@ FamixFortran77Generator >> defineHierarchy [
 
 	programUnit --|> namedEntity.
 	programUnit --|> #TSourceEntity.
-	programUnit --|> #TEntityMetaLevelDependency.
-	programUnit --|> #TWithComments.
+
+	tWithStatements --|> #TWithStatements.
+	tWithStatements --|> #TEntityMetaLevelDependency.
+	tWithStatements --|> #TWithComments.
+	tWithStatements --|> #TWithAccesses.
+	tWithStatements --|> #TWithInvocations.
+	tWithStatements --|> #TWithLocalVariables.
+	tWithStatements --|> #TInvocable.
 
 	puBlockdata --|> programUnit.
+	puBlockdata --|> #TWithStatements.
+	puBlockdata --|> #TEntityMetaLevelDependency.
+	puBlockdata --|> #TWithComments.
 	puBlockdata --|> #TWithAccesses.
 	puBlockdata --|> #TWithLocalVariables.
-	puBlockdata --|> #TWithStatements.
 	"puBlockdata --|> #TWithTypes."
 
 	puComment --|> programUnit.
@@ -241,23 +255,25 @@ FamixFortran77Generator >> defineHierarchy [
 	puFunction --|> #TTypedEntity.
 
 	puMain --|> programUnit.
-	puMain --|> #TWithAccesses.
-	puMain --|> #TWithInvocations.
-	puMain --|> #TWithLocalVariables.
-	puMain --|> #TWithStatements.
+	puMain --|> tWithStatements.
 	puMain --|> #TWithTypes.
 
 	puProcedure --|> programUnit.
 	puProcedure --|> #THasSignature.
-	puProcedure --|> #TInvocable.
-	puProcedure --|> #TWithAccesses.
-	puProcedure --|> #TWithInvocations.
-	puProcedure --|> #TWithLocalVariables.
+	puProcedure --|> tWithStatements.
 	puProcedure --|> #TWithParameters.
-	puProcedure --|> #TWithStatements.
 	puProcedure --|> #TWithTypes.
 
 	puSubroutine --|> puProcedure.
+
+
+	statementFunction --|> namedEntity.
+	statementFunction --|> #TSourceEntity.
+	statementFunction --|> tWithStatements.
+	statementFunction --|> #TTypedEntity.
+	statementFunction --|> #THasSignature.
+	statementFunction --|> #TWithParameters.
+	statementFunction --|> #TWithTypes.
 
 	"real --|> typeIntrinsic."
 
@@ -325,7 +341,22 @@ FamixFortran77Generator >> defineRelations [
 	((include property: #includedBy)
 		 comment: 'File including the receiver';
 		 source) *- ((programUnit property: #includes) comment:
-		 'All inclusions made by this programUnits')
+		 'All inclusions made by this programUnits').
+
+	((tWithStatements property: #statementFunctions)
+		comment: 'Statement functions defined in the body')
+		<>-* ((statementFunction property: #parentEntity)
+			comment: 'Entity in which body I am defined')
+]
+
+{ #category : #definition }
+FamixFortran77Generator >> defineTraits [
+
+	super defineTraits.
+
+	tWithStatements := builder
+		newTraitNamed: 'TWithStatements'
+		comment: 'A trait that factorize several interesting properties for entities with statements'
 ]
 
 { #category : #definition }
@@ -434,6 +465,12 @@ FamixFortran77Generator >> puProcedureEntityComment [
 FamixFortran77Generator >> puSubroutineEntityComment [
 
 	^ 'a subroutine procedure'
+]
+
+{ #category : #'class comment' }
+FamixFortran77Generator >> statementFunctionEntityComment [
+
+	^ 'a statement function'
 ]
 
 { #category : #'class comment' }

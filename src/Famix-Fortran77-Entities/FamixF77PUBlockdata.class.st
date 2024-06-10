@@ -7,6 +7,7 @@ a block data for common variable
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
+| `comments` | `FamixTWithComments` | `commentedEntity` | `FamixTComment` | List of comments for the entity|
 | `localVariables` | `FamixTWithLocalVariables` | `parentBehaviouralEntity` | `FamixTLocalVariable` | Variables locally defined by this behaviour.|
 
 ### Outgoing dependencies
@@ -33,8 +34,8 @@ a block data for common variable
 Class {
 	#name : #FamixF77PUBlockdata,
 	#superclass : #FamixF77ProgramUnit,
-	#traits : 'FamixTWithAccesses + FamixTWithLocalVariables + FamixTWithStatements',
-	#classTraits : 'FamixTWithAccesses classTrait + FamixTWithLocalVariables classTrait + FamixTWithStatements classTrait',
+	#traits : 'FamixTWithAccesses + FamixTWithComments + FamixTWithLocalVariables + FamixTWithStatements + TEntityMetaLevelDependency',
+	#classTraits : 'FamixTWithAccesses classTrait + FamixTWithComments classTrait + FamixTWithLocalVariables classTrait + FamixTWithStatements classTrait + TEntityMetaLevelDependency classTrait',
 	#category : #'Famix-Fortran77-Entities-Entities'
 }
 

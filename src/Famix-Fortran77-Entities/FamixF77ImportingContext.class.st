@@ -142,6 +142,13 @@ FamixF77ImportingContext >> importSourceTextAnchor [
 ]
 
 { #category : #importing }
+FamixF77ImportingContext >> importStatementFunction [
+
+	<generated>
+	^ self importConcreteEntity: (self class fm3ClassNamed: #StatementFunction)
+]
+
+{ #category : #importing }
 FamixF77ImportingContext >> importType [
 
 	<generated>
@@ -293,6 +300,13 @@ FamixF77ImportingContext >> shouldImportSourceTextAnchor [
 
 	<generated>
 	^ self shouldImport: #SourceTextAnchor
+]
+
+{ #category : #testing }
+FamixF77ImportingContext >> shouldImportStatementFunction [
+
+	<generated>
+	^ self shouldImport: #StatementFunction
 ]
 
 { #category : #testing }
