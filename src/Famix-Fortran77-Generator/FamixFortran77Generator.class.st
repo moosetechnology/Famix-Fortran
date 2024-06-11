@@ -266,6 +266,8 @@ FamixFortran77Generator >> defineHierarchy [
 	statementFunction --|> #TWithTypes.
 	statementFunction --|> #TWithLocalVariables.
 	statementFunction --|> #TInvocable.
+	statementFunction --|> #TEntityMetaLevelDependency.
+
 
 	"real --|> typeIntrinsic."
 

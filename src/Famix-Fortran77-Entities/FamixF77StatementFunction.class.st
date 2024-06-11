@@ -48,8 +48,8 @@ a statement function
 Class {
 	#name : #FamixF77StatementFunction,
 	#superclass : #FamixF77NamedEntity,
-	#traits : 'FamixF77TWithStatements + FamixTHasSignature + FamixTInvocable + FamixTSourceEntity + FamixTTypedEntity + FamixTWithLocalVariables + FamixTWithParameters + FamixTWithTypes',
-	#classTraits : 'FamixF77TWithStatements classTrait + FamixTHasSignature classTrait + FamixTInvocable classTrait + FamixTSourceEntity classTrait + FamixTTypedEntity classTrait + FamixTWithLocalVariables classTrait + FamixTWithParameters classTrait + FamixTWithTypes classTrait',
+	#traits : 'FamixF77TWithStatements + FamixTHasSignature + FamixTInvocable + FamixTSourceEntity + FamixTTypedEntity + FamixTWithLocalVariables + FamixTWithParameters + FamixTWithTypes + TEntityMetaLevelDependency',
+	#classTraits : 'FamixF77TWithStatements classTrait + FamixTHasSignature classTrait + FamixTInvocable classTrait + FamixTSourceEntity classTrait + FamixTTypedEntity classTrait + FamixTWithLocalVariables classTrait + FamixTWithParameters classTrait + FamixTWithTypes classTrait + TEntityMetaLevelDependency classTrait',
 	#instVars : [
 		'#parentEntity => FMOne type: #FamixF77TWithStatements opposite: #statementFunctions'
 	],
