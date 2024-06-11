@@ -211,12 +211,12 @@ FamixFortran77Generator >> defineHierarchy [
 
 	include --|> #TAssociation.
 
+	"extends default TWithStatements in #defineRelations"
+	tWithStatements --|> #TWithStatements.
+
 	includedFile --|> programUnit.
-	includedFile --|> #TWithLocalVariables.
 	includedFile --|> #TWithTypes.
-	includedFile --|> #TWithAccesses.
-	includedFile --|> #TWithInvocations.
-	includedFile --|> #TWithTypes.
+	includedFile --|> tWithStatements.
 
 	"integer --|> typeIntrinsic.
 
@@ -231,21 +231,11 @@ FamixFortran77Generator >> defineHierarchy [
 
 	programUnit --|> namedEntity.
 	programUnit --|> #TSourceEntity.
-
-	tWithStatements --|> #TWithStatements.
-	tWithStatements --|> #TEntityMetaLevelDependency.
-	tWithStatements --|> #TWithComments.
-	tWithStatements --|> #TWithAccesses.
-	tWithStatements --|> #TWithInvocations.
-	tWithStatements --|> #TWithLocalVariables.
-	tWithStatements --|> #TInvocable.
+	programUnit --|> #TWithComments.
+	programUnit --|> #TEntityMetaLevelDependency.
+	programUnit --|> #TWithLocalVariables.
 
 	puBlockdata --|> programUnit.
-	puBlockdata --|> #TWithStatements.
-	puBlockdata --|> #TEntityMetaLevelDependency.
-	puBlockdata --|> #TWithComments.
-	puBlockdata --|> #TWithAccesses.
-	puBlockdata --|> #TWithLocalVariables.
 	"puBlockdata --|> #TWithTypes."
 
 	puComment --|> programUnit.
@@ -259,13 +249,13 @@ FamixFortran77Generator >> defineHierarchy [
 	puMain --|> #TWithTypes.
 
 	puProcedure --|> programUnit.
-	puProcedure --|> #THasSignature.
 	puProcedure --|> tWithStatements.
+	puProcedure --|> #THasSignature.
 	puProcedure --|> #TWithParameters.
 	puProcedure --|> #TWithTypes.
+	puProcedure --|> #TInvocable.
 
 	puSubroutine --|> puProcedure.
-
 
 	statementFunction --|> namedEntity.
 	statementFunction --|> #TSourceEntity.
@@ -274,6 +264,8 @@ FamixFortran77Generator >> defineHierarchy [
 	statementFunction --|> #THasSignature.
 	statementFunction --|> #TWithParameters.
 	statementFunction --|> #TWithTypes.
+	statementFunction --|> #TWithLocalVariables.
+	statementFunction --|> #TInvocable.
 
 	"real --|> typeIntrinsic."
 
@@ -354,12 +346,10 @@ FamixFortran77Generator >> defineTraits [
 
 	super defineTraits.
 
-	tWithStatements := builder
-		newTraitNamed: 'TWithStatements'
-		comment: 'A trait that factorize several interesting properties for entities with statements'
+	tWithStatements := builder newTraitNamed: #TWithStatements
 ]
 
-{ #category : #definition }
+{ #category : #'class comment' }
 FamixFortran77Generator >> externalDeclarationComment [
 
 	^ 'Im a external declaration. 
@@ -378,7 +368,7 @@ FamixFortran77Generator >> fileEntityComment [
 	^ 'a fortran file'
 ]
 
-{ #category : #definition }
+{ #category : #'class comment' }
 FamixFortran77Generator >> implicitComment [
 
 	^ '[Implicit](https://docs.oracle.com/cd/E19957-01/805-4939/6j4m0vn9v/index.html) statement'
@@ -393,7 +383,7 @@ FamixFortran77Generator >> implicitPropertyFor: anInstanceVar [
 		'dictionary to carry implicits declaration rule for each type'.
 ]
 
-{ #category : #definition }
+{ #category : #'class comment' }
 FamixFortran77Generator >> includeComment [
 
 	^ 'Entity to hold `#include "file.inc"` directive
@@ -479,7 +469,7 @@ FamixFortran77Generator >> typeComment [
 	^ 'Im a Abstract Type, can be subclassed by TypeInstrinsic and Segment'
 ]
 
-{ #category : #definition }
+{ #category : #'class comment' }
 FamixFortran77Generator >> typeIntrinsicComment [
 
 	^ 'Im an fortran77 instrinsic type.

@@ -1,14 +1,10 @@
 "
-A trait that factorize several interesting properties for entities with statements
-
 ## Relations
 ======================
 
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `comments` | `FamixTWithComments` | `commentedEntity` | `FamixTComment` | List of comments for the entity|
-| `localVariables` | `FamixTWithLocalVariables` | `parentBehaviouralEntity` | `FamixTLocalVariable` | Variables locally defined by this behaviour.|
 | `statementFunctions` | `FamixF77TWithStatements` | `parentEntity` | `FamixF77StatementFunction` | Statement functions defined in the body|
 
 ### Outgoing dependencies
@@ -17,11 +13,6 @@ A trait that factorize several interesting properties for entities with statemen
 | `accesses` | `FamixTWithAccesses` | `accessor` | `FamixTAccess` | Accesses to variables made by this behaviour.|
 | `outgoingInvocations` | `FamixTWithInvocations` | `sender` | `FamixTInvocation` | Outgoing invocations sent by this behaviour.|
 | `outgoingReferences` | `FamixTWithReferences` | `referencer` | `FamixTReference` | References from this entity to other entities.|
-
-### Incoming dependencies
-| Relation | Origin | Opposite | Type | Comment |
-|---|
-| `incomingInvocations` | `FamixTInvocable` | `candidates` | `FamixTInvocation` | Incoming invocations from other behaviours computed by the candidate operator.|
 
 ### Other
 | Relation | Origin | Opposite | Type | Comment |
@@ -42,8 +33,8 @@ Trait {
 	#instVars : [
 		'#statementFunctions => FMMany type: #FamixF77StatementFunction opposite: #parentEntity'
 	],
-	#traits : 'FamixTInvocable + FamixTWithAccesses + FamixTWithComments + FamixTWithInvocations + FamixTWithLocalVariables + FamixTWithStatements + TEntityMetaLevelDependency',
-	#classTraits : 'FamixTInvocable classTrait + FamixTWithAccesses classTrait + FamixTWithComments classTrait + FamixTWithInvocations classTrait + FamixTWithLocalVariables classTrait + FamixTWithStatements classTrait + TEntityMetaLevelDependency classTrait',
+	#traits : 'FamixTWithStatements',
+	#classTraits : 'FamixTWithStatements classTrait',
 	#category : #'Famix-Fortran77-Entities-Traits'
 }
 
