@@ -12,7 +12,6 @@ a statement function
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `comments` | `FamixTWithComments` | `commentedEntity` | `FamixTComment` | List of comments for the entity|
 | `localVariables` | `FamixTWithLocalVariables` | `parentBehaviouralEntity` | `FamixTLocalVariable` | Variables locally defined by this behaviour.|
 | `parameters` | `FamixTWithParameters` | `parentBehaviouralEntity` | `FamixTParameter` | List of formal parameters declared by this behaviour.|
 | `statementFunctions` | `FamixF77TWithStatements` | `parentEntity` | `FamixF77StatementFunction` | Statement functions defined in the body|
@@ -49,8 +48,8 @@ a statement function
 Class {
 	#name : #FamixF77StatementFunction,
 	#superclass : #FamixF77NamedEntity,
-	#traits : 'FamixF77TWithStatements + FamixTHasSignature + FamixTSourceEntity + FamixTTypedEntity + FamixTWithParameters + FamixTWithTypes',
-	#classTraits : 'FamixF77TWithStatements classTrait + FamixTHasSignature classTrait + FamixTSourceEntity classTrait + FamixTTypedEntity classTrait + FamixTWithParameters classTrait + FamixTWithTypes classTrait',
+	#traits : 'FamixF77TWithStatements + FamixTHasSignature + FamixTInvocable + FamixTSourceEntity + FamixTTypedEntity + FamixTWithLocalVariables + FamixTWithParameters + FamixTWithTypes',
+	#classTraits : 'FamixF77TWithStatements classTrait + FamixTHasSignature classTrait + FamixTInvocable classTrait + FamixTSourceEntity classTrait + FamixTTypedEntity classTrait + FamixTWithLocalVariables classTrait + FamixTWithParameters classTrait + FamixTWithTypes classTrait',
 	#instVars : [
 		'#parentEntity => FMOne type: #FamixF77TWithStatements opposite: #statementFunctions'
 	],
