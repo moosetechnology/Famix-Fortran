@@ -16,7 +16,7 @@ a fortran comment
 | Name | Type | Default value | Comment |
 |---|
 | `content` | `String` | nil | Content of the comment as a String|
-| `isEsope` | `Boolean` | false | It is esope comment ?|
+| `isEsope` | `Boolean` | false | Is it an esope comment ?|
 
 "
 Class {
@@ -44,7 +44,7 @@ FamixF77Comment >> isEsope [
 
 	<FMProperty: #isEsope type: #Boolean defaultValue: false>
 	<generated>
-	<FMComment: 'It is esope comment ?'>
+	<FMComment: 'Is it an esope comment ?'>
 	^ isEsope ifNil: [ isEsope := false ]
 ]
 

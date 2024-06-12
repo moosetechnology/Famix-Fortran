@@ -26,10 +26,9 @@ a local variable of a program unit
 
 | Name | Type | Default value | Comment |
 |---|
-| `isEsope` | `Boolean` | false | It is esope attribute variable from segment definition ?|
+| `isEsope` | `Boolean` | false | Is it an Esope pointer ?|
 | `isStub` | `Boolean` | false | Flag true if the entity attributes are incomplete, either because the entity is missing or not imported.|
 | `name` | `String` | nil | Basic name of the entity, not full reference.|
-| `segment` | `String` | nil | variable belong to this segment|
 
 "
 Class {
@@ -38,8 +37,7 @@ Class {
 	#traits : 'FamixTLocalVariable',
 	#classTraits : 'FamixTLocalVariable classTrait',
 	#instVars : [
-		'#isEsope => FMProperty defaultValue: false',
-		'#segment => FMProperty'
+		'#isEsope => FMProperty defaultValue: false'
 	],
 	#category : #'Famix-Fortran77-Entities-Entities'
 }
@@ -58,7 +56,7 @@ FamixF77Variable >> isEsope [
 
 	<FMProperty: #isEsope type: #Boolean defaultValue: false>
 	<generated>
-	<FMComment: 'It is esope attribute variable from segment definition ?'>
+	<FMComment: 'Is it an Esope pointer ?'>
 	^ isEsope ifNil: [ isEsope := false ]
 ]
 
@@ -66,19 +64,4 @@ FamixF77Variable >> isEsope [
 FamixF77Variable >> isEsope: anObject [
 	<generated>
 	isEsope := anObject
-]
-
-{ #category : #accessing }
-FamixF77Variable >> segment [
-
-	<FMProperty: #segment type: #String>
-	<generated>
-	<FMComment: 'variable belong to this segment'>
-	^ segment
-]
-
-{ #category : #accessing }
-FamixF77Variable >> segment: anObject [
-	<generated>
-	segment := anObject
 ]

@@ -27,8 +27,8 @@ Im a Abstract Type, can be subclassed by TypeInstrinsic and Segment
 | Name | Type | Default value | Comment |
 |---|
 | `isStub` | `Boolean` | false | Flag true if the entity attributes are incomplete, either because the entity is missing or not imported.|
-| `kind` | `Number` | nil | kind attribute|
-| `length` | `Number` | nil | length attribute|
+| `kind` | `Number` | nil | kind attribute of a type|
+| `length` | `Number` | nil | length attribute of a type|
 | `name` | `String` | nil | Basic name of the entity, not full reference.|
 
 "
@@ -58,7 +58,7 @@ FamixF77Type >> kind [
 
 	<FMProperty: #kind type: #Number>
 	<generated>
-	<FMComment: 'kind attribute'>
+	<FMComment: 'kind attribute of a type'>
 	^ kind
 ]
 
@@ -73,7 +73,7 @@ FamixF77Type >> length [
 
 	<FMProperty: #length type: #Number>
 	<generated>
-	<FMComment: 'length attribute'>
+	<FMComment: 'length attribute of a type'>
 	^ length
 ]
 
