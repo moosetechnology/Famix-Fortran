@@ -80,12 +80,5 @@ FamixFortranUDTGenerator >> defineHierarchy [
 	attribute --|> variable.
 
 	userDefinedType --|> type.
-]
-
-{ #category : #definition }
-FamixFortranUDTGenerator >> defineRelations [
-
-	super defineRelations.
-
-	userDefinedType <>-* attribute
+	userDefinedType --|> #TWithAttributes.
 ]
