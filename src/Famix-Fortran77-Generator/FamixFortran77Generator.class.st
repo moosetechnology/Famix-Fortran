@@ -286,10 +286,10 @@ FamixFortran77Generator >> defineProperties [
 	super defineProperties.
 
 	(comment property: #isEsope type: #Boolean defaultValue: false) 
-		comment: 'It is esope comment ?'.
+		comment: 'Is it an esope comment ?'.
 		
-	(implicit property: #letters type: #Object) comment: ''.
-	(implicit property: #type type: #FamixTType) comment: ''.
+	(implicit property: #letters type: #Object) comment: 'Initials for the IMPLICIT statement'.
+	(implicit property: #type type: #FamixTType) comment: 'Type for the initials of the IMPLICIT statement'.
 
 	(include property: #isLocal type: #Boolean) comment:
 		'Whether this is a local include (with "included.h") or a system one (with <included.h>)'.
@@ -297,11 +297,8 @@ FamixFortran77Generator >> defineProperties [
 	(include property: #filename type: #String) comment:
 		'Hold the name of the file included. Will be used to link this relation with the includedFile entity'.
 
-	(type property: #length type: #Number) comment: 'length attribute'.
-	(type property: #kind type: #Number) comment: 'kind attribute'.
-
-	"(parameter property: #variable type: #Object) comment:
-		'variable declaration related to this parameter'."
+	(type property: #length type: #Number) comment: 'length attribute of a type'.
+	(type property: #kind type: #Number) comment: 'kind attribute of a type'.
 
 	(programFile property: #version type: #String) comment:
 		'Fortran version of the file'.
@@ -310,13 +307,11 @@ FamixFortran77Generator >> defineProperties [
 		'Fortran name of the file'.
 
 	(puFunction property: #isEsope type: #Boolean defaultValue: false) 
-		comment: 'It is kind of esope function ?'.
+		comment: 'Is it an Esope function (segini,...) ?'.
 
 	(variable property: #isEsope type: #Boolean defaultValue: false) 
-		comment: 'It is esope attribute variable from segment definition ?'.
+		comment: 'Is it an Esope pointer ?'.
 
-	(variable property: #segment type: #String) comment:
-		'variable belong to this segment'
 ]
 
 { #category : #definition }

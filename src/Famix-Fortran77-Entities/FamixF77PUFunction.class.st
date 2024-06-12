@@ -15,7 +15,7 @@ a function procedure
 
 | Name | Type | Default value | Comment |
 |---|
-| `isEsope` | `Boolean` | false | It is kind of esope function ?|
+| `isEsope` | `Boolean` | false | Is it an Esope function (segini,...) ?|
 
 "
 Class {
@@ -43,7 +43,7 @@ FamixF77PUFunction >> isEsope [
 
 	<FMProperty: #isEsope type: #Boolean defaultValue: false>
 	<generated>
-	<FMComment: 'It is kind of esope function ?'>
+	<FMComment: 'Is it an Esope function (segini,...) ?'>
 	^ isEsope ifNil: [ isEsope := false ]
 ]
 

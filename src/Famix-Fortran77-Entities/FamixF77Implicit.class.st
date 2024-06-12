@@ -6,8 +6,8 @@
 
 | Name | Type | Default value | Comment |
 |---|
-| `letters` | `Object` | nil | |
-| `type` | `FamixTType` | nil | |
+| `letters` | `Object` | nil | Initials for the IMPLICIT statement|
+| `type` | `FamixTType` | nil | Type for the initials of the IMPLICIT statement|
 
 "
 Class {
@@ -34,6 +34,7 @@ FamixF77Implicit >> letters [
 
 	<FMProperty: #letters type: #Object>
 	<generated>
+	<FMComment: 'Initials for the IMPLICIT statement'>
 	^ letters
 ]
 
@@ -48,6 +49,7 @@ FamixF77Implicit >> type [
 
 	<FMProperty: #type type: #FamixTType>
 	<generated>
+	<FMComment: 'Type for the initials of the IMPLICIT statement'>
 	^ type
 ]
 
