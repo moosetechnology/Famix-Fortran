@@ -21,7 +21,7 @@ FamixFortran77Test >> invocationFrom: invocable to: anEntity [
 ]
 
 { #category : #'private - utility' }
-FamixFortran77Test >> newNamedEntity: entityName toFamix: aClass [
+FamixFortran77Test >> newEntity: aClass named: entityName [
 
 	^ aClass new
 		  name: entityName;
@@ -41,8 +41,8 @@ FamixFortran77Test >> programFile: fileName [
 FamixFortran77Test >> testEntityAccessingLocalVariableOfItsContainer: anEntity [
 
 	| fct var |
-	fct := self newNamedEntity: 'fct' toFamix: FamixF77PUFunction.
-	var := self newNamedEntity: 'var' toFamix: FamixF77Variable.
+	fct := self newEntity: FamixF77PUFunction named: 'fct'.
+	var := self newEntity: FamixF77Variable named: 'var'.
 	var parentBehaviouralEntity: fct.
 
 	self assert: fct localVariables size equals: 1.
@@ -52,10 +52,14 @@ FamixFortran77Test >> testEntityAccessingLocalVariableOfItsContainer: anEntity [
 { #category : #running }
 FamixFortran77Test >> testEntityWithComment [
 
-	self testEntityWithComment: (self newNamedEntity: 'fct' toFamix: FamixF77PUFunction).
-	self testEntityWithComment: (self newNamedEntity: 'sub' toFamix: FamixF77PUSubroutine).
-	self testEntityWithComment: (self newNamedEntity: 'main' toFamix: FamixF77PUMain).
-	self testEntityWithComment: (self newNamedEntity: 'bdata' toFamix: FamixF77PUBlockdata)
+	self testEntityWithComment:
+		(self newEntity: FamixF77PUFunction named: 'fct').
+	self testEntityWithComment:
+		(self newEntity: FamixF77PUSubroutine named: 'sub').
+	self testEntityWithComment:
+		(self newEntity: FamixF77PUMain named: 'main').
+	self testEntityWithComment:
+		(self newEntity: FamixF77PUBlockdata named: 'bdata')
 ]
 
 { #category : #running }
@@ -77,8 +81,8 @@ FamixFortran77Test >> testEntityWithComment: anEntity [
 FamixFortran77Test >> testEntityWithParameter: anEntity [
 
 	| parameter1 parameter2 |
-	parameter1 := self newNamedEntity: 'parameter1' toFamix: FamixF77Parameter.
-	parameter2 := self newNamedEntity: 'parameter2' toFamix: FamixF77Parameter.
+	parameter1 := self newEntity: FamixF77Parameter named: 'parameter1'.
+	parameter2 := self newEntity: FamixF77Parameter named: 'parameter2'.
 
 
 	self assert: parameter1 parentBehaviouralEntity isNil.
@@ -98,7 +102,7 @@ FamixFortran77Test >> testEntityWithParameter: anEntity [
 
 	self assert: parameter2 parentBehaviouralEntity equals: anEntity.
 	self assert: anEntity parameters size equals: 2.
-	self assertCollection: anEntity parameters hasSameElements: { 
+	self assertCollection: anEntity parameters hasSameElements: {
 			parameter1.
 			parameter2 }
 ]
@@ -107,8 +111,8 @@ FamixFortran77Test >> testEntityWithParameter: anEntity [
 FamixFortran77Test >> testEntityWithVariable: anEntity [
 
 	| variable1 variable2 |
-	variable1 := self newNamedEntity: 'variable1' toFamix: FamixF77Variable.
-	variable2 := self newNamedEntity: 'variable2' toFamix: FamixF77Variable.
+	variable1 := self newEntity: FamixF77Variable named: 'variable1'.
+	variable2 := self newEntity: FamixF77Variable named: 'variable2'.
 
 	self assert: variable1 parentBehaviouralEntity isNil.
 	self assert: anEntity localVariables isEmpty.
@@ -127,7 +131,7 @@ FamixFortran77Test >> testEntityWithVariable: anEntity [
 
 	self assert: variable2 parentBehaviouralEntity equals: anEntity.
 	self assert: anEntity localVariables size equals: 2.
-	self assertCollection: anEntity localVariables hasSameElements: { 
+	self assertCollection: anEntity localVariables hasSameElements: {
 			variable1.
 			variable2 }
 ]
@@ -136,7 +140,7 @@ FamixFortran77Test >> testEntityWithVariable: anEntity [
 FamixFortran77Test >> testExternalProcedureInvokingEntity: anEntity [
 
 	| extProc invocation |
-	extProc := self newNamedEntity: 'fct' toFamix: FamixF77PUFunction.
+	extProc := self newEntity: FamixF77PUFunction named: 'fct'.
 
 	self assert: anEntity incomingInvocations size equals: 0.
 	self assert: extProc outgoingInvocations size equals: 0.
@@ -153,28 +157,28 @@ FamixFortran77Test >> testExternalProcedureInvokingEntity: anEntity [
 FamixFortran77Test >> testExternalProcedureInvokingFunction [
 
 	self testExternalProcedureInvokingEntity:
-		(self newNamedEntity: 'fct' toFamix: FamixF77PUFunction)
+		(self newEntity: FamixF77PUFunction named: 'fct')
 ]
 
 { #category : #running }
 FamixFortran77Test >> testFunctionWithAccessingItsLocalVariable [
 
 	self testEntityAccessingLocalVariableOfItsContainer:
-		(self newNamedEntity: 'fct' toFamix: FamixF77PUFunction)
+		(self newEntity: FamixF77PUFunction named: 'fct')
 ]
 
 { #category : #running }
 FamixFortran77Test >> testFunctionWithParameters [
 
 	self testEntityWithParameter:
-		(self newNamedEntity: 'fct' toFamix: FamixF77PUFunction)
+		(self newEntity: FamixF77PUFunction named: 'fct')
 ]
 
 { #category : #running }
 FamixFortran77Test >> testFunctionWithVariables [
 
 	self testEntityWithVariable:
-		(self newNamedEntity: 'fct' toFamix: FamixF77PUFunction)
+		(self newEntity: FamixF77PUFunction named: 'fct')
 ]
 
 { #category : #running }
@@ -191,9 +195,9 @@ FamixFortran77Test >> testProgramFileWithProgramAndSubProgram [
 
 	| pf program function subroutine |
 	pf := self programFile: 'test.f'.
-	program := self newNamedEntity: 'main' toFamix: FamixF77PUMain.
-	function := self newNamedEntity: 'fct' toFamix: FamixF77PUFunction.
-	subroutine := self newNamedEntity: 'sub' toFamix: FamixF77PUSubroutine.
+	program := self newEntity: FamixF77PUMain named: 'main'.
+	function := self newEntity: FamixF77PUFunction named: 'fct'.
+	subroutine := self newEntity: FamixF77PUSubroutine named: 'sub'.
 
 	self assertEmpty: pf programUnits.
 
@@ -204,7 +208,7 @@ FamixFortran77Test >> testProgramFileWithProgramAndSubProgram [
 
 	self assert: pf programUnits size equals: 3.
 
-	self assertCollection: pf programUnits hasSameElements: { 
+	self assertCollection: pf programUnits hasSameElements: {
 			program.
 			function.
 			subroutine }.
@@ -216,12 +220,12 @@ FamixFortran77Test >> testProgramFileWithProgramAndSubProgram [
 FamixFortran77Test >> testSubroutineWithParameters [
 
 	self testEntityWithParameter:
-		(self newNamedEntity: 'sub' toFamix: FamixF77PUSubroutine)
+		(self newEntity: FamixF77PUSubroutine named: 'sub')
 ]
 
 { #category : #running }
 FamixFortran77Test >> testSubroutineWithVariables [
 
 	self testEntityWithVariable:
-		(self newNamedEntity: 'sub' toFamix: FamixF77PUSubroutine)
+		(self newEntity: FamixF77PUSubroutine named: 'sub')
 ]
