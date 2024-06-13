@@ -374,7 +374,7 @@ FamixFortran77Generator >> implicitComment [
 { #category : #'private - utility' }
 FamixFortran77Generator >> implicitPropertyFor: anInstanceVar [
 	(anInstanceVar
-		 property: #dicImplicit
+		 property: #implicitDictionary
 		 type: #Object
 		 defaultValue: 'Dictionary new') comment:
 		'dictionary to carry implicits declaration rule for each type'.
