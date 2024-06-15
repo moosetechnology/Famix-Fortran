@@ -187,6 +187,20 @@ FamixF77TEntityCreator >> newTypeUnknown [
 ]
 
 { #category : #'entity creation' }
+FamixF77TEntityCreator >> newUnknownVariable [
+
+	<generated>
+	^ self add: FamixF77UnknownVariable new
+]
+
+{ #category : #'entity creation' }
+FamixF77TEntityCreator >> newUnknownVariableNamed: aName [
+
+	<generated>
+	^ self add: (FamixF77UnknownVariable named: aName)
+]
+
+{ #category : #'entity creation' }
 FamixF77TEntityCreator >> newVariable [
 
 	<generated>

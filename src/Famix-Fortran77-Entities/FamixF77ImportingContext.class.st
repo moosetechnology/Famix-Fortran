@@ -170,6 +170,13 @@ FamixF77ImportingContext >> importTypeUnknown [
 ]
 
 { #category : #importing }
+FamixF77ImportingContext >> importUnknownVariable [
+
+	<generated>
+	^ self importConcreteEntity: (self class fm3ClassNamed: #UnknownVariable)
+]
+
+{ #category : #importing }
 FamixF77ImportingContext >> importVariable [
 
 	<generated>
@@ -328,6 +335,13 @@ FamixF77ImportingContext >> shouldImportTypeUnknown [
 
 	<generated>
 	^ self shouldImport: #TypeUnknown
+]
+
+{ #category : #testing }
+FamixF77ImportingContext >> shouldImportUnknownVariable [
+
+	<generated>
+	^ self shouldImport: #UnknownVariable
 ]
 
 { #category : #testing }

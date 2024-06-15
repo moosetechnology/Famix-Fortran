@@ -56,7 +56,8 @@ Class {
 		'externalDeclaration',
 		'implicit',
 		'statementFunction',
-		'tWithStatements'
+		'tWithStatements',
+		'unknownVariable'
 	],
 	#category : #'Famix-Fortran77-Generator'
 }
@@ -185,7 +186,12 @@ FamixFortran77Generator >> defineClasses [
 
 	variable := builder
 		            newClassNamed: #Variable
-		            comment: self variableEntityComment
+		            comment: self variableEntityComment.
+
+	unknownVariable := builder
+		            newClassNamed: #UnknownVariable
+		            comment: 'Variable used but not resolved'.
+
 ]
 
 { #category : #definition }
@@ -277,7 +283,9 @@ FamixFortran77Generator >> defineHierarchy [
 
 	typeUnknown --|> type.
 
-	variable --|> #TLocalVariable
+	variable --|> #TLocalVariable.
+
+	unknownVariable  --|> #TUnknownVariable
 ]
 
 { #category : #definition }
