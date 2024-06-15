@@ -201,12 +201,10 @@ FamixFortran77Generator >> defineHierarchy [
 	access --|> #TAccess.
 	access --|> #TEntityMetaLevelDependency.
 
-	"character --|> typeIntrinsic.
-	
-	complex --|> typeIntrinsic."
-	
 	externalDeclaration --|> namedEntity.
 	externalDeclaration --|> #TSourceEntity.
+
+	include --|> #TAssociation.
 
 	indexedFileAnchor --|> sourceAnchor.
 	indexedFileAnchor --|> #TFileNavigation.
@@ -214,18 +212,11 @@ FamixFortran77Generator >> defineHierarchy [
 	invocation --|> #TInvocation.
 	invocation --|> #TEntityMetaLevelDependency.
 
-	include --|> #TAssociation.
-
-	"extends default TWithStatements in #defineRelations"
-	tWithStatements --|> #TWithStatements.
+	intrinsicRoutine --|> puProcedure.
 
 	includedFile --|> programUnit.
 	includedFile --|> #TWithTypes.
 	includedFile --|> tWithStatements.
-
-	"integer --|> typeIntrinsic.
-
-	logical --|> typeIntrinsic."
 
 	parameter --|> #TParameter.
 
@@ -273,8 +264,7 @@ FamixFortran77Generator >> defineHierarchy [
 	statementFunction --|> #TInvocable.
 	statementFunction --|> #TEntityMetaLevelDependency.
 
-
-	"real --|> typeIntrinsic."
+	tWithStatements --|> #TWithStatements.
 
 	type --|> #TType.
 
