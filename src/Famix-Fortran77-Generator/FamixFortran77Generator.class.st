@@ -57,7 +57,8 @@ Class {
 		'implicit',
 		'statementFunction',
 		'tWithStatements',
-		'unknownVariable'
+		'unknownVariable',
+		'intrinsicRoutine'
 	],
 	#category : #'Famix-Fortran77-Generator'
 }
@@ -117,6 +118,10 @@ FamixFortran77Generator >> defineClasses [
 		                     newClassNamed: #IndexedFileAnchor
 		                     comment: self indexedFileAnchorComment.
 
+	intrinsicRoutine := builder
+		newClassNamed: #IntrinsicRoutine
+		comment: self intrinsicRoutineComment.
+
 	invocation := builder
 		              newClassNamed: #Invocation
 		              comment: self invocationEntityComment.
@@ -127,10 +132,6 @@ FamixFortran77Generator >> defineClasses [
 	includedFile := builder
 		                newClassNamed: #IncludedFile
 		                comment: 'includedFile'.
-
-	"integer := builder newClassNamed: #Integer comment: 'Im an integer'.
-
-	logical := builder newClassNamed: #Logical comment: 'Im a logical'."
 
 	parameter := builder
 		             newClassNamed: #Parameter
@@ -171,8 +172,6 @@ FamixFortran77Generator >> defineClasses [
 	statementFunction := builder
 		newClassNamed: #StatementFunction
 		comment: self statementFunctionEntityComment.
-
-	"real := builder newClassNamed: #Real comment: 'Im a real'."
 
 	type := builder newClassNamed: #Type comment: self typeComment.
 
@@ -399,6 +398,12 @@ FamixFortran77Generator >> includeComment [
 { #category : #'class comment' }
 FamixFortran77Generator >> indexedFileAnchorComment [
 	^ 'Its the sourceAnchor (position of the token) in the source file (startLine@startColumn)-(endLine@endColumn).'
+]
+
+{ #category : #'class comment' }
+FamixFortran77Generator >> intrinsicRoutineComment [
+
+	^'A subroutine (or function) defined in the Fortran language itself'
 ]
 
 { #category : #'class comment' }
