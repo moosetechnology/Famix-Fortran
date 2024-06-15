@@ -68,6 +68,13 @@ FamixF77TEntityCreator >> newIndexedFileAnchor [
 ]
 
 { #category : #'entity creation' }
+FamixF77TEntityCreator >> newIntrinsicRoutine [
+
+	<generated>
+	^ self add: FamixF77IntrinsicRoutine new
+]
+
+{ #category : #'entity creation' }
 FamixF77TEntityCreator >> newInvocation [
 
 	<generated>

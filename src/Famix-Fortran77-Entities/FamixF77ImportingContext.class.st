@@ -65,6 +65,13 @@ FamixF77ImportingContext >> importIndexedFileAnchor [
 ]
 
 { #category : #importing }
+FamixF77ImportingContext >> importIntrinsicRoutine [
+
+	<generated>
+	^ self importConcreteEntity: (self class fm3ClassNamed: #IntrinsicRoutine)
+]
+
+{ #category : #importing }
 FamixF77ImportingContext >> importInvocation [
 
 	<generated>
@@ -230,6 +237,13 @@ FamixF77ImportingContext >> shouldImportIndexedFileAnchor [
 
 	<generated>
 	^ self shouldImport: #IndexedFileAnchor
+]
+
+{ #category : #testing }
+FamixF77ImportingContext >> shouldImportIntrinsicRoutine [
+
+	<generated>
+	^ self shouldImport: #IntrinsicRoutine
 ]
 
 { #category : #testing }
