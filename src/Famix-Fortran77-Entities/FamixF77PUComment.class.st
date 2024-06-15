@@ -34,3 +34,10 @@ FamixF77PUComment class >> annotation [
 	<generated>
 	^ self
 ]
+
+{ #category : #'as yet unclassified' }
+FamixF77PUComment >> resolveVariable: variableName with: resolver [
+	"PUComment should not exist, a Comment is not a ProgramUnit :-("
+
+	^nil
+]
