@@ -89,13 +89,6 @@ FamixF77TEntityCreator >> newPUBlockdata [
 ]
 
 { #category : #'entity creation' }
-FamixF77TEntityCreator >> newPUComment [
-
-	<generated>
-	^ self add: FamixF77PUComment new
-]
-
-{ #category : #'entity creation' }
 FamixF77TEntityCreator >> newPUFunction [
 
 	<generated>

@@ -40,7 +40,6 @@ Class {
 		'parameter',
 		'programUnit',
 		'puBlockdata',
-		'puComment',
 		'puFunction',
 		'puMain',
 		'puProcedure',
@@ -149,10 +148,6 @@ FamixFortran77Generator >> defineClasses [
 		               newClassNamed: #PUBlockdata
 		               comment: self puBlockdataEntityComment.
 
-	puComment := builder
-		             newClassNamed: #PUComment
-		             comment: self puCommentEntityComment.
-
 	puFunction := builder
 		              newClassNamed: #PUFunction
 		              comment: self puFunctionEntityComment.
@@ -222,6 +217,7 @@ FamixFortran77Generator >> defineHierarchy [
 
 	programFile --|> namedEntity.
 	programFile inheritsFromTrait: #TSourceEntity without: { #sourceText }.
+	programFile --|> #TWithComments.
 	programFile --|> #TCompilationUnit.
 	programFile --|> #TEntityMetaLevelDependency.
 
@@ -233,9 +229,6 @@ FamixFortran77Generator >> defineHierarchy [
 
 	puBlockdata --|> programUnit.
 	"puBlockdata --|> #TWithTypes."
-
-	puComment --|> programUnit.
-	puComment --|> #TComment.
 
 	puFunction --|> puProcedure.
 	puFunction --|> #TTypedEntity.
@@ -425,12 +418,6 @@ FamixFortran77Generator >> programUnitEntityComment [
 FamixFortran77Generator >> puBlockdataEntityComment [
 
 	^ 'a block data for common variable'
-]
-
-{ #category : #'class comment' }
-FamixFortran77Generator >> puCommentEntityComment [
-
-	^ 'a comment belongs to fortran file'
 ]
 
 { #category : #'class comment' }

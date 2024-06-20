@@ -86,13 +86,6 @@ FamixF77ImportingContext >> importPUBlockdata [
 ]
 
 { #category : #importing }
-FamixF77ImportingContext >> importPUComment [
-
-	<generated>
-	^ self importConcreteEntity: (self class fm3ClassNamed: #PUComment)
-]
-
-{ #category : #importing }
 FamixF77ImportingContext >> importPUFunction [
 
 	<generated>
@@ -258,13 +251,6 @@ FamixF77ImportingContext >> shouldImportPUBlockdata [
 
 	<generated>
 	^ self shouldImport: #PUBlockdata
-]
-
-{ #category : #testing }
-FamixF77ImportingContext >> shouldImportPUComment [
-
-	<generated>
-	^ self shouldImport: #PUComment
 ]
 
 { #category : #testing }

@@ -13,6 +13,7 @@ a fortran file
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
+| `comments` | `FamixTWithComments` | `commentedEntity` | `FamixTComment` | List of comments for the entity|
 | `programUnits` | `FamixF77ProgramFile` | `programFile` | `FamixF77ProgramUnit` | |
 
 ### Other
@@ -35,8 +36,8 @@ a fortran file
 Class {
 	#name : #FamixF77ProgramFile,
 	#superclass : #FamixF77NamedEntity,
-	#traits : 'FamixTCompilationUnit + (FamixTSourceEntity - {#sourceText}) + TEntityMetaLevelDependency',
-	#classTraits : 'FamixTCompilationUnit classTrait + FamixTSourceEntity classTrait + TEntityMetaLevelDependency classTrait',
+	#traits : 'FamixTCompilationUnit + (FamixTSourceEntity - {#sourceText}) + FamixTWithComments + TEntityMetaLevelDependency',
+	#classTraits : 'FamixTCompilationUnit classTrait + FamixTSourceEntity classTrait + FamixTWithComments classTrait + TEntityMetaLevelDependency classTrait',
 	#instVars : [
 		'#filename => FMProperty',
 		'#programUnits => FMMany type: #FamixF77ProgramUnit opposite: #programFile',
