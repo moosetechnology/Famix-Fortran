@@ -220,6 +220,8 @@ FamixFortran77Generator >> defineHierarchy [
 	programFile --|> #TWithComments.
 	programFile --|> #TCompilationUnit.
 	programFile --|> #TEntityMetaLevelDependency.
+	programFile --|> #TSourceEntity.
+	programFile --|> #TWithComments.
 
 	programUnit --|> namedEntity.
 	programUnit --|> #TSourceEntity.
