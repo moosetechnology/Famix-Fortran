@@ -5,7 +5,7 @@
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `attributes` | `FamixFortranUserDefinedType` | `userDefinedType` | `FamixFortranAttribute` | |
+| `attributes` | `FamixTWithAttributes` | `parentType` | `FamixTAttribute` | List of attributes declared by this type.|
 
 
 
@@ -13,9 +13,8 @@
 Class {
 	#name : #FamixFortranUserDefinedType,
 	#superclass : #FamixF77Type,
-	#instVars : [
-		'#attributes => FMMany type: #FamixFortranAttribute opposite: #userDefinedType'
-	],
+	#traits : 'FamixTWithAttributes',
+	#classTraits : 'FamixTWithAttributes classTrait',
 	#category : #'Famix-FortranUDT-Entities-Entities'
 }
 
@@ -34,33 +33,4 @@ FamixFortranUserDefinedType class >> isAbstract [
 
 	<generated>
 	^ self == FamixFortranUserDefinedType
-]
-
-{ #category : #adding }
-FamixFortranUserDefinedType >> addAttribute: anObject [
-	<generated>
-	^ self attributes add: anObject
-]
-
-{ #category : #accessing }
-FamixFortranUserDefinedType >> attributes [
-	"Relation named: #attributes type: #FamixFortranAttribute opposite: #userDefinedType"
-
-	<generated>
-	<derived>
-	^ attributes
-]
-
-{ #category : #accessing }
-FamixFortranUserDefinedType >> attributes: anObject [
-
-	<generated>
-	attributes value: anObject
-]
-
-{ #category : #navigation }
-FamixFortranUserDefinedType >> attributesGroup [
-	<generated>
-	<navigation: 'Attributes'>
-	^ MooseSpecializedGroup withAll: self attributes asSet
 ]

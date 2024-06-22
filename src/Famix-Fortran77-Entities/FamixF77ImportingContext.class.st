@@ -65,6 +65,13 @@ FamixF77ImportingContext >> importIndexedFileAnchor [
 ]
 
 { #category : #importing }
+FamixF77ImportingContext >> importIntrinsicRoutine [
+
+	<generated>
+	^ self importConcreteEntity: (self class fm3ClassNamed: #IntrinsicRoutine)
+]
+
+{ #category : #importing }
 FamixF77ImportingContext >> importInvocation [
 
 	<generated>
@@ -76,13 +83,6 @@ FamixF77ImportingContext >> importPUBlockdata [
 
 	<generated>
 	^ self importConcreteEntity: (self class fm3ClassNamed: #PUBlockdata)
-]
-
-{ #category : #importing }
-FamixF77ImportingContext >> importPUComment [
-
-	<generated>
-	^ self importConcreteEntity: (self class fm3ClassNamed: #PUComment)
 ]
 
 { #category : #importing }
@@ -142,6 +142,13 @@ FamixF77ImportingContext >> importSourceTextAnchor [
 ]
 
 { #category : #importing }
+FamixF77ImportingContext >> importStatementFunction [
+
+	<generated>
+	^ self importConcreteEntity: (self class fm3ClassNamed: #StatementFunction)
+]
+
+{ #category : #importing }
 FamixF77ImportingContext >> importType [
 
 	<generated>
@@ -160,6 +167,13 @@ FamixF77ImportingContext >> importTypeUnknown [
 
 	<generated>
 	^ self importConcreteEntity: (self class fm3ClassNamed: #TypeUnknown)
+]
+
+{ #category : #importing }
+FamixF77ImportingContext >> importUnknownVariable [
+
+	<generated>
+	^ self importConcreteEntity: (self class fm3ClassNamed: #UnknownVariable)
 ]
 
 { #category : #importing }
@@ -219,6 +233,13 @@ FamixF77ImportingContext >> shouldImportIndexedFileAnchor [
 ]
 
 { #category : #testing }
+FamixF77ImportingContext >> shouldImportIntrinsicRoutine [
+
+	<generated>
+	^ self shouldImport: #IntrinsicRoutine
+]
+
+{ #category : #testing }
 FamixF77ImportingContext >> shouldImportInvocation [
 
 	<generated>
@@ -230,13 +251,6 @@ FamixF77ImportingContext >> shouldImportPUBlockdata [
 
 	<generated>
 	^ self shouldImport: #PUBlockdata
-]
-
-{ #category : #testing }
-FamixF77ImportingContext >> shouldImportPUComment [
-
-	<generated>
-	^ self shouldImport: #PUComment
 ]
 
 { #category : #testing }
@@ -296,6 +310,13 @@ FamixF77ImportingContext >> shouldImportSourceTextAnchor [
 ]
 
 { #category : #testing }
+FamixF77ImportingContext >> shouldImportStatementFunction [
+
+	<generated>
+	^ self shouldImport: #StatementFunction
+]
+
+{ #category : #testing }
 FamixF77ImportingContext >> shouldImportType [
 
 	<generated>
@@ -314,6 +335,13 @@ FamixF77ImportingContext >> shouldImportTypeUnknown [
 
 	<generated>
 	^ self shouldImport: #TypeUnknown
+]
+
+{ #category : #testing }
+FamixF77ImportingContext >> shouldImportUnknownVariable [
+
+	<generated>
+	^ self shouldImport: #UnknownVariable
 ]
 
 { #category : #testing }

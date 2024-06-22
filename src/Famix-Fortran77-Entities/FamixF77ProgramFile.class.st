@@ -36,7 +36,7 @@ a fortran file
 Class {
 	#name : #FamixF77ProgramFile,
 	#superclass : #FamixF77NamedEntity,
-	#traits : 'FamixTCompilationUnit + FamixTSourceEntity + FamixTWithComments + TEntityMetaLevelDependency',
+	#traits : 'FamixTCompilationUnit + (FamixTSourceEntity - {#sourceText}) + FamixTWithComments + TEntityMetaLevelDependency',
 	#classTraits : 'FamixTCompilationUnit classTrait + FamixTSourceEntity classTrait + FamixTWithComments classTrait + TEntityMetaLevelDependency classTrait',
 	#instVars : [
 		'#filename => FMProperty',

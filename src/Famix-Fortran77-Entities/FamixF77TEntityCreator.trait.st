@@ -68,6 +68,13 @@ FamixF77TEntityCreator >> newIndexedFileAnchor [
 ]
 
 { #category : #'entity creation' }
+FamixF77TEntityCreator >> newIntrinsicRoutine [
+
+	<generated>
+	^ self add: FamixF77IntrinsicRoutine new
+]
+
+{ #category : #'entity creation' }
 FamixF77TEntityCreator >> newInvocation [
 
 	<generated>
@@ -79,13 +86,6 @@ FamixF77TEntityCreator >> newPUBlockdata [
 
 	<generated>
 	^ self add: FamixF77PUBlockdata new
-]
-
-{ #category : #'entity creation' }
-FamixF77TEntityCreator >> newPUComment [
-
-	<generated>
-	^ self add: FamixF77PUComment new
 ]
 
 { #category : #'entity creation' }
@@ -152,6 +152,13 @@ FamixF77TEntityCreator >> newSourceTextAnchor [
 ]
 
 { #category : #'entity creation' }
+FamixF77TEntityCreator >> newStatementFunction [
+
+	<generated>
+	^ self add: FamixF77StatementFunction new
+]
+
+{ #category : #'entity creation' }
 FamixF77TEntityCreator >> newType [
 
 	<generated>
@@ -177,6 +184,20 @@ FamixF77TEntityCreator >> newTypeUnknown [
 
 	<generated>
 	^ self add: FamixF77TypeUnknown new
+]
+
+{ #category : #'entity creation' }
+FamixF77TEntityCreator >> newUnknownVariable [
+
+	<generated>
+	^ self add: FamixF77UnknownVariable new
+]
+
+{ #category : #'entity creation' }
+FamixF77TEntityCreator >> newUnknownVariableNamed: aName [
+
+	<generated>
+	^ self add: (FamixF77UnknownVariable named: aName)
 ]
 
 { #category : #'entity creation' }

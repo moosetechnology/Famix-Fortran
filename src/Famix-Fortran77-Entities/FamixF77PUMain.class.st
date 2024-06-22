@@ -7,7 +7,7 @@ a main program
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `localVariables` | `FamixTWithLocalVariables` | `parentBehaviouralEntity` | `FamixTLocalVariable` | Variables locally defined by this behaviour.|
+| `statementFunctions` | `FamixF77TWithStatements` | `parentEntity` | `FamixF77StatementFunction` | Statement functions defined in the body|
 | `types` | `FamixTWithTypes` | `typeContainer` | `FamixTType` | Types contained (declared) in this entity, if any. #types is declared in ContainerEntity because different kinds of container can embed types. Types are usually contained in a Famix.Namespace. But types can also be contained in a Famix.Class or Famix.Method (in Java with inner classes for example). Famix.Function can also contain some types such as structs.|
 
 ### Outgoing dependencies
@@ -34,8 +34,8 @@ a main program
 Class {
 	#name : #FamixF77PUMain,
 	#superclass : #FamixF77ProgramUnit,
-	#traits : 'FamixTWithAccesses + FamixTWithInvocations + FamixTWithLocalVariables + FamixTWithStatements + FamixTWithTypes',
-	#classTraits : 'FamixTWithAccesses classTrait + FamixTWithInvocations classTrait + FamixTWithLocalVariables classTrait + FamixTWithStatements classTrait + FamixTWithTypes classTrait',
+	#traits : 'FamixF77TWithStatements + FamixTWithTypes',
+	#classTraits : 'FamixF77TWithStatements classTrait + FamixTWithTypes classTrait',
 	#category : #'Famix-Fortran77-Entities-Entities'
 }
 

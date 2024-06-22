@@ -30,7 +30,6 @@ the segment `myseg` have the following attributes: `scalar`, `array`, `matrix`, 
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `parentType` | `FamixTAttribute` | `attributes` | `FamixTWithAttributes` | Type declaring the attribute. belongsTo implementation|
-| `userDefinedType` | `FamixFortranAttribute` | `attributes` | `FamixFortranUserDefinedType` | |
 
 ### Incoming dependencies
 | Relation | Origin | Opposite | Type | Comment |
@@ -58,9 +57,6 @@ Class {
 	#superclass : #FamixF77Variable,
 	#traits : 'FamixTAttribute',
 	#classTraits : 'FamixTAttribute classTrait',
-	#instVars : [
-		'#userDefinedType => FMOne type: #FamixFortranUserDefinedType opposite: #attributes'
-	],
 	#category : #'Famix-FortranUDT-Entities-Entities'
 }
 
@@ -71,27 +67,4 @@ FamixFortranAttribute class >> annotation [
 	<package: #'Famix-FortranUDT-Entities'>
 	<generated>
 	^ self
-]
-
-{ #category : #accessing }
-FamixFortranAttribute >> userDefinedType [
-	"Relation named: #userDefinedType type: #FamixFortranUserDefinedType opposite: #attributes"
-
-	<generated>
-	<container>
-	^ userDefinedType
-]
-
-{ #category : #accessing }
-FamixFortranAttribute >> userDefinedType: anObject [
-
-	<generated>
-	userDefinedType := anObject
-]
-
-{ #category : #navigation }
-FamixFortranAttribute >> userDefinedTypeGroup [
-	<generated>
-	<navigation: 'UserDefinedType'>
-	^ MooseSpecializedGroup with: self userDefinedType
 ]

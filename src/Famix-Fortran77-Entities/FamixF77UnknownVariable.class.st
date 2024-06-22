@@ -1,13 +1,8 @@
 "
-a local variable of a program unit
+Variable used but not resolved
 
 ## Relations
 ======================
-
-### Parents
-| Relation | Origin | Opposite | Type | Comment |
-|---|
-| `parentBehaviouralEntity` | `FamixTLocalVariable` | `localVariables` | `FamixTWithLocalVariables` | Behavioural entity declaring this local variable. belongsTo implementation|
 
 ### Incoming dependencies
 | Relation | Origin | Opposite | Type | Comment |
@@ -26,42 +21,23 @@ a local variable of a program unit
 
 | Name | Type | Default value | Comment |
 |---|
-| `isEsope` | `Boolean` | false | Is it an Esope pointer ?|
 | `isStub` | `Boolean` | false | Flag true if the entity attributes are incomplete, either because the entity is missing or not imported.|
 | `name` | `String` | nil | Basic name of the entity, not full reference.|
 
 "
 Class {
-	#name : #FamixF77Variable,
+	#name : #FamixF77UnknownVariable,
 	#superclass : #FamixF77Entity,
-	#traits : 'FamixTLocalVariable',
-	#classTraits : 'FamixTLocalVariable classTrait',
-	#instVars : [
-		'#isEsope => FMProperty defaultValue: false'
-	],
+	#traits : 'FamixTUnknownVariable',
+	#classTraits : 'FamixTUnknownVariable classTrait',
 	#category : #'Famix-Fortran77-Entities-Entities'
 }
 
 { #category : #meta }
-FamixF77Variable class >> annotation [
+FamixF77UnknownVariable class >> annotation [
 
-	<FMClass: #Variable super: #FamixF77Entity>
+	<FMClass: #UnknownVariable super: #FamixF77Entity>
 	<package: #'Famix-Fortran77-Entities'>
 	<generated>
 	^ self
-]
-
-{ #category : #accessing }
-FamixF77Variable >> isEsope [
-
-	<FMProperty: #isEsope type: #Boolean defaultValue: false>
-	<generated>
-	<FMComment: 'Is it an Esope pointer ?'>
-	^ isEsope ifNil: [ isEsope := false ]
-]
-
-{ #category : #accessing }
-FamixF77Variable >> isEsope: anObject [
-	<generated>
-	isEsope := anObject
 ]

@@ -40,7 +40,6 @@ Class {
 		'parameter',
 		'programUnit',
 		'puBlockdata',
-		'puComment',
 		'puFunction',
 		'puMain',
 		'puProcedure',
@@ -54,7 +53,11 @@ Class {
 		'includedFile',
 		'typeUnknown',
 		'externalDeclaration',
-		'implicit'
+		'implicit',
+		'statementFunction',
+		'tWithStatements',
+		'unknownVariable',
+		'intrinsicRoutine'
 	],
 	#category : #'Famix-Fortran77-Generator'
 }
@@ -114,6 +117,10 @@ FamixFortran77Generator >> defineClasses [
 		                     newClassNamed: #IndexedFileAnchor
 		                     comment: self indexedFileAnchorComment.
 
+	intrinsicRoutine := builder
+		newClassNamed: #IntrinsicRoutine
+		comment: self intrinsicRoutineComment.
+
 	invocation := builder
 		              newClassNamed: #Invocation
 		              comment: self invocationEntityComment.
@@ -124,10 +131,6 @@ FamixFortran77Generator >> defineClasses [
 	includedFile := builder
 		                newClassNamed: #IncludedFile
 		                comment: 'includedFile'.
-
-	"integer := builder newClassNamed: #Integer comment: 'Im an integer'.
-
-	logical := builder newClassNamed: #Logical comment: 'Im a logical'."
 
 	parameter := builder
 		             newClassNamed: #Parameter
@@ -145,10 +148,6 @@ FamixFortran77Generator >> defineClasses [
 		               newClassNamed: #PUBlockdata
 		               comment: self puBlockdataEntityComment.
 
-	puComment := builder
-		             newClassNamed: #PUComment
-		             comment: self puCommentEntityComment.
-
 	puFunction := builder
 		              newClassNamed: #PUFunction
 		              comment: self puFunctionEntityComment.
@@ -158,14 +157,16 @@ FamixFortran77Generator >> defineClasses [
 		          comment: self puMainEntityComment.
 
 	puProcedure := builder
-		               newClassNamed: #PUProcedure
-		               comment: self puProcedureEntityComment.
+		newClassNamed: #PUProcedure
+		comment: self puProcedureEntityComment.
 
 	puSubroutine := builder
-		                newClassNamed: #PUSubroutine
-		                comment: self puSubroutineEntityComment.
+		newClassNamed: #PUSubroutine
+		comment: self puSubroutineEntityComment.
 
-	"real := builder newClassNamed: #Real comment: 'Im a real'."
+	statementFunction := builder
+		newClassNamed: #StatementFunction
+		comment: self statementFunctionEntityComment.
 
 	type := builder newClassNamed: #Type comment: self typeComment.
 
@@ -179,7 +180,12 @@ FamixFortran77Generator >> defineClasses [
 
 	variable := builder
 		            newClassNamed: #Variable
-		            comment: self variableEntityComment
+		            comment: self variableEntityComment.
+
+	unknownVariable := builder
+		            newClassNamed: #UnknownVariable
+		            comment: 'Variable used but not resolved'.
+
 ]
 
 { #category : #definition }
@@ -190,12 +196,10 @@ FamixFortran77Generator >> defineHierarchy [
 	access --|> #TAccess.
 	access --|> #TEntityMetaLevelDependency.
 
-	"character --|> typeIntrinsic.
-	
-	complex --|> typeIntrinsic."
-	
 	externalDeclaration --|> namedEntity.
 	externalDeclaration --|> #TSourceEntity.
+
+	include --|> #TAssociation.
 
 	indexedFileAnchor --|> sourceAnchor.
 	indexedFileAnchor --|> #TFileNavigation.
@@ -203,19 +207,17 @@ FamixFortran77Generator >> defineHierarchy [
 	invocation --|> #TInvocation.
 	invocation --|> #TEntityMetaLevelDependency.
 
-	include --|> #TAssociation.
+	intrinsicRoutine --|> puProcedure.
 
 	includedFile --|> programUnit.
-	includedFile --|> #TWithLocalVariables.
 	includedFile --|> #TWithTypes.
-
-	"integer --|> typeIntrinsic.
-
-	logical --|> typeIntrinsic."
+	includedFile --|> tWithStatements.
 
 	parameter --|> #TParameter.
 
 	programFile --|> namedEntity.
+	programFile inheritsFromTrait: #TSourceEntity without: { #sourceText }.
+	programFile --|> #TWithComments.
 	programFile --|> #TCompilationUnit.
 	programFile --|> #TEntityMetaLevelDependency.
 	programFile --|> #TSourceEntity.
@@ -223,41 +225,41 @@ FamixFortran77Generator >> defineHierarchy [
 
 	programUnit --|> namedEntity.
 	programUnit --|> #TSourceEntity.
-	programUnit --|> #TEntityMetaLevelDependency.
 	programUnit --|> #TWithComments.
+	programUnit --|> #TEntityMetaLevelDependency.
+	programUnit --|> #TWithLocalVariables.
 
 	puBlockdata --|> programUnit.
-	puBlockdata --|> #TWithAccesses.
-	puBlockdata --|> #TWithLocalVariables.
-	puBlockdata --|> #TWithStatements.
 	"puBlockdata --|> #TWithTypes."
-
-	puComment --|> programUnit.
-	puComment --|> #TComment.
 
 	puFunction --|> puProcedure.
 	puFunction --|> #TTypedEntity.
 
 	puMain --|> programUnit.
-	puMain --|> #TWithAccesses.
-	puMain --|> #TWithInvocations.
-	puMain --|> #TWithLocalVariables.
-	puMain --|> #TWithStatements.
+	puMain --|> tWithStatements.
 	puMain --|> #TWithTypes.
 
 	puProcedure --|> programUnit.
+	puProcedure --|> tWithStatements.
 	puProcedure --|> #THasSignature.
-	puProcedure --|> #TInvocable.
-	puProcedure --|> #TWithAccesses.
-	puProcedure --|> #TWithInvocations.
-	puProcedure --|> #TWithLocalVariables.
 	puProcedure --|> #TWithParameters.
-	puProcedure --|> #TWithStatements.
 	puProcedure --|> #TWithTypes.
+	puProcedure --|> #TInvocable.
 
 	puSubroutine --|> puProcedure.
 
-	"real --|> typeIntrinsic."
+	statementFunction --|> namedEntity.
+	statementFunction --|> #TSourceEntity.
+	statementFunction --|> tWithStatements.
+	statementFunction --|> #TTypedEntity.
+	statementFunction --|> #THasSignature.
+	statementFunction --|> #TWithParameters.
+	statementFunction --|> #TWithTypes.
+	statementFunction --|> #TWithLocalVariables.
+	statementFunction --|> #TInvocable.
+	statementFunction --|> #TEntityMetaLevelDependency.
+
+	tWithStatements --|> #TWithStatements.
 
 	type --|> #TType.
 
@@ -265,7 +267,9 @@ FamixFortran77Generator >> defineHierarchy [
 
 	typeUnknown --|> type.
 
-	variable --|> #TLocalVariable
+	variable --|> #TLocalVariable.
+
+	unknownVariable  --|> #TUnknownVariable
 ]
 
 { #category : #definition }
@@ -274,10 +278,10 @@ FamixFortran77Generator >> defineProperties [
 	super defineProperties.
 
 	(comment property: #isEsope type: #Boolean defaultValue: false) 
-		comment: 'It is esope comment ?'.
+		comment: 'Is it an esope comment ?'.
 		
-	(implicit property: #letters type: #Object) comment: ''.
-	(implicit property: #type type: #FamixTType) comment: ''.
+	(implicit property: #letters type: #Object) comment: 'Initials for the IMPLICIT statement'.
+	(implicit property: #type type: #FamixTType) comment: 'Type for the initials of the IMPLICIT statement'.
 
 	(include property: #isLocal type: #Boolean) comment:
 		'Whether this is a local include (with "included.h") or a system one (with <included.h>)'.
@@ -285,11 +289,8 @@ FamixFortran77Generator >> defineProperties [
 	(include property: #filename type: #String) comment:
 		'Hold the name of the file included. Will be used to link this relation with the includedFile entity'.
 
-	(type property: #length type: #Number) comment: 'length attribute'.
-	(type property: #kind type: #Number) comment: 'kind attribute'.
-
-	"(parameter property: #variable type: #Object) comment:
-		'variable declaration related to this parameter'."
+	(type property: #length type: #Number) comment: 'length attribute of a type'.
+	(type property: #kind type: #Number) comment: 'kind attribute of a type'.
 
 	(programFile property: #version type: #String) comment:
 		'Fortran version of the file'.
@@ -298,13 +299,11 @@ FamixFortran77Generator >> defineProperties [
 		'Fortran name of the file'.
 
 	(puFunction property: #isEsope type: #Boolean defaultValue: false) 
-		comment: 'It is kind of esope function ?'.
+		comment: 'Is it an Esope function (segini,...) ?'.
 
 	(variable property: #isEsope type: #Boolean defaultValue: false) 
-		comment: 'It is esope attribute variable from segment definition ?'.
+		comment: 'Is it an Esope pointer ?'.
 
-	(variable property: #segment type: #String) comment:
-		'variable belong to this segment'
 ]
 
 { #category : #definition }
@@ -323,10 +322,23 @@ FamixFortran77Generator >> defineRelations [
 	((include property: #includedBy)
 		 comment: 'File including the receiver';
 		 source) *- ((programUnit property: #includes) comment:
-		 'All inclusions made by this programUnits')
+		 'All inclusions made by this programUnits').
+
+	((tWithStatements property: #statementFunctions)
+		comment: 'Statement functions defined in the body')
+		<>-* ((statementFunction property: #parentEntity)
+			comment: 'Entity in which body I am defined')
 ]
 
 { #category : #definition }
+FamixFortran77Generator >> defineTraits [
+
+	super defineTraits.
+
+	tWithStatements := builder newTraitNamed: #TWithStatements
+]
+
+{ #category : #'class comment' }
 FamixFortran77Generator >> externalDeclarationComment [
 
 	^ 'Im a external declaration. 
@@ -345,7 +357,7 @@ FamixFortran77Generator >> fileEntityComment [
 	^ 'a fortran file'
 ]
 
-{ #category : #definition }
+{ #category : #'class comment' }
 FamixFortran77Generator >> implicitComment [
 
 	^ '[Implicit](https://docs.oracle.com/cd/E19957-01/805-4939/6j4m0vn9v/index.html) statement'
@@ -354,13 +366,13 @@ FamixFortran77Generator >> implicitComment [
 { #category : #'private - utility' }
 FamixFortran77Generator >> implicitPropertyFor: anInstanceVar [
 	(anInstanceVar
-		 property: #dicImplicit
+		 property: #implicitDictionary
 		 type: #Object
 		 defaultValue: 'Dictionary new') comment:
 		'dictionary to carry implicits declaration rule for each type'.
 ]
 
-{ #category : #definition }
+{ #category : #'class comment' }
 FamixFortran77Generator >> includeComment [
 
 	^ 'Entity to hold `#include "file.inc"` directive
@@ -371,6 +383,12 @@ FamixFortran77Generator >> includeComment [
 { #category : #'class comment' }
 FamixFortran77Generator >> indexedFileAnchorComment [
 	^ 'Its the sourceAnchor (position of the token) in the source file (startLine@startColumn)-(endLine@endColumn).'
+]
+
+{ #category : #'class comment' }
+FamixFortran77Generator >> intrinsicRoutineComment [
+
+	^'A subroutine (or function) defined in the Fortran language itself'
 ]
 
 { #category : #'class comment' }
@@ -405,12 +423,6 @@ FamixFortran77Generator >> puBlockdataEntityComment [
 ]
 
 { #category : #'class comment' }
-FamixFortran77Generator >> puCommentEntityComment [
-
-	^ 'a comment belongs to fortran file'
-]
-
-{ #category : #'class comment' }
 FamixFortran77Generator >> puFunctionEntityComment [
 
 	^ 'a function procedure'
@@ -435,12 +447,18 @@ FamixFortran77Generator >> puSubroutineEntityComment [
 ]
 
 { #category : #'class comment' }
+FamixFortran77Generator >> statementFunctionEntityComment [
+
+	^ 'a statement function'
+]
+
+{ #category : #'class comment' }
 FamixFortran77Generator >> typeComment [
 
 	^ 'Im a Abstract Type, can be subclassed by TypeInstrinsic and Segment'
 ]
 
-{ #category : #definition }
+{ #category : #'class comment' }
 FamixFortran77Generator >> typeIntrinsicComment [
 
 	^ 'Im an fortran77 instrinsic type.
