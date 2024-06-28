@@ -60,10 +60,10 @@ FamixFortranUDTGenerator >> defineClasses [
 
 	super defineClasses.
 
-	userDefinedType := builder
+	userDefinedType := self
 		                   newAbstractClassNamed: #UserDefinedType
 		                   comment: ''.
-	attribute := builder
+	attribute := self
 		             newClassNamed: #Attribute
 		             comment: self commentAttribute.
 
