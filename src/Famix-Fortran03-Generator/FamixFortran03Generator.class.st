@@ -44,7 +44,7 @@ FamixFortran03Generator >> defineClasses [
 
 	attribute := self remoteEntity: #Attribute withPrefix: #FamixFortran.
 
-	derivedType := builder
+	derivedType := self
 		               newClassNamed: #DerivedType
 		               comment: self derivedTypeComment.
 
@@ -52,22 +52,22 @@ FamixFortran03Generator >> defineClasses [
 		                     remoteEntity: #IndexedFileAnchor
 		                     withPrefix: #FamixF77.
 
-	inheritance := builder
+	inheritance := self
 		               newClassNamed: #Inheritance
 		               comment: 'I an inheritance association'.
 
-	method := builder
+	method := self
 		          newClassNamed: #Method
 		          comment:
 		          'I am a type-bound-procedure in a user-defined-type'.
 
-	module := builder newClassNamed: #Module comment: self moduleComment.
+	module := self newClassNamed: #Module comment: self moduleComment.
 
 	parameter := self remoteEntity: #Parameter withPrefix: #FamixF77.
 
 	programUnit := self remoteEntity: #ProgramUnit withPrefix: #FamixF77.
 
-	use := builder
+	use := self
 		       newClassNamed: #Use
 		       comment:
 		       'Thanks to me, you can import a procedures, variables, constants,... defined in a module. Im an association between a program unit and a module'.
@@ -135,7 +135,7 @@ FamixFortran03Generator >> defineTraits [
 
 	super defineTraits.
 
-	tHasIntent := builder
+	tHasIntent := self
 		              newTraitNamed: #THasIntent
 		              comment:
 		              'Dummy parameter can express his intent amongs: in, out, inout'

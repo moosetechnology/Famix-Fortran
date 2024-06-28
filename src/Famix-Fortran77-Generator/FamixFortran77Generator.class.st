@@ -97,92 +97,92 @@ FamixFortran77Generator >> defineClasses [
 
 	super defineClasses.
 
-	access := builder
+	access := self
 		          newClassNamed: #Access
 		          comment: self accessEntityComment.
 
-	"character := builder newClassNamed: #Character comment: 'Im a character'.
+	"character := self newClassNamed: #Character comment: 'Im a character'.
 
-	complex := builder newClassNamed: #Complex comment: 'Im a complex'."
+	complex := self newClassNamed: #Complex comment: 'Im a complex'."
 
 	comment comment: self fCommentEntityComment.
 
-	externalDeclaration := builder
+	externalDeclaration := self
 		                       newClassNamed: #ExternalDeclaration
 		                       comment: self externalDeclarationComment.
 	
-	implicit := builder newClassNamed: #Implicit comment: self implicitComment.
+	implicit := self newClassNamed: #Implicit comment: self implicitComment.
 
-	indexedFileAnchor := builder
+	indexedFileAnchor := self
 		                     newClassNamed: #IndexedFileAnchor
 		                     comment: self indexedFileAnchorComment.
 
-	intrinsicRoutine := builder
+	intrinsicRoutine := self
 		newClassNamed: #IntrinsicRoutine
 		comment: self intrinsicRoutineComment.
 
-	invocation := builder
+	invocation := self
 		              newClassNamed: #Invocation
 		              comment: self invocationEntityComment.
 
-	include := builder
+	include := self
 		           newClassNamed: #Include
 		           comment: self includeComment.
-	includedFile := builder
+	includedFile := self
 		                newClassNamed: #IncludedFile
 		                comment: 'includedFile'.
 
-	parameter := builder
+	parameter := self
 		             newClassNamed: #Parameter
 		             comment: self parameterEntityComment.
 
-	programFile := builder
+	programFile := self
 		               newClassNamed: #ProgramFile
 		               comment: self fileEntityComment.
 
-	programUnit := builder
+	programUnit := self
 		               newAbstractClassNamed: #ProgramUnit
 		               comment: self programUnitEntityComment.
 
-	puBlockdata := builder
+	puBlockdata := self
 		               newClassNamed: #PUBlockdata
 		               comment: self puBlockdataEntityComment.
 
-	puFunction := builder
+	puFunction := self
 		              newClassNamed: #PUFunction
 		              comment: self puFunctionEntityComment.
 
-	puMain := builder
+	puMain := self
 		          newClassNamed: #PUMain
 		          comment: self puMainEntityComment.
 
-	puProcedure := builder
+	puProcedure := self
 		newClassNamed: #PUProcedure
 		comment: self puProcedureEntityComment.
 
-	puSubroutine := builder
+	puSubroutine := self
 		newClassNamed: #PUSubroutine
 		comment: self puSubroutineEntityComment.
 
-	statementFunction := builder
+	statementFunction := self
 		newClassNamed: #StatementFunction
 		comment: self statementFunctionEntityComment.
 
-	type := builder newClassNamed: #Type comment: self typeComment.
+	type := self newClassNamed: #Type comment: self typeComment.
 
-	typeIntrinsic := builder
+	typeIntrinsic := self
 		                 newClassNamed: #TypeIntrinsic
 		                 comment: self typeIntrinsicComment.
 
-	typeUnknown := builder
+	typeUnknown := self
 		               newClassNamed: #TypeUnknown
 		               comment: self typeIntrinsicComment.
 
-	variable := builder
+	variable := self
 		            newClassNamed: #Variable
 		            comment: self variableEntityComment.
 
-	unknownVariable := builder
+	unknownVariable := self
 		            newClassNamed: #UnknownVariable
 		            comment: 'Variable used but not resolved'.
 
@@ -335,7 +335,7 @@ FamixFortran77Generator >> defineTraits [
 
 	super defineTraits.
 
-	tWithStatements := builder newTraitNamed: #TWithStatements
+	tWithStatements := self newTraitNamed: #TWithStatements
 ]
 
 { #category : #'class comment' }
