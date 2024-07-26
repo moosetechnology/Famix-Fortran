@@ -33,18 +33,20 @@ Im a Abstract Type, can be subclassed by TypeInstrinsic and Segment
 
 "
 Class {
-	#name : #FamixF77Type,
-	#superclass : #FamixF77Entity,
+	#name : 'FamixF77Type',
+	#superclass : 'FamixF77Entity',
 	#traits : 'FamixTType',
 	#classTraits : 'FamixTType classTrait',
 	#instVars : [
 		'#length => FMProperty',
 		'#kind => FMProperty'
 	],
-	#category : #'Famix-Fortran77-Entities-Entities'
+	#category : 'Famix-Fortran77-Entities-Entities',
+	#package : 'Famix-Fortran77-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixF77Type class >> annotation [
 
 	<FMClass: #Type super: #FamixF77Entity>
@@ -53,7 +55,7 @@ FamixF77Type class >> annotation [
 	^ self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77Type >> kind [
 
 	<FMProperty: #kind type: #Number>
@@ -62,13 +64,13 @@ FamixF77Type >> kind [
 	^ kind
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77Type >> kind: anObject [
 	<generated>
 	kind := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77Type >> length [
 
 	<FMProperty: #length type: #Number>
@@ -77,7 +79,7 @@ FamixF77Type >> length [
 	^ length
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77Type >> length: anObject [
 	<generated>
 	length := anObject

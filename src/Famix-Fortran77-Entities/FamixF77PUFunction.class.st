@@ -19,17 +19,19 @@ a function procedure
 
 "
 Class {
-	#name : #FamixF77PUFunction,
-	#superclass : #FamixF77PUProcedure,
+	#name : 'FamixF77PUFunction',
+	#superclass : 'FamixF77PUProcedure',
 	#traits : 'FamixTTypedEntity',
 	#classTraits : 'FamixTTypedEntity classTrait',
 	#instVars : [
 		'#isEsope => FMProperty defaultValue: false'
 	],
-	#category : #'Famix-Fortran77-Entities-Entities'
+	#category : 'Famix-Fortran77-Entities-Entities',
+	#package : 'Famix-Fortran77-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixF77PUFunction class >> annotation [
 
 	<FMClass: #PUFunction super: #FamixF77PUProcedure>
@@ -38,7 +40,7 @@ FamixF77PUFunction class >> annotation [
 	^ self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77PUFunction >> isEsope [
 
 	<FMProperty: #isEsope type: #Boolean defaultValue: false>
@@ -47,7 +49,7 @@ FamixF77PUFunction >> isEsope [
 	^ isEsope ifNil: [ isEsope := false ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77PUFunction >> isEsope: anObject [
 	<generated>
 	isEsope := anObject

@@ -35,8 +35,8 @@ Entity to hold `#include ""file.inc""` directive
 
 "
 Class {
-	#name : #FamixF77Include,
-	#superclass : #FamixF77Entity,
+	#name : 'FamixF77Include',
+	#superclass : 'FamixF77Entity',
 	#traits : 'FamixTAssociation',
 	#classTraits : 'FamixTAssociation classTrait',
 	#instVars : [
@@ -45,10 +45,12 @@ Class {
 		'#included => FMOne type: #FamixF77IncludedFile opposite: #inclusions',
 		'#includedBy => FMOne type: #FamixF77ProgramUnit opposite: #includes'
 	],
-	#category : #'Famix-Fortran77-Entities-Entities'
+	#category : 'Famix-Fortran77-Entities-Entities',
+	#package : 'Famix-Fortran77-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixF77Include class >> annotation [
 
 	<FMClass: #Include super: #FamixF77Entity>
@@ -57,7 +59,7 @@ FamixF77Include class >> annotation [
 	^ self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77Include >> filename [
 
 	<FMProperty: #filename type: #String>
@@ -66,13 +68,13 @@ FamixF77Include >> filename [
 	^ filename
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77Include >> filename: anObject [
 	<generated>
 	filename := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77Include >> included [
 	"Relation named: #included type: #FamixF77IncludedFile opposite: #inclusions"
 
@@ -82,14 +84,14 @@ FamixF77Include >> included [
 	^ included
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77Include >> included: anObject [
 
 	<generated>
 	included := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77Include >> includedBy [
 	"Relation named: #includedBy type: #FamixF77ProgramUnit opposite: #includes"
 
@@ -99,14 +101,14 @@ FamixF77Include >> includedBy [
 	^ includedBy
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77Include >> includedBy: anObject [
 
 	<generated>
 	includedBy := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77Include >> isLocal [
 
 	<FMProperty: #isLocal type: #Boolean>
@@ -115,7 +117,7 @@ FamixF77Include >> isLocal [
 	^ isLocal
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77Include >> isLocal: anObject [
 	<generated>
 	isLocal := anObject

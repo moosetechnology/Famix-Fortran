@@ -20,17 +20,19 @@ a fortran comment
 
 "
 Class {
-	#name : #FamixF77Comment,
-	#superclass : #FamixF77SourcedEntity,
+	#name : 'FamixF77Comment',
+	#superclass : 'FamixF77SourcedEntity',
 	#traits : 'FamixTComment',
 	#classTraits : 'FamixTComment classTrait',
 	#instVars : [
 		'#isEsope => FMProperty defaultValue: false'
 	],
-	#category : #'Famix-Fortran77-Entities-Entities'
+	#category : 'Famix-Fortran77-Entities-Entities',
+	#package : 'Famix-Fortran77-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixF77Comment class >> annotation [
 
 	<FMClass: #Comment super: #FamixF77SourcedEntity>
@@ -39,7 +41,7 @@ FamixF77Comment class >> annotation [
 	^ self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77Comment >> isEsope [
 
 	<FMProperty: #isEsope type: #Boolean defaultValue: false>
@@ -48,7 +50,7 @@ FamixF77Comment >> isEsope [
 	^ isEsope ifNil: [ isEsope := false ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77Comment >> isEsope: anObject [
 	<generated>
 	isEsope := anObject

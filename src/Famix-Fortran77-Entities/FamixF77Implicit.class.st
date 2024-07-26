@@ -11,16 +11,18 @@
 
 "
 Class {
-	#name : #FamixF77Implicit,
-	#superclass : #FamixF77Entity,
+	#name : 'FamixF77Implicit',
+	#superclass : 'FamixF77Entity',
 	#instVars : [
 		'#letters => FMProperty',
 		'#type => FMProperty'
 	],
-	#category : #'Famix-Fortran77-Entities-Entities'
+	#category : 'Famix-Fortran77-Entities-Entities',
+	#package : 'Famix-Fortran77-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixF77Implicit class >> annotation [
 
 	<FMClass: #Implicit super: #FamixF77Entity>
@@ -29,7 +31,7 @@ FamixF77Implicit class >> annotation [
 	^ self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77Implicit >> letters [
 
 	<FMProperty: #letters type: #Object>
@@ -38,13 +40,13 @@ FamixF77Implicit >> letters [
 	^ letters
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77Implicit >> letters: anObject [
 	<generated>
 	letters := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77Implicit >> type [
 
 	<FMProperty: #type type: #FamixTType>
@@ -53,7 +55,7 @@ FamixF77Implicit >> type [
 	^ type
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77Implicit >> type: anObject [
 	<generated>
 	type := anObject

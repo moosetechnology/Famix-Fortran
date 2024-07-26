@@ -26,14 +26,16 @@ Variable used but not resolved
 
 "
 Class {
-	#name : #FamixF77UnknownVariable,
-	#superclass : #FamixF77Entity,
+	#name : 'FamixF77UnknownVariable',
+	#superclass : 'FamixF77Entity',
 	#traits : 'FamixTUnknownVariable',
 	#classTraits : 'FamixTUnknownVariable classTrait',
-	#category : #'Famix-Fortran77-Entities-Entities'
+	#category : 'Famix-Fortran77-Entities-Entities',
+	#package : 'Famix-Fortran77-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixF77UnknownVariable class >> annotation [
 
 	<FMClass: #UnknownVariable super: #FamixF77Entity>

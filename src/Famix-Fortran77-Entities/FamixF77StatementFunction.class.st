@@ -46,17 +46,19 @@ a statement function
 
 "
 Class {
-	#name : #FamixF77StatementFunction,
-	#superclass : #FamixF77NamedEntity,
+	#name : 'FamixF77StatementFunction',
+	#superclass : 'FamixF77NamedEntity',
 	#traits : 'FamixF77TWithStatements + FamixTHasSignature + FamixTInvocable + FamixTSourceEntity + FamixTTypedEntity + FamixTWithLocalVariables + FamixTWithParameters + FamixTWithTypes + TEntityMetaLevelDependency',
 	#classTraits : 'FamixF77TWithStatements classTrait + FamixTHasSignature classTrait + FamixTInvocable classTrait + FamixTSourceEntity classTrait + FamixTTypedEntity classTrait + FamixTWithLocalVariables classTrait + FamixTWithParameters classTrait + FamixTWithTypes classTrait + TEntityMetaLevelDependency classTrait',
 	#instVars : [
 		'#parentEntity => FMOne type: #FamixF77TWithStatements opposite: #statementFunctions'
 	],
-	#category : #'Famix-Fortran77-Entities-Entities'
+	#category : 'Famix-Fortran77-Entities-Entities',
+	#package : 'Famix-Fortran77-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixF77StatementFunction class >> annotation [
 
 	<FMClass: #StatementFunction super: #FamixF77NamedEntity>
@@ -65,7 +67,7 @@ FamixF77StatementFunction class >> annotation [
 	^ self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77StatementFunction >> parentEntity [
 	"Relation named: #parentEntity type: #FamixF77TWithStatements opposite: #statementFunctions"
 
@@ -75,14 +77,14 @@ FamixF77StatementFunction >> parentEntity [
 	^ parentEntity
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77StatementFunction >> parentEntity: anObject [
 
 	<generated>
 	parentEntity := anObject
 ]
 
-{ #category : #navigation }
+{ #category : 'navigation' }
 FamixF77StatementFunction >> parentEntityGroup [
 	<generated>
 	<navigation: 'ParentEntity'>

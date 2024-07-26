@@ -4,12 +4,14 @@ a block data for common variable
 
 "
 Class {
-	#name : #FamixF77PUBlockdata,
-	#superclass : #FamixF77ProgramUnit,
-	#category : #'Famix-Fortran77-Entities-Entities'
+	#name : 'FamixF77PUBlockdata',
+	#superclass : 'FamixF77ProgramUnit',
+	#category : 'Famix-Fortran77-Entities-Entities',
+	#package : 'Famix-Fortran77-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixF77PUBlockdata class >> annotation [
 
 	<FMClass: #PUBlockdata super: #FamixF77ProgramUnit>

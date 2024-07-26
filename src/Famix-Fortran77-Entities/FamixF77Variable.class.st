@@ -32,17 +32,19 @@ a local variable of a program unit
 
 "
 Class {
-	#name : #FamixF77Variable,
-	#superclass : #FamixF77Entity,
+	#name : 'FamixF77Variable',
+	#superclass : 'FamixF77Entity',
 	#traits : 'FamixTLocalVariable',
 	#classTraits : 'FamixTLocalVariable classTrait',
 	#instVars : [
 		'#isEsope => FMProperty defaultValue: false'
 	],
-	#category : #'Famix-Fortran77-Entities-Entities'
+	#category : 'Famix-Fortran77-Entities-Entities',
+	#package : 'Famix-Fortran77-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixF77Variable class >> annotation [
 
 	<FMClass: #Variable super: #FamixF77Entity>
@@ -51,7 +53,7 @@ FamixF77Variable class >> annotation [
 	^ self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77Variable >> isEsope [
 
 	<FMProperty: #isEsope type: #Boolean defaultValue: false>
@@ -60,7 +62,7 @@ FamixF77Variable >> isEsope [
 	^ isEsope ifNil: [ isEsope := false ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77Variable >> isEsope: anObject [
 	<generated>
 	isEsope := anObject
