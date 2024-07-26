@@ -17,14 +17,16 @@
 
 "
 Class {
-	#name : #FamixF77SourcedEntity,
-	#superclass : #FamixF77Entity,
+	#name : 'FamixF77SourcedEntity',
+	#superclass : 'FamixF77Entity',
 	#traits : 'FamixTSourceEntity',
 	#classTraits : 'FamixTSourceEntity classTrait',
-	#category : #'Famix-Fortran77-Entities-Entities'
+	#category : 'Famix-Fortran77-Entities-Entities',
+	#package : 'Famix-Fortran77-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixF77SourcedEntity class >> annotation [
 
 	<FMClass: #SourcedEntity super: #FamixF77Entity>
@@ -34,7 +36,7 @@ FamixF77SourcedEntity class >> annotation [
 	^ self
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FamixF77SourcedEntity class >> isAbstract [
 
 	<generated>

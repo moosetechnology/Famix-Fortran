@@ -29,16 +29,18 @@
 
 "
 Trait {
-	#name : #FamixF77TWithStatements,
+	#name : 'FamixF77TWithStatements',
 	#instVars : [
 		'#statementFunctions => FMMany type: #FamixF77StatementFunction opposite: #parentEntity'
 	],
 	#traits : 'FamixTWithStatements',
 	#classTraits : 'FamixTWithStatements classTrait',
-	#category : #'Famix-Fortran77-Entities-Traits'
+	#category : 'Famix-Fortran77-Entities-Traits',
+	#package : 'Famix-Fortran77-Entities',
+	#tag : 'Traits'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixF77TWithStatements classSide >> annotation [
 
 	<FMClass: #TWithStatements super: #Object>
@@ -47,13 +49,13 @@ FamixF77TWithStatements classSide >> annotation [
 	^ self
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FamixF77TWithStatements >> addStatementFunction: anObject [
 	<generated>
 	^ self statementFunctions add: anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77TWithStatements >> statementFunctions [
 	"Relation named: #statementFunctions type: #FamixF77StatementFunction opposite: #parentEntity"
 
@@ -63,14 +65,14 @@ FamixF77TWithStatements >> statementFunctions [
 	^ statementFunctions
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77TWithStatements >> statementFunctions: anObject [
 
 	<generated>
 	statementFunctions value: anObject
 ]
 
-{ #category : #navigation }
+{ #category : 'navigation' }
 FamixF77TWithStatements >> statementFunctionsGroup [
 	<generated>
 	<navigation: 'StatementFunctions'>

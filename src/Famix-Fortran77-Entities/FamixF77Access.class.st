@@ -32,14 +32,16 @@ an access of a variable
 
 "
 Class {
-	#name : #FamixF77Access,
-	#superclass : #FamixF77Entity,
+	#name : 'FamixF77Access',
+	#superclass : 'FamixF77Entity',
 	#traits : 'FamixTAccess + TEntityMetaLevelDependency',
 	#classTraits : 'FamixTAccess classTrait + TEntityMetaLevelDependency classTrait',
-	#category : #'Famix-Fortran77-Entities-Entities'
+	#category : 'Famix-Fortran77-Entities-Entities',
+	#package : 'Famix-Fortran77-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixF77Access class >> annotation [
 
 	<FMClass: #Access super: #FamixF77Entity>

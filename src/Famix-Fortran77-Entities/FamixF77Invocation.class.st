@@ -33,14 +33,16 @@ an invocation of procedure inside a procedure or main program
 
 "
 Class {
-	#name : #FamixF77Invocation,
-	#superclass : #FamixF77Entity,
+	#name : 'FamixF77Invocation',
+	#superclass : 'FamixF77Entity',
 	#traits : 'FamixTInvocation + TEntityMetaLevelDependency',
 	#classTraits : 'FamixTInvocation classTrait + TEntityMetaLevelDependency classTrait',
-	#category : #'Famix-Fortran77-Entities-Entities'
+	#category : 'Famix-Fortran77-Entities-Entities',
+	#package : 'Famix-Fortran77-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixF77Invocation class >> annotation [
 
 	<FMClass: #Invocation super: #FamixF77Entity>

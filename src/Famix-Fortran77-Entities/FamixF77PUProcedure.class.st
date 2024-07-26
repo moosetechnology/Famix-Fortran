@@ -39,14 +39,16 @@ a procedure
 
 "
 Class {
-	#name : #FamixF77PUProcedure,
-	#superclass : #FamixF77ProgramUnit,
+	#name : 'FamixF77PUProcedure',
+	#superclass : 'FamixF77ProgramUnit',
 	#traits : 'FamixF77TWithStatements + FamixTHasSignature + FamixTInvocable + FamixTWithParameters + FamixTWithTypes',
 	#classTraits : 'FamixF77TWithStatements classTrait + FamixTHasSignature classTrait + FamixTInvocable classTrait + FamixTWithParameters classTrait + FamixTWithTypes classTrait',
-	#category : #'Famix-Fortran77-Entities-Entities'
+	#category : 'Famix-Fortran77-Entities-Entities',
+	#package : 'Famix-Fortran77-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixF77PUProcedure class >> annotation [
 
 	<FMClass: #PUProcedure super: #FamixF77ProgramUnit>

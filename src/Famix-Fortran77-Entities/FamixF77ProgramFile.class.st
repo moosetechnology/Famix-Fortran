@@ -34,8 +34,8 @@ a fortran file
 
 "
 Class {
-	#name : #FamixF77ProgramFile,
-	#superclass : #FamixF77NamedEntity,
+	#name : 'FamixF77ProgramFile',
+	#superclass : 'FamixF77NamedEntity',
 	#traits : 'FamixTCompilationUnit + (FamixTSourceEntity - {#sourceText}) + FamixTWithComments + TEntityMetaLevelDependency',
 	#classTraits : 'FamixTCompilationUnit classTrait + FamixTSourceEntity classTrait + FamixTWithComments classTrait + TEntityMetaLevelDependency classTrait',
 	#instVars : [
@@ -43,10 +43,12 @@ Class {
 		'#programUnits => FMMany type: #FamixF77ProgramUnit opposite: #programFile',
 		'#version => FMProperty'
 	],
-	#category : #'Famix-Fortran77-Entities-Entities'
+	#category : 'Famix-Fortran77-Entities-Entities',
+	#package : 'Famix-Fortran77-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixF77ProgramFile class >> annotation [
 
 	<FMClass: #ProgramFile super: #FamixF77NamedEntity>
@@ -55,13 +57,13 @@ FamixF77ProgramFile class >> annotation [
 	^ self
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FamixF77ProgramFile >> addProgramUnit: anObject [
 	<generated>
 	^ self programUnits add: anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77ProgramFile >> filename [
 
 	<FMProperty: #filename type: #String>
@@ -70,13 +72,13 @@ FamixF77ProgramFile >> filename [
 	^ filename
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77ProgramFile >> filename: anObject [
 	<generated>
 	filename := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77ProgramFile >> programUnits [
 	"Relation named: #programUnits type: #FamixF77ProgramUnit opposite: #programFile"
 
@@ -85,21 +87,21 @@ FamixF77ProgramFile >> programUnits [
 	^ programUnits
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77ProgramFile >> programUnits: anObject [
 
 	<generated>
 	programUnits value: anObject
 ]
 
-{ #category : #navigation }
+{ #category : 'navigation' }
 FamixF77ProgramFile >> programUnitsGroup [
 	<generated>
 	<navigation: 'ProgramUnits'>
 	^ MooseSpecializedGroup withAll: self programUnits asSet
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77ProgramFile >> version [
 
 	<FMProperty: #version type: #String>
@@ -108,7 +110,7 @@ FamixF77ProgramFile >> version [
 	^ version
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77ProgramFile >> version: anObject [
 	<generated>
 	version := anObject

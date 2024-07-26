@@ -37,17 +37,19 @@ includedFile
 
 "
 Class {
-	#name : #FamixF77IncludedFile,
-	#superclass : #FamixF77ProgramUnit,
+	#name : 'FamixF77IncludedFile',
+	#superclass : 'FamixF77ProgramUnit',
 	#traits : 'FamixF77TWithStatements + FamixTWithTypes',
 	#classTraits : 'FamixF77TWithStatements classTrait + FamixTWithTypes classTrait',
 	#instVars : [
 		'#inclusions => FMMany type: #FamixF77Include opposite: #included'
 	],
-	#category : #'Famix-Fortran77-Entities-Entities'
+	#category : 'Famix-Fortran77-Entities-Entities',
+	#package : 'Famix-Fortran77-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixF77IncludedFile class >> annotation [
 
 	<FMClass: #IncludedFile super: #FamixF77ProgramUnit>
@@ -56,13 +58,13 @@ FamixF77IncludedFile class >> annotation [
 	^ self
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FamixF77IncludedFile >> addInclusion: anObject [
 	<generated>
 	^ self inclusions add: anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77IncludedFile >> inclusions [
 	"Relation named: #inclusions type: #FamixF77Include opposite: #included"
 
@@ -72,7 +74,7 @@ FamixF77IncludedFile >> inclusions [
 	^ inclusions
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77IncludedFile >> inclusions: anObject [
 
 	<generated>

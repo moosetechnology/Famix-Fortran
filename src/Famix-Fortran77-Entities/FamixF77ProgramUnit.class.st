@@ -36,8 +36,8 @@ a program unit
 
 "
 Class {
-	#name : #FamixF77ProgramUnit,
-	#superclass : #FamixF77NamedEntity,
+	#name : 'FamixF77ProgramUnit',
+	#superclass : 'FamixF77NamedEntity',
 	#traits : 'FamixTSourceEntity + FamixTWithComments + FamixTWithLocalVariables + TEntityMetaLevelDependency',
 	#classTraits : 'FamixTSourceEntity classTrait + FamixTWithComments classTrait + FamixTWithLocalVariables classTrait + TEntityMetaLevelDependency classTrait',
 	#instVars : [
@@ -45,10 +45,12 @@ Class {
 		'#externalDeclarations => FMMany type: #FamixF77ExternalDeclaration opposite: #programUnit',
 		'#includes => FMMany type: #FamixF77Include opposite: #includedBy'
 	],
-	#category : #'Famix-Fortran77-Entities-Entities'
+	#category : 'Famix-Fortran77-Entities-Entities',
+	#package : 'Famix-Fortran77-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixF77ProgramUnit class >> annotation [
 
 	<FMClass: #ProgramUnit super: #FamixF77NamedEntity>
@@ -58,26 +60,26 @@ FamixF77ProgramUnit class >> annotation [
 	^ self
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FamixF77ProgramUnit class >> isAbstract [
 
 	<generated>
 	^ self == FamixF77ProgramUnit
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FamixF77ProgramUnit >> addExternalDeclaration: anObject [
 	<generated>
 	^ self externalDeclarations add: anObject
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FamixF77ProgramUnit >> addInclude: anObject [
 	<generated>
 	^ self includes add: anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77ProgramUnit >> externalDeclarations [
 	"Relation named: #externalDeclarations type: #FamixF77ExternalDeclaration opposite: #programUnit"
 
@@ -86,21 +88,21 @@ FamixF77ProgramUnit >> externalDeclarations [
 	^ externalDeclarations
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77ProgramUnit >> externalDeclarations: anObject [
 
 	<generated>
 	externalDeclarations value: anObject
 ]
 
-{ #category : #navigation }
+{ #category : 'navigation' }
 FamixF77ProgramUnit >> externalDeclarationsGroup [
 	<generated>
 	<navigation: 'ExternalDeclarations'>
 	^ MooseSpecializedGroup withAll: self externalDeclarations asSet
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77ProgramUnit >> includes [
 	"Relation named: #includes type: #FamixF77Include opposite: #includedBy"
 
@@ -110,14 +112,14 @@ FamixF77ProgramUnit >> includes [
 	^ includes
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77ProgramUnit >> includes: anObject [
 
 	<generated>
 	includes value: anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77ProgramUnit >> programFile [
 	"Relation named: #programFile type: #FamixF77ProgramFile opposite: #programUnits"
 
@@ -126,14 +128,14 @@ FamixF77ProgramUnit >> programFile [
 	^ programFile
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77ProgramUnit >> programFile: anObject [
 
 	<generated>
 	programFile := anObject
 ]
 
-{ #category : #navigation }
+{ #category : 'navigation' }
 FamixF77ProgramUnit >> programFileGroup [
 	<generated>
 	<navigation: 'ProgramFile'>

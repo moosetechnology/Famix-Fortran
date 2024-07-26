@@ -11,14 +11,16 @@
 
 "
 Class {
-	#name : #FamixF77SourceLanguage,
-	#superclass : #FamixF77Entity,
+	#name : 'FamixF77SourceLanguage',
+	#superclass : 'FamixF77Entity',
 	#traits : 'FamixTSourceLanguage',
 	#classTraits : 'FamixTSourceLanguage classTrait',
-	#category : #'Famix-Fortran77-Entities-Entities'
+	#category : 'Famix-Fortran77-Entities-Entities',
+	#package : 'Famix-Fortran77-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixF77SourceLanguage class >> annotation [
 
 	<FMClass: #SourceLanguage super: #FamixF77Entity>

@@ -1,1 +1,1 @@
-Package { #name : #'Famix-Fortran77-Entities' }
+Package { #name : 'Famix-Fortran77-Entities' }

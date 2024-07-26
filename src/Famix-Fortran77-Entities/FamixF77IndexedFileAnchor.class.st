@@ -16,14 +16,16 @@ Its the sourceAnchor (position of the token) in the source file (startLine@start
 
 "
 Class {
-	#name : #FamixF77IndexedFileAnchor,
-	#superclass : #FamixF77SourceAnchor,
+	#name : 'FamixF77IndexedFileAnchor',
+	#superclass : 'FamixF77SourceAnchor',
 	#traits : 'FamixTFileNavigation',
 	#classTraits : 'FamixTFileNavigation classTrait',
-	#category : #'Famix-Fortran77-Entities-Entities'
+	#category : 'Famix-Fortran77-Entities-Entities',
+	#package : 'Famix-Fortran77-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixF77IndexedFileAnchor class >> annotation [
 
 	<FMClass: #IndexedFileAnchor super: #FamixF77SourceAnchor>

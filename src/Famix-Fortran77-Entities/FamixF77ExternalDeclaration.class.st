@@ -25,17 +25,19 @@ Im a external declaration.
 
 "
 Class {
-	#name : #FamixF77ExternalDeclaration,
-	#superclass : #FamixF77NamedEntity,
+	#name : 'FamixF77ExternalDeclaration',
+	#superclass : 'FamixF77NamedEntity',
 	#traits : 'FamixTSourceEntity',
 	#classTraits : 'FamixTSourceEntity classTrait',
 	#instVars : [
 		'#programUnit => FMOne type: #FamixF77ProgramUnit opposite: #externalDeclarations'
 	],
-	#category : #'Famix-Fortran77-Entities-Entities'
+	#category : 'Famix-Fortran77-Entities-Entities',
+	#package : 'Famix-Fortran77-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixF77ExternalDeclaration class >> annotation [
 
 	<FMClass: #ExternalDeclaration super: #FamixF77NamedEntity>
@@ -44,7 +46,7 @@ FamixF77ExternalDeclaration class >> annotation [
 	^ self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77ExternalDeclaration >> programUnit [
 	"Relation named: #programUnit type: #FamixF77ProgramUnit opposite: #externalDeclarations"
 
@@ -53,14 +55,14 @@ FamixF77ExternalDeclaration >> programUnit [
 	^ programUnit
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF77ExternalDeclaration >> programUnit: anObject [
 
 	<generated>
 	programUnit := anObject
 ]
 
-{ #category : #navigation }
+{ #category : 'navigation' }
 FamixF77ExternalDeclaration >> programUnitGroup [
 	<generated>
 	<navigation: 'ProgramUnit'>

@@ -11,12 +11,14 @@ Im an fortran77 instrinsic type.
 
 "
 Class {
-	#name : #FamixF77TypeUnknown,
-	#superclass : #FamixF77Type,
-	#category : #'Famix-Fortran77-Entities-Entities'
+	#name : 'FamixF77TypeUnknown',
+	#superclass : 'FamixF77Type',
+	#category : 'Famix-Fortran77-Entities-Entities',
+	#package : 'Famix-Fortran77-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixF77TypeUnknown class >> annotation [
 
 	<FMClass: #TypeUnknown super: #FamixF77Type>
