@@ -32,8 +32,8 @@ will move the `namedEntity` from `programUnit` to its children which are `namedE
 
 "
 Class {
-	#name : #FamixFortran77Generator,
-	#superclass : #FamixBasicInfrastructureGenerator,
+	#name : 'FamixFortran77Generator',
+	#superclass : 'FamixBasicInfrastructureGenerator',
 	#instVars : [
 		'access',
 		'invocation',
@@ -59,40 +59,41 @@ Class {
 		'unknownVariable',
 		'intrinsicRoutine'
 	],
-	#category : #'Famix-Fortran77-Generator'
+	#category : 'Famix-Fortran77-Generator',
+	#package : 'Famix-Fortran77-Generator'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixFortran77Generator class >> packageName [
 
 	^ #'Famix-Fortran77-Entities'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixFortran77Generator class >> prefix [
 
 	^ #'FamixF77'
 ]
 
-{ #category : #'class comment' }
+{ #category : 'class comment' }
 FamixFortran77Generator >> accessEntityComment [
 
 	^ 'an access of a variable'
 ]
 
-{ #category : #'class comment' }
+{ #category : 'class comment' }
 FamixFortran77Generator >> argumentEntityComment [
 
 	^ 'an actual parameter'
 ]
 
-{ #category : #'class comment' }
+{ #category : 'class comment' }
 FamixFortran77Generator >> bodyEntityComment [
 
 	^ 'an executable code of a program unit'
 ]
 
-{ #category : #definition }
+{ #category : 'definition' }
 FamixFortran77Generator >> defineClasses [
 
 	super defineClasses.
@@ -188,7 +189,7 @@ FamixFortran77Generator >> defineClasses [
 
 ]
 
-{ #category : #definition }
+{ #category : 'definition' }
 FamixFortran77Generator >> defineHierarchy [
 
 	super defineHierarchy.
@@ -198,6 +199,7 @@ FamixFortran77Generator >> defineHierarchy [
 
 	externalDeclaration --|> namedEntity.
 	externalDeclaration --|> #TSourceEntity.
+	externalDeclaration --|> #TEntityMetaLevelDependency.
 
 	include --|> #TAssociation.
 
@@ -272,7 +274,7 @@ FamixFortran77Generator >> defineHierarchy [
 	unknownVariable  --|> #TUnknownVariable
 ]
 
-{ #category : #definition }
+{ #category : 'definition' }
 FamixFortran77Generator >> defineProperties [
 
 	super defineProperties.
@@ -306,7 +308,7 @@ FamixFortran77Generator >> defineProperties [
 
 ]
 
-{ #category : #definition }
+{ #category : 'definition' }
 FamixFortran77Generator >> defineRelations [
 
 	super defineRelations.
@@ -330,7 +332,7 @@ FamixFortran77Generator >> defineRelations [
 			comment: 'Entity in which body I am defined')
 ]
 
-{ #category : #definition }
+{ #category : 'definition' }
 FamixFortran77Generator >> defineTraits [
 
 	super defineTraits.
@@ -338,32 +340,32 @@ FamixFortran77Generator >> defineTraits [
 	tWithStatements := self newTraitNamed: #TWithStatements
 ]
 
-{ #category : #'class comment' }
+{ #category : 'class comment' }
 FamixFortran77Generator >> externalDeclarationComment [
 
 	^ 'Im a external declaration. 
 	[See more](https://docs.oracle.com/cd/E19957-01/805-4939/6j4m0vn9d/index.html)'
 ]
 
-{ #category : #'class comment' }
+{ #category : 'class comment' }
 FamixFortran77Generator >> fCommentEntityComment [
 
 	^ 'a fortran comment'
 ]
 
-{ #category : #'class comment' }
+{ #category : 'class comment' }
 FamixFortran77Generator >> fileEntityComment [
 
 	^ 'a fortran file'
 ]
 
-{ #category : #'class comment' }
+{ #category : 'class comment' }
 FamixFortran77Generator >> implicitComment [
 
 	^ '[Implicit](https://docs.oracle.com/cd/E19957-01/805-4939/6j4m0vn9v/index.html) statement'
 ]
 
-{ #category : #'private - utility' }
+{ #category : 'private - utility' }
 FamixFortran77Generator >> implicitPropertyFor: anInstanceVar [
 	(anInstanceVar
 		 property: #implicitDictionary
@@ -372,7 +374,7 @@ FamixFortran77Generator >> implicitPropertyFor: anInstanceVar [
 		'dictionary to carry implicits declaration rule for each type'.
 ]
 
-{ #category : #'class comment' }
+{ #category : 'class comment' }
 FamixFortran77Generator >> includeComment [
 
 	^ 'Entity to hold `#include "file.inc"` directive
@@ -380,23 +382,23 @@ FamixFortran77Generator >> includeComment [
 	'
 ]
 
-{ #category : #'class comment' }
+{ #category : 'class comment' }
 FamixFortran77Generator >> indexedFileAnchorComment [
 	^ 'Its the sourceAnchor (position of the token) in the source file (startLine@startColumn)-(endLine@endColumn).'
 ]
 
-{ #category : #'class comment' }
+{ #category : 'class comment' }
 FamixFortran77Generator >> intrinsicRoutineComment [
 
 	^'A subroutine (or function) defined in the Fortran language itself'
 ]
 
-{ #category : #'class comment' }
+{ #category : 'class comment' }
 FamixFortran77Generator >> invocationEntityComment [
 	^ 'an invocation of procedure inside a procedure or main program'
 ]
 
-{ #category : #definition }
+{ #category : 'definition' }
 FamixFortran77Generator >> newBuilder [
 
 	^ super newBuilder
@@ -404,61 +406,61 @@ FamixFortran77Generator >> newBuilder [
 		  yourself
 ]
 
-{ #category : #'class comment' }
+{ #category : 'class comment' }
 FamixFortran77Generator >> parameterEntityComment [
 
 	^ 'a formal parameter'
 ]
 
-{ #category : #'class comment' }
+{ #category : 'class comment' }
 FamixFortran77Generator >> programUnitEntityComment [
 
 	^ 'a program unit'
 ]
 
-{ #category : #'class comment' }
+{ #category : 'class comment' }
 FamixFortran77Generator >> puBlockdataEntityComment [
 
 	^ 'a block data for common variable'
 ]
 
-{ #category : #'class comment' }
+{ #category : 'class comment' }
 FamixFortran77Generator >> puFunctionEntityComment [
 
 	^ 'a function procedure'
 ]
 
-{ #category : #'class comment' }
+{ #category : 'class comment' }
 FamixFortran77Generator >> puMainEntityComment [
 
 	^ 'a main program'
 ]
 
-{ #category : #'class comment' }
+{ #category : 'class comment' }
 FamixFortran77Generator >> puProcedureEntityComment [
 
 	^ 'a procedure'
 ]
 
-{ #category : #'class comment' }
+{ #category : 'class comment' }
 FamixFortran77Generator >> puSubroutineEntityComment [
 
 	^ 'a subroutine procedure'
 ]
 
-{ #category : #'class comment' }
+{ #category : 'class comment' }
 FamixFortran77Generator >> statementFunctionEntityComment [
 
 	^ 'a statement function'
 ]
 
-{ #category : #'class comment' }
+{ #category : 'class comment' }
 FamixFortran77Generator >> typeComment [
 
 	^ 'Im a Abstract Type, can be subclassed by TypeInstrinsic and Segment'
 ]
 
-{ #category : #'class comment' }
+{ #category : 'class comment' }
 FamixFortran77Generator >> typeIntrinsicComment [
 
 	^ 'Im an fortran77 instrinsic type.
@@ -471,7 +473,7 @@ FamixFortran77Generator >> typeIntrinsicComment [
 	'
 ]
 
-{ #category : #'class comment' }
+{ #category : 'class comment' }
 FamixFortran77Generator >> variableEntityComment [
 	^ 'a local variable of a program unit'
 ]
