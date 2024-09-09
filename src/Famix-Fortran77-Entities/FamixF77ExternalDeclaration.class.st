@@ -1,5 +1,8 @@
 "
-Im a external declaration. 
+I'm an external declaration `EXTERNAL fct`.
+
+The EXTERNAL statement specifies procedures or dummy procedures as external, and allows their symbolic names to be used as actual arguments.
+ 
 	[See more](https://docs.oracle.com/cd/E19957-01/805-4939/6j4m0vn9d/index.html)
 
 ## Relations
