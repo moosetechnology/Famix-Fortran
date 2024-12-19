@@ -29,7 +29,6 @@ a fortran file
 | Name | Type | Default value | Comment |
 |---|
 | `filename` | `String` | nil | Fortran name of the file|
-| `isStub` | `Boolean` | false | Flag true if the entity attributes are incomplete, either because the entity is missing or not imported.|
 | `version` | `String` | nil | Fortran version of the file|
 
 "

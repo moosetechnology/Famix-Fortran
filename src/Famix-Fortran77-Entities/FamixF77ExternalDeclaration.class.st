@@ -16,19 +16,13 @@ Im a external declaration.
 | `sourceAnchor` | `FamixTSourceEntity` | `element` | `FamixTSourceAnchor` | SourceAnchor entity linking to the original source code for this entity|
 
 
-## Properties
-======================
-
-| Name | Type | Default value | Comment |
-|---|
-| `isStub` | `Boolean` | false | Flag true if the entity attributes are incomplete, either because the entity is missing or not imported.|
 
 "
 Class {
 	#name : 'FamixF77ExternalDeclaration',
 	#superclass : 'FamixF77NamedEntity',
-	#traits : 'FamixTSourceEntity',
-	#classTraits : 'FamixTSourceEntity classTrait',
+	#traits : 'FamixTSourceEntity + TEntityMetaLevelDependency',
+	#classTraits : 'FamixTSourceEntity classTrait + TEntityMetaLevelDependency classTrait',
 	#instVars : [
 		'#programUnit => FMOne type: #FamixF77ProgramUnit opposite: #externalDeclarations'
 	],

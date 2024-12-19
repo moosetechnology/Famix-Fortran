@@ -31,7 +31,6 @@ Entity to hold `#include ""file.inc""` directive
 |---|
 | `filename` | `String` | nil | Hold the name of the file included. Will be used to link this relation with the includedFile entity|
 | `isLocal` | `Boolean` | nil | Whether this is a local include (with ""included.h"") or a system one (with <included.h>)|
-| `isStub` | `Boolean` | false | Flag true if the entity attributes are incomplete, either because the entity is missing or not imported.|
 
 "
 Class {
