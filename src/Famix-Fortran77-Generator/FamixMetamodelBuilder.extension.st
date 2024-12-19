@@ -1,6 +1,6 @@
-Extension { #name : #FamixMetamodelBuilder }
+Extension { #name : 'FamixMetamodelBuilder' }
 
-{ #category : #'*Famix-Fortran77-Generator' }
+{ #category : '*Famix-Fortran77-Generator' }
 FamixMetamodelBuilder >> newAbstractClassNamed: aClassName comment: aString [
 
 	^ (self newAbstractClassNamed: aClassName)
