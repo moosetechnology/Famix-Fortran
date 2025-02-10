@@ -10,14 +10,16 @@ Dummy parameter can express his intent amongs: in, out, inout
 
 "
 Trait {
-	#name : #FamixF03THasIntent,
+	#name : 'FamixF03THasIntent',
 	#instVars : [
 		'#intent => FMProperty'
 	],
-	#category : #'Famix-Fortran03-Entities-Traits'
+	#category : 'Famix-Fortran03-Entities-Traits',
+	#package : 'Famix-Fortran03-Entities',
+	#tag : 'Traits'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixF03THasIntent classSide >> annotation [
 
 	<FMClass: #THasIntent super: #Object>
@@ -26,7 +28,7 @@ FamixF03THasIntent classSide >> annotation [
 	^ self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF03THasIntent >> intent [
 
 	<FMProperty: #intent type: #String>
@@ -35,7 +37,7 @@ FamixF03THasIntent >> intent [
 	^ intent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF03THasIntent >> intent: anObject [
 	<generated>
 	intent := anObject

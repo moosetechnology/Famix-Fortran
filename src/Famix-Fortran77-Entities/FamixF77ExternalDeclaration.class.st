@@ -10,9 +10,15 @@ Im a external declaration.
 |---|
 | `programUnit` | `FamixF77ExternalDeclaration` | `externalDeclarations` | `FamixF77ProgramUnit` | |
 
+### Incoming dependencies
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `incomingInvocations` | `FamixTInvocable` | `candidates` | `FamixTInvocation` | Incoming invocations from other behaviours computed by the candidate operator.|
+
 ### Other
 | Relation | Origin | Opposite | Type | Comment |
 |---|
+| `externalProcedure` | `FamixF77ExternalDeclaration` | `externalUses` | `FamixF77PUProcedure` | |
 | `sourceAnchor` | `FamixTSourceEntity` | `element` | `FamixTSourceAnchor` | SourceAnchor entity linking to the original source code for this entity|
 
 
@@ -21,9 +27,10 @@ Im a external declaration.
 Class {
 	#name : 'FamixF77ExternalDeclaration',
 	#superclass : 'FamixF77NamedEntity',
-	#traits : 'FamixTSourceEntity + TEntityMetaLevelDependency',
-	#classTraits : 'FamixTSourceEntity classTrait + TEntityMetaLevelDependency classTrait',
+	#traits : 'FamixTInvocable + FamixTSourceEntity + TEntityMetaLevelDependency',
+	#classTraits : 'FamixTInvocable classTrait + FamixTSourceEntity classTrait + TEntityMetaLevelDependency classTrait',
 	#instVars : [
+		'#externalProcedure => FMOne type: #FamixF77PUProcedure opposite: #externalUses',
 		'#programUnit => FMOne type: #FamixF77ProgramUnit opposite: #externalDeclarations'
 	],
 	#category : 'Famix-Fortran77-Entities-Entities',
@@ -38,6 +45,21 @@ FamixF77ExternalDeclaration class >> annotation [
 	<package: #'Famix-Fortran77-Entities'>
 	<generated>
 	^ self
+]
+
+{ #category : 'accessing' }
+FamixF77ExternalDeclaration >> externalProcedure [
+	"Relation named: #externalProcedure type: #FamixF77PUProcedure opposite: #externalUses"
+
+	<generated>
+	^ externalProcedure
+]
+
+{ #category : 'accessing' }
+FamixF77ExternalDeclaration >> externalProcedure: anObject [
+
+	<generated>
+	externalProcedure := anObject
 ]
 
 { #category : 'accessing' }

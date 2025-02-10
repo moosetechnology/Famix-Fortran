@@ -1,6 +1,6 @@
-Extension { #name : #FamixF77ProgramUnit }
+Extension { #name : 'FamixF77ProgramUnit' }
 
-{ #category : #'*Famix-Fortran03-Entities-accessing' }
+{ #category : '*Famix-Fortran03-Entities-accessing' }
 FamixF77ProgramUnit >> uses [
 	"Relation named: #uses type: #FamixF03Use opposite: #usedBy"
 
@@ -12,7 +12,7 @@ FamixF77ProgramUnit >> uses [
 	^ self attributeAt: #uses ifAbsentPut: [ FMMultivalueLink on: self opposite: #usedBy: ]
 ]
 
-{ #category : #'*Famix-Fortran03-Entities-accessing' }
+{ #category : '*Famix-Fortran03-Entities-accessing' }
 FamixF77ProgramUnit >> uses: anObject [
 
 	<generated>

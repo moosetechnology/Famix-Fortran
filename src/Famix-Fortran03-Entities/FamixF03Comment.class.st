@@ -17,14 +17,16 @@
 
 "
 Class {
-	#name : #FamixF03Comment,
-	#superclass : #FamixF03SourcedEntity,
+	#name : 'FamixF03Comment',
+	#superclass : 'FamixF03SourcedEntity',
 	#traits : 'FamixTComment',
 	#classTraits : 'FamixTComment classTrait',
-	#category : #'Famix-Fortran03-Entities-Entities'
+	#category : 'Famix-Fortran03-Entities-Entities',
+	#package : 'Famix-Fortran03-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixF03Comment class >> annotation [
 
 	<FMClass: #Comment super: #FamixF03SourcedEntity>

@@ -198,6 +198,7 @@ FamixFortran77Generator >> defineHierarchy [
 	access --|> #TEntityMetaLevelDependency.
 
 	externalDeclaration --|> namedEntity.
+	externalDeclaration --|> #TInvocable.
 	externalDeclaration --|> #TSourceEntity.
 	externalDeclaration --|> #TEntityMetaLevelDependency.
 	
@@ -325,6 +326,8 @@ FamixFortran77Generator >> defineRelations [
 		 comment: 'File including the receiver';
 		 source) *- ((programUnit property: #includes) comment:
 		 'All inclusions made by this programUnits').
+
+	(externalDeclaration property: #externalProcedure) *- (puProcedure property: #externalUses).
 
 	((tWithStatements property: #statementFunctions)
 		comment: 'Statement functions defined in the body')

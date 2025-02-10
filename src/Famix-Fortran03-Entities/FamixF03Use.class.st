@@ -22,26 +22,22 @@ Thanks to me, you can import a procedures, variables, constants,... defined in a
 | `sourceAnchor` | `FamixTSourceEntity` | `element` | `FamixTSourceAnchor` | SourceAnchor entity linking to the original source code for this entity|
 
 
-## Properties
-======================
-
-| Name | Type | Default value | Comment |
-|---|
-| `isStub` | `Boolean` | false | Flag true if the entity attributes are incomplete, either because the entity is missing or not imported.|
 
 "
 Class {
-	#name : #FamixF03Use,
-	#superclass : #FamixF03Entity,
+	#name : 'FamixF03Use',
+	#superclass : 'FamixF03Entity',
 	#traits : 'FamixTAssociation',
 	#classTraits : 'FamixTAssociation classTrait',
 	#instVars : [
 		'#used => FMOne type: #FamixF03Module opposite: #users'
 	],
-	#category : #'Famix-Fortran03-Entities-Entities'
+	#category : 'Famix-Fortran03-Entities-Entities',
+	#package : 'Famix-Fortran03-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixF03Use class >> annotation [
 
 	<FMClass: #Use super: #FamixF03Entity>
@@ -50,7 +46,7 @@ FamixF03Use class >> annotation [
 	^ self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF03Use >> used [
 	"Relation named: #used type: #FamixF03Module opposite: #users"
 
@@ -60,14 +56,14 @@ FamixF03Use >> used [
 	^ used
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF03Use >> used: anObject [
 
 	<generated>
 	used := anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF03Use >> usedBy [
 	"Relation named: #usedBy type: #FamixF77ProgramUnit opposite: #uses"
 
@@ -78,7 +74,7 @@ FamixF03Use >> usedBy [
 	^ self attributeAt: #usedBy ifAbsent: [ nil ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF03Use >> usedBy: anObject [
 
 	<generated>

@@ -17,14 +17,16 @@
 
 "
 Class {
-	#name : #FamixF03SourceTextAnchor,
-	#superclass : #FamixF03SourceAnchor,
+	#name : 'FamixF03SourceTextAnchor',
+	#superclass : 'FamixF03SourceAnchor',
 	#traits : 'FamixTHasImmediateSource',
 	#classTraits : 'FamixTHasImmediateSource classTrait',
-	#category : #'Famix-Fortran03-Entities-Entities'
+	#category : 'Famix-Fortran03-Entities-Entities',
+	#package : 'Famix-Fortran03-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixF03SourceTextAnchor class >> annotation [
 
 	<FMClass: #SourceTextAnchor super: #FamixF03SourceAnchor>

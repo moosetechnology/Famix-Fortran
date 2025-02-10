@@ -24,14 +24,16 @@ end type
 
 "
 Class {
-	#name : #FamixF03DerivedType,
-	#superclass : #FamixFortranUserDefinedType,
+	#name : 'FamixF03DerivedType',
+	#superclass : 'FamixFortranUserDefinedType',
 	#traits : 'FamixTWithAttributes + FamixTWithMethods',
 	#classTraits : 'FamixTWithAttributes classTrait + FamixTWithMethods classTrait',
-	#category : #'Famix-Fortran03-Entities-Entities'
+	#category : 'Famix-Fortran03-Entities-Entities',
+	#package : 'Famix-Fortran03-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixF03DerivedType class >> annotation [
 
 	<FMClass: #DerivedType super: #FamixFortranUserDefinedType>

@@ -11,14 +11,16 @@
 
 "
 Class {
-	#name : #FamixFortranSourceLanguage,
-	#superclass : #FamixFortranEntity,
+	#name : 'FamixFortranSourceLanguage',
+	#superclass : 'FamixFortranEntity',
 	#traits : 'FamixTSourceLanguage',
 	#classTraits : 'FamixTSourceLanguage classTrait',
-	#category : #'Famix-FortranUDT-Entities-Entities'
+	#category : 'Famix-FortranUDT-Entities-Entities',
+	#package : 'Famix-FortranUDT-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixFortranSourceLanguage class >> annotation [
 
 	<FMClass: #SourceLanguage super: #FamixFortranEntity>

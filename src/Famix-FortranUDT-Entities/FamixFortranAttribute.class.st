@@ -53,14 +53,16 @@ the segment `myseg` have the following attributes: `scalar`, `array`, `matrix`, 
 
 "
 Class {
-	#name : #FamixFortranAttribute,
-	#superclass : #FamixF77Variable,
+	#name : 'FamixFortranAttribute',
+	#superclass : 'FamixF77Variable',
 	#traits : 'FamixTAttribute',
 	#classTraits : 'FamixTAttribute classTrait',
-	#category : #'Famix-FortranUDT-Entities-Entities'
+	#category : 'Famix-FortranUDT-Entities-Entities',
+	#package : 'Famix-FortranUDT-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixFortranAttribute class >> annotation [
 
 	<FMClass: #Attribute super: #FamixF77Variable>

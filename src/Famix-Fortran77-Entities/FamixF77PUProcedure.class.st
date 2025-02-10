@@ -26,6 +26,7 @@ a procedure
 ### Other
 | Relation | Origin | Opposite | Type | Comment |
 |---|
+| `externalUses` | `FamixF77PUProcedure` | `externalProcedure` | `FamixF77ExternalDeclaration` | |
 | `sourceAnchor` | `FamixTSourceEntity` | `element` | `FamixTSourceAnchor` | SourceAnchor entity linking to the original source code for this entity|
 
 
@@ -43,6 +44,9 @@ Class {
 	#superclass : 'FamixF77ProgramUnit',
 	#traits : 'FamixF77TWithStatements + FamixTHasSignature + FamixTInvocable + FamixTWithParameters + FamixTWithTypes',
 	#classTraits : 'FamixF77TWithStatements classTrait + FamixTHasSignature classTrait + FamixTInvocable classTrait + FamixTWithParameters classTrait + FamixTWithTypes classTrait',
+	#instVars : [
+		'#externalUses => FMMany type: #FamixF77ExternalDeclaration opposite: #externalProcedure'
+	],
 	#category : 'Famix-Fortran77-Entities-Entities',
 	#package : 'Famix-Fortran77-Entities',
 	#tag : 'Entities'
@@ -55,4 +59,26 @@ FamixF77PUProcedure class >> annotation [
 	<package: #'Famix-Fortran77-Entities'>
 	<generated>
 	^ self
+]
+
+{ #category : 'adding' }
+FamixF77PUProcedure >> addExternalUse: anObject [
+	<generated>
+	^ self externalUses add: anObject
+]
+
+{ #category : 'accessing' }
+FamixF77PUProcedure >> externalUses [
+	"Relation named: #externalUses type: #FamixF77ExternalDeclaration opposite: #externalProcedure"
+
+	<generated>
+	<derived>
+	^ externalUses
+]
+
+{ #category : 'accessing' }
+FamixF77PUProcedure >> externalUses: anObject [
+
+	<generated>
+	externalUses value: anObject
 ]
