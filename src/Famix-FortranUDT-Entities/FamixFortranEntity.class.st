@@ -1,10 +1,12 @@
 Class {
-	#name : #FamixFortranEntity,
-	#superclass : #MooseEntity,
-	#category : #'Famix-FortranUDT-Entities-Entities'
+	#name : 'FamixFortranEntity',
+	#superclass : 'MooseEntity',
+	#category : 'Famix-FortranUDT-Entities-Entities',
+	#package : 'Famix-FortranUDT-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixFortranEntity class >> annotation [
 
 	<FMClass: #Entity super: #MooseEntity>
@@ -14,42 +16,42 @@ FamixFortranEntity class >> annotation [
 	^ self
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FamixFortranEntity class >> isAbstract [
 
 	<generated>
 	^ self == FamixFortranEntity
 ]
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixFortranEntity class >> metamodel [
 
 	<generated>
 	^ FamixFortranModel metamodel
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FamixFortranEntity >> isAttribute [
 
 	<generated>
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FamixFortranEntity >> isNamedEntity [
 
 	<generated>
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FamixFortranEntity >> isQueryable [
 
 	<generated>
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FamixFortranEntity >> isStructuralEntity [
 
 	<generated>

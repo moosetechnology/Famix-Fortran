@@ -11,14 +11,16 @@
 
 "
 Class {
-	#name : #FamixFortranSourceAnchor,
-	#superclass : #FamixFortranEntity,
+	#name : 'FamixFortranSourceAnchor',
+	#superclass : 'FamixFortranEntity',
 	#traits : 'FamixTSourceAnchor',
 	#classTraits : 'FamixTSourceAnchor classTrait',
-	#category : #'Famix-FortranUDT-Entities-Entities'
+	#category : 'Famix-FortranUDT-Entities-Entities',
+	#package : 'Famix-FortranUDT-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixFortranSourceAnchor class >> annotation [
 
 	<FMClass: #SourceAnchor super: #FamixFortranEntity>
@@ -28,7 +30,7 @@ FamixFortranSourceAnchor class >> annotation [
 	^ self
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FamixFortranSourceAnchor class >> isAbstract [
 
 	<generated>

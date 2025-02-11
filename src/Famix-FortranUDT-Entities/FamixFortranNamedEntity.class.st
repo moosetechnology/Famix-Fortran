@@ -8,14 +8,16 @@
 
 "
 Class {
-	#name : #FamixFortranNamedEntity,
-	#superclass : #FamixFortranEntity,
+	#name : 'FamixFortranNamedEntity',
+	#superclass : 'FamixFortranEntity',
 	#traits : 'FamixTNamedEntity',
 	#classTraits : 'FamixTNamedEntity classTrait',
-	#category : #'Famix-FortranUDT-Entities-Entities'
+	#category : 'Famix-FortranUDT-Entities-Entities',
+	#package : 'Famix-FortranUDT-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixFortranNamedEntity class >> annotation [
 
 	<FMClass: #NamedEntity super: #FamixFortranEntity>
@@ -25,14 +27,14 @@ FamixFortranNamedEntity class >> annotation [
 	^ self
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FamixFortranNamedEntity class >> isAbstract [
 
 	<generated>
 	^ self == FamixFortranNamedEntity
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FamixFortranNamedEntity >> isNamedEntity [
 
 	<generated>

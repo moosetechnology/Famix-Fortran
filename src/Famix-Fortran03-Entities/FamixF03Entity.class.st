@@ -1,10 +1,12 @@
 Class {
-	#name : #FamixF03Entity,
-	#superclass : #MooseEntity,
-	#category : #'Famix-Fortran03-Entities-Entities'
+	#name : 'FamixF03Entity',
+	#superclass : 'MooseEntity',
+	#category : 'Famix-Fortran03-Entities-Entities',
+	#package : 'Famix-Fortran03-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixF03Entity class >> annotation [
 
 	<FMClass: #Entity super: #MooseEntity>
@@ -14,49 +16,56 @@ FamixF03Entity class >> annotation [
 	^ self
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FamixF03Entity class >> isAbstract [
 
 	<generated>
 	^ self == FamixF03Entity
 ]
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixF03Entity class >> metamodel [
 
 	<generated>
 	^ FamixF03Model metamodel
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FamixF03Entity >> isAssociation [
 
 	<generated>
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FamixF03Entity >> isBehavioural [
 
 	<generated>
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FamixF03Entity >> isInheritance [
 
 	<generated>
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FamixF03Entity >> isMethod [
 
 	<generated>
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
+FamixF03Entity >> isNamedEntity [
+
+	<generated>
+	^ false
+]
+
+{ #category : 'testing' }
 FamixF03Entity >> isQueryable [
 
 	<generated>

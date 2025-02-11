@@ -11,14 +11,16 @@
 
 "
 Class {
-	#name : #FamixFortranUserDefinedType,
-	#superclass : #FamixF77Type,
+	#name : 'FamixFortranUserDefinedType',
+	#superclass : 'FamixF77Type',
 	#traits : 'FamixTWithAttributes',
 	#classTraits : 'FamixTWithAttributes classTrait',
-	#category : #'Famix-FortranUDT-Entities-Entities'
+	#category : 'Famix-FortranUDT-Entities-Entities',
+	#package : 'Famix-FortranUDT-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixFortranUserDefinedType class >> annotation [
 
 	<FMClass: #UserDefinedType super: #FamixF77Type>
@@ -28,7 +30,7 @@ FamixFortranUserDefinedType class >> annotation [
 	^ self
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FamixFortranUserDefinedType class >> isAbstract [
 
 	<generated>

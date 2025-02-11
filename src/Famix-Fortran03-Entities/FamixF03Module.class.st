@@ -54,17 +54,19 @@ end module my_mod
 
 "
 Class {
-	#name : #FamixF03Module,
-	#superclass : #FamixF77ProgramUnit,
+	#name : 'FamixF03Module',
+	#superclass : 'FamixF77ProgramUnit',
 	#traits : 'FamixTWithTypes',
 	#classTraits : 'FamixTWithTypes classTrait',
 	#instVars : [
 		'#users => FMMany type: #FamixF03Use opposite: #used'
 	],
-	#category : #'Famix-Fortran03-Entities-Entities'
+	#category : 'Famix-Fortran03-Entities-Entities',
+	#package : 'Famix-Fortran03-Entities',
+	#tag : 'Entities'
 }
 
-{ #category : #meta }
+{ #category : 'meta' }
 FamixF03Module class >> annotation [
 
 	<FMClass: #Module super: #FamixF77ProgramUnit>
@@ -73,13 +75,13 @@ FamixF03Module class >> annotation [
 	^ self
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 FamixF03Module >> addUser: anObject [
 	<generated>
 	^ self users add: anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF03Module >> users [
 	"Relation named: #users type: #FamixF03Use opposite: #used"
 
@@ -89,7 +91,7 @@ FamixF03Module >> users [
 	^ users
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FamixF03Module >> users: anObject [
 
 	<generated>
