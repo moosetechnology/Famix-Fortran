@@ -22,7 +22,10 @@ BaselineOfFamixFortran >> defineDependencies: spec [
 
 	spec
 		baseline: 'Famix'
-		with: [ spec repository: 'github://moosetechnology/Famix:development/src' ]
+		with: [ 
+			spec
+				loads: #( 'Core' 'Minimal' 'Basic' );
+				repository: 'github://moosetechnology/Famix:development/src' ]
 ]
 
 { #category : 'baselines' }
