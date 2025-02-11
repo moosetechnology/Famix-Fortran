@@ -33,7 +33,7 @@ BaselineOfFamixFortran >> defineGroups: spec [
 
 	spec
 		group: 'default' with: #( core );
-		group: 'core' with: #( 'Famix-Fortran77-Entities' 'Famix-FortranUDT-Generator' );
+		group: 'core' with: #( 'Famix-Fortran77-Entities' 'Famix-FortranUDT-Entities' );
 		group: 'all' with: #( 'core' 'Famix-Fortran77-Generator' 'Famix-FortranUDT-Generator' 'Famix-Fortran77-Tests' )
 ]
 
@@ -44,6 +44,6 @@ BaselineOfFamixFortran >> definePackages: spec [
 		package: 'Famix-Fortran77-Entities' with: [ spec requires: #( Famix ) ];
 		package: 'Famix-Fortran77-Generator' with: [ spec requires: #( Famix ) ];
 		package: 'Famix-Fortran77-Tests' with: [ spec requires: #( Famix ) ];
-		package: 'Famix-FortranUDT-Generator' with: [ spec requires: #( Famix ) ];
-		package: 'Famix-FortranUDT-Entities' with: [ spec requires: #( Famix ) ]
+		package: 'Famix-FortranUDT-Entities' with: [ spec requires: #( Famix ) ];
+		package: 'Famix-FortranUDT-Generator' with: [ spec requires: #( Famix ) ]
 ]
