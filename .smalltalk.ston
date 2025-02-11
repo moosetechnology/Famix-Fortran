@@ -2,7 +2,8 @@ SmalltalkCISpec {
   #loading : [
     SCIMetacelloLoadSpec {
       #baseline : 'FamixFortran',
-      #directory : 'src'
+      #directory : 'src',
+      #load : [ 'all' ]
     }
   ]
 }
