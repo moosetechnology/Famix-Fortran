@@ -1,10 +1,11 @@
 Class {
-	#name : #BaselineOfFamixFortran,
-	#superclass : #BaselineOf,
-	#category : #BaselineOfFamixFortran
+	#name : 'BaselineOfFamixFortran',
+	#superclass : 'BaselineOf',
+	#category : 'BaselineOfFamixFortran',
+	#package : 'BaselineOfFamixFortran'
 }
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfFamixFortran >> baseline: spec [
 
 	<baseline>
@@ -12,10 +13,11 @@ BaselineOfFamixFortran >> baseline: spec [
 		spec blessing: #baseline.
 		spec description: 'Famix Fortran'.
 		self defineDependencies: spec.
-		self definePackages: spec ]
+		self definePackages: spec.
+		self defineGroups: spec ]
 ]
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfFamixFortran >> defineDependencies: spec [
 
 	spec
@@ -23,7 +25,16 @@ BaselineOfFamixFortran >> defineDependencies: spec [
 		with: [ spec repository: 'github://moosetechnology/Famix:development/src' ]
 ]
 
-{ #category : #baselines }
+{ #category : 'baselines' }
+BaselineOfFamixFortran >> defineGroups: spec [
+
+	spec
+		group: 'default' with: #( core );
+		group: 'core' with: #( 'Famix-Fortran77-Entities' 'Famix-FortranUDT-Generator' );
+		group: 'all' with: #( 'core' 'Famix-Fortran77-Generator' 'Famix-FortranUDT-Generator' 'Famix-Fortran77-Tests' )
+]
+
+{ #category : 'baselines' }
 BaselineOfFamixFortran >> definePackages: spec [
 
 	spec
@@ -31,8 +42,5 @@ BaselineOfFamixFortran >> definePackages: spec [
 		package: 'Famix-Fortran77-Generator' with: [ spec requires: #( Famix ) ];
 		package: 'Famix-Fortran77-Tests' with: [ spec requires: #( Famix ) ];
 		package: 'Famix-FortranUDT-Generator' with: [ spec requires: #( Famix ) ];
-		package: 'Famix-FortranUDT-Entities' with: [ spec requires: #( Famix ) ];
-		package: 'Famix-Fortran03-Entities' with: [ spec requires: #( Famix 'Famix-FortranUDT-Entities') ];
-		package: 'Famix-Fortran03-Generator' with: [ spec requires: #( Famix 'Famix-FortranUDT-Entities') ];
-		package: 'Famix-Fortran03-Tests' with: [ spec requires: #( Famix ) ]
+		package: 'Famix-FortranUDT-Entities' with: [ spec requires: #( Famix ) ]
 ]
