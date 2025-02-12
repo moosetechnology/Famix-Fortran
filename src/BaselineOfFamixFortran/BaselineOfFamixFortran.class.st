@@ -12,6 +12,7 @@ BaselineOfFamixFortran >> baseline: spec [
 	spec for: #common do: [ 
 		spec blessing: #baseline.
 		spec description: 'Famix Fortran'.
+		spec repository: 'github://moosetechnology/Famix-Fortran'.
 		self defineDependencies: spec.
 		self definePackages: spec.
 		self defineGroups: spec ]
@@ -32,7 +33,7 @@ BaselineOfFamixFortran >> defineDependencies: spec [
 BaselineOfFamixFortran >> defineGroups: spec [
 
 	spec
-		group: 'default' with: #( core );
+		group: 'default' with: #( 'core' );
 		group: 'core' with: #( 'Famix-Fortran77-Entities' 'Famix-FortranUDT-Entities' );
 		group: 'all' with: #( 'core' 'Famix-Fortran77-Generator' 'Famix-FortranUDT-Generator' 'Famix-Fortran77-Tests' )
 ]
@@ -43,7 +44,7 @@ BaselineOfFamixFortran >> definePackages: spec [
 	spec
 		package: 'Famix-Fortran77-Entities' with: [ spec requires: #( Famix ) ];
 		package: 'Famix-Fortran77-Generator' with: [ spec requires: #( Famix ) ];
-		package: 'Famix-Fortran77-Tests' with: [ spec requires: #( Famix ) ];
+		package: 'Famix-Fortran77-Tests' with: [ spec requires: #( 'Famix-Fortran77-Entities' ) ];
 		package: 'Famix-FortranUDT-Entities' with: [ spec requires: #( Famix ) ];
 		package: 'Famix-FortranUDT-Generator' with: [ spec requires: #( Famix ) ]
 ]
