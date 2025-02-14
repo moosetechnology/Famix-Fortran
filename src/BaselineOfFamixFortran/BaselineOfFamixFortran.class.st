@@ -9,10 +9,8 @@ Class {
 BaselineOfFamixFortran >> baseline: spec [
 
 	<baseline>
-	spec for: #common do: [ 
-		spec blessing: #baseline.
+	spec for: #common do: [
 		spec description: 'Famix Fortran'.
-		spec repository: 'github://moosetechnology/Famix-Fortran'.
 		self defineDependencies: spec.
 		self definePackages: spec.
 		self defineGroups: spec ]
