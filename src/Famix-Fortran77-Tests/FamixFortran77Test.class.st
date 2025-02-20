@@ -1,17 +1,11 @@
 Class {
-	#name : #FamixFortran77Test,
-	#superclass : #TestCase,
-	#category : #'Famix-Fortran77-Tests'
+	#name : 'FamixFortran77Test',
+	#superclass : 'TestCase',
+	#category : 'Famix-Fortran77-Tests',
+	#package : 'Famix-Fortran77-Tests'
 }
 
-{ #category : #'private - utility' }
-FamixFortran77Test >> comment: text [
-	^FamixF77Comment new
-		content: text;
-		yourself
-]
-
-{ #category : #'private - utility' }
+{ #category : 'private - utility' }
 FamixFortran77Test >> invocationFrom: invocable to: anEntity [
 
 	^ FamixF77Invocation new
@@ -20,7 +14,7 @@ FamixFortran77Test >> invocationFrom: invocable to: anEntity [
 		  yourself
 ]
 
-{ #category : #'private - utility' }
+{ #category : 'private - utility' }
 FamixFortran77Test >> newEntity: aClass named: entityName [
 
 	^ aClass new
@@ -28,7 +22,7 @@ FamixFortran77Test >> newEntity: aClass named: entityName [
 		  yourself
 ]
 
-{ #category : #'private - utility' }
+{ #category : 'private - utility' }
 FamixFortran77Test >> programFile: fileName [
 
 	^ FamixF77ProgramFile new
@@ -37,7 +31,7 @@ FamixFortran77Test >> programFile: fileName [
 		  yourself
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FamixFortran77Test >> testEntityAccessingLocalVariableOfItsContainer: anEntity [
 
 	| fct var |
@@ -49,7 +43,7 @@ FamixFortran77Test >> testEntityAccessingLocalVariableOfItsContainer: anEntity [
 	self assert: fct localVariables first name equals: 'var'
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FamixFortran77Test >> testEntityWithComment [
 
 	self testEntityWithComment:
@@ -62,11 +56,11 @@ FamixFortran77Test >> testEntityWithComment [
 		(self newEntity: FamixF77PUBlockdata named: 'bdata')
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FamixFortran77Test >> testEntityWithComment: anEntity [
 
 	| comment |
-	comment := self comment: 'a comment'.
+	comment := FamixF77Comment new.
 
 	self assert: anEntity comments isEmptyOrNil.
 	self assert: comment commentedEntity isNil.
@@ -77,7 +71,7 @@ FamixFortran77Test >> testEntityWithComment: anEntity [
 	self assert: comment commentedEntity equals: anEntity
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FamixFortran77Test >> testEntityWithParameter: anEntity [
 
 	| parameter1 parameter2 |
@@ -107,7 +101,7 @@ FamixFortran77Test >> testEntityWithParameter: anEntity [
 			parameter2 }
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FamixFortran77Test >> testEntityWithVariable: anEntity [
 
 	| variable1 variable2 |
@@ -136,7 +130,7 @@ FamixFortran77Test >> testEntityWithVariable: anEntity [
 			variable2 }
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FamixFortran77Test >> testExternalProcedureInvokingEntity: anEntity [
 
 	| extProc invocation |
@@ -153,35 +147,35 @@ FamixFortran77Test >> testExternalProcedureInvokingEntity: anEntity [
 	self assert: extProc outgoingInvocations first equals: invocation
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FamixFortran77Test >> testExternalProcedureInvokingFunction [
 
 	self testExternalProcedureInvokingEntity:
 		(self newEntity: FamixF77PUFunction named: 'fct')
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FamixFortran77Test >> testFunctionWithAccessingItsLocalVariable [
 
 	self testEntityAccessingLocalVariableOfItsContainer:
 		(self newEntity: FamixF77PUFunction named: 'fct')
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FamixFortran77Test >> testFunctionWithParameters [
 
 	self testEntityWithParameter:
 		(self newEntity: FamixF77PUFunction named: 'fct')
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FamixFortran77Test >> testFunctionWithVariables [
 
 	self testEntityWithVariable:
 		(self newEntity: FamixF77PUFunction named: 'fct')
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FamixFortran77Test >> testProgramFile [
 
 	| pf |
@@ -190,7 +184,7 @@ FamixFortran77Test >> testProgramFile [
 	self assert: pf version equals: 'Fortran77'
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FamixFortran77Test >> testProgramFileWithProgramAndSubProgram [
 
 	| pf program function subroutine |
@@ -216,14 +210,14 @@ FamixFortran77Test >> testProgramFileWithProgramAndSubProgram [
 	self flag: #FIXME "Tester les contenances. qui contient quoi ?"
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FamixFortran77Test >> testSubroutineWithParameters [
 
 	self testEntityWithParameter:
 		(self newEntity: FamixF77PUSubroutine named: 'sub')
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 FamixFortran77Test >> testSubroutineWithVariables [
 
 	self testEntityWithVariable:
