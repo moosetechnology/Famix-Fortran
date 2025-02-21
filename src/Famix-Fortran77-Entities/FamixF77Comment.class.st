@@ -9,13 +9,17 @@ a fortran comment
 |---|
 | `commentedEntity` | `FamixTComment` | `comments` | `FamixTWithComments` | Source code commented by the comment|
 
+### Other
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `sourceAnchor` | `FamixTSourceEntity` | `element` | `FamixTSourceAnchor` | SourceAnchor entity linking to the original source code for this entity|
+
 
 ## Properties
 ======================
 
 | Name | Type | Default value | Comment |
 |---|
-| `content` | `String` | nil | Content of the comment as a String|
 | `isEsope` | `Boolean` | false | Is it an esope comment ?|
 
 "
