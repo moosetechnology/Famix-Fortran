@@ -35,10 +35,24 @@ FamixF77TEntityCreator >> newComment [
 ]
 
 { #category : 'entity creation' }
+FamixF77TEntityCreator >> newEntityTyping [
+
+	<generated>
+	^ self add: FamixF77EntityTyping new
+]
+
+{ #category : 'entity creation' }
 FamixF77TEntityCreator >> newExternalDeclaration [
 
 	<generated>
 	^ self add: FamixF77ExternalDeclaration new
+]
+
+{ #category : 'entity creation' }
+FamixF77TEntityCreator >> newExternalDeclarationNamed: aName [
+
+	<generated>
+	^ self add: (FamixF77ExternalDeclaration named: aName)
 ]
 
 { #category : 'entity creation' }
@@ -63,6 +77,13 @@ FamixF77TEntityCreator >> newIncludedFile [
 ]
 
 { #category : 'entity creation' }
+FamixF77TEntityCreator >> newIncludedFileNamed: aName [
+
+	<generated>
+	^ self add: (FamixF77IncludedFile named: aName)
+]
+
+{ #category : 'entity creation' }
 FamixF77TEntityCreator >> newIndexedFileAnchor [
 
 	<generated>
@@ -74,6 +95,13 @@ FamixF77TEntityCreator >> newIntrinsicRoutine [
 
 	<generated>
 	^ self add: FamixF77IntrinsicRoutine new
+]
+
+{ #category : 'entity creation' }
+FamixF77TEntityCreator >> newIntrinsicRoutineNamed: aName [
+
+	<generated>
+	^ self add: (FamixF77IntrinsicRoutine named: aName)
 ]
 
 { #category : 'entity creation' }
@@ -91,10 +119,24 @@ FamixF77TEntityCreator >> newPUBlockdata [
 ]
 
 { #category : 'entity creation' }
+FamixF77TEntityCreator >> newPUBlockdataNamed: aName [
+
+	<generated>
+	^ self add: (FamixF77PUBlockdata named: aName)
+]
+
+{ #category : 'entity creation' }
 FamixF77TEntityCreator >> newPUFunction [
 
 	<generated>
 	^ self add: FamixF77PUFunction new
+]
+
+{ #category : 'entity creation' }
+FamixF77TEntityCreator >> newPUFunctionNamed: aName [
+
+	<generated>
+	^ self add: (FamixF77PUFunction named: aName)
 ]
 
 { #category : 'entity creation' }
@@ -105,6 +147,13 @@ FamixF77TEntityCreator >> newPUMain [
 ]
 
 { #category : 'entity creation' }
+FamixF77TEntityCreator >> newPUMainNamed: aName [
+
+	<generated>
+	^ self add: (FamixF77PUMain named: aName)
+]
+
+{ #category : 'entity creation' }
 FamixF77TEntityCreator >> newPUProcedure [
 
 	<generated>
@@ -112,10 +161,24 @@ FamixF77TEntityCreator >> newPUProcedure [
 ]
 
 { #category : 'entity creation' }
+FamixF77TEntityCreator >> newPUProcedureNamed: aName [
+
+	<generated>
+	^ self add: (FamixF77PUProcedure named: aName)
+]
+
+{ #category : 'entity creation' }
 FamixF77TEntityCreator >> newPUSubroutine [
 
 	<generated>
 	^ self add: FamixF77PUSubroutine new
+]
+
+{ #category : 'entity creation' }
+FamixF77TEntityCreator >> newPUSubroutineNamed: aName [
+
+	<generated>
+	^ self add: (FamixF77PUSubroutine named: aName)
 ]
 
 { #category : 'entity creation' }
@@ -140,6 +203,13 @@ FamixF77TEntityCreator >> newProgramFile [
 ]
 
 { #category : 'entity creation' }
+FamixF77TEntityCreator >> newProgramFileNamed: aName [
+
+	<generated>
+	^ self add: (FamixF77ProgramFile named: aName)
+]
+
+{ #category : 'entity creation' }
 FamixF77TEntityCreator >> newSourceLanguage [
 
 	<generated>
@@ -161,6 +231,13 @@ FamixF77TEntityCreator >> newStatementFunction [
 ]
 
 { #category : 'entity creation' }
+FamixF77TEntityCreator >> newStatementFunctionNamed: aName [
+
+	<generated>
+	^ self add: (FamixF77StatementFunction named: aName)
+]
+
+{ #category : 'entity creation' }
 FamixF77TEntityCreator >> newType [
 
 	<generated>
@@ -175,6 +252,13 @@ FamixF77TEntityCreator >> newTypeIntrinsic [
 ]
 
 { #category : 'entity creation' }
+FamixF77TEntityCreator >> newTypeIntrinsicNamed: aName [
+
+	<generated>
+	^ self add: (FamixF77TypeIntrinsic named: aName)
+]
+
+{ #category : 'entity creation' }
 FamixF77TEntityCreator >> newTypeNamed: aName [
 
 	<generated>
@@ -186,6 +270,13 @@ FamixF77TEntityCreator >> newTypeUnknown [
 
 	<generated>
 	^ self add: FamixF77TypeUnknown new
+]
+
+{ #category : 'entity creation' }
+FamixF77TEntityCreator >> newTypeUnknownNamed: aName [
+
+	<generated>
+	^ self add: (FamixF77TypeUnknown named: aName)
 ]
 
 { #category : 'entity creation' }
