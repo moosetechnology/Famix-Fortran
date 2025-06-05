@@ -32,6 +32,13 @@ FamixF77ImportingContext >> importComment [
 ]
 
 { #category : 'importing' }
+FamixF77ImportingContext >> importEntityTyping [
+
+	<generated>
+	^ self importAssociation: (self class fm3ClassNamed: #EntityTyping)
+]
+
+{ #category : 'importing' }
 FamixF77ImportingContext >> importExternalDeclaration [
 
 	<generated>
@@ -197,6 +204,13 @@ FamixF77ImportingContext >> shouldImportComment [
 
 	<generated>
 	^ self shouldImport: #Comment
+]
+
+{ #category : 'testing' }
+FamixF77ImportingContext >> shouldImportEntityTyping [
+
+	<generated>
+	^ self shouldImport: #EntityTyping
 ]
 
 { #category : 'testing' }

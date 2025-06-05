@@ -4,10 +4,10 @@ a function procedure
 ## Relations
 ======================
 
-### Other
+### Outgoing dependencies
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `declaredType` | `FamixTTypedEntity` | `typedEntities` | `FamixTType` | Type of the entity, if any|
+| `typing` | `FamixTTypedEntity` | `typedEntity` | `FamixTEntityTyping` | Association linking this entity to its declared type.|
 
 
 ## Properties

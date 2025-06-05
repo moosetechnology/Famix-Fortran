@@ -57,7 +57,8 @@ Class {
 		'statementFunction',
 		'tWithStatements',
 		'unknownVariable',
-		'intrinsicRoutine'
+		'intrinsicRoutine',
+		'entityTyping'
 	],
 	#category : 'Famix-Fortran77-Generator',
 	#package : 'Famix-Fortran77-Generator'
@@ -98,94 +99,52 @@ FamixFortran77Generator >> defineClasses [
 
 	super defineClasses.
 
-	access := self
-		          newClassNamed: #Access
-		          comment: self accessEntityComment.
-
-	"character := self newClassNamed: #Character comment: 'Im a character'.
-
-	complex := self newClassNamed: #Complex comment: 'Im a complex'."
+	access := self newClassNamed: #Access comment: self accessEntityComment.
 
 	comment comment: self fCommentEntityComment.
 
-	externalDeclaration := self
-		                       newClassNamed: #ExternalDeclaration
-		                       comment: self externalDeclarationComment.
+	entityTyping := self newClassNamed: #EntityTyping comment: 'see https://modularmoose.org/blog/2025-05-07-parametrics-next-generation/'.
+
+	externalDeclaration := self newClassNamed: #ExternalDeclaration comment: self externalDeclarationComment.
 	
 	implicit := self newClassNamed: #Implicit comment: self implicitComment.
 
-	indexedFileAnchor := self
-		                     newClassNamed: #IndexedFileAnchor
-		                     comment: self indexedFileAnchorComment.
+	indexedFileAnchor := self newClassNamed: #IndexedFileAnchor comment: self indexedFileAnchorComment.
 
-	intrinsicRoutine := self
-		newClassNamed: #IntrinsicRoutine
-		comment: self intrinsicRoutineComment.
+	intrinsicRoutine := self newClassNamed: #IntrinsicRoutine comment: self intrinsicRoutineComment.
 
-	invocation := self
-		              newClassNamed: #Invocation
-		              comment: self invocationEntityComment.
+	invocation := self newClassNamed: #Invocation comment: self invocationEntityComment.
 
-	include := self
-		           newClassNamed: #Include
-		           comment: self includeComment.
-	includedFile := self
-		                newClassNamed: #IncludedFile
-		                comment: 'includedFile'.
+	include := self newClassNamed: #Include comment: self includeComment.
+	includedFile := self newClassNamed: #IncludedFile comment: 'includedFile'.
 
-	parameter := self
-		             newClassNamed: #Parameter
-		             comment: self parameterEntityComment.
+	parameter := self newClassNamed: #Parameter comment: self parameterEntityComment.
 
-	programFile := self
-		               newClassNamed: #ProgramFile
-		               comment: self fileEntityComment.
+	programFile := self newClassNamed: #ProgramFile comment: self fileEntityComment.
 
-	programUnit := self
-		               newAbstractClassNamed: #ProgramUnit
-		               comment: self programUnitEntityComment.
+	programUnit := self newAbstractClassNamed: #ProgramUnit comment: self programUnitEntityComment.
 
-	puBlockdata := self
-		               newClassNamed: #PUBlockdata
-		               comment: self puBlockdataEntityComment.
+	puBlockdata := self newClassNamed: #PUBlockdata comment: self puBlockdataEntityComment.
 
-	puFunction := self
-		              newClassNamed: #PUFunction
-		              comment: self puFunctionEntityComment.
+	puFunction := self newClassNamed: #PUFunction comment: self puFunctionEntityComment.
 
-	puMain := self
-		          newClassNamed: #PUMain
-		          comment: self puMainEntityComment.
+	puMain := self newClassNamed: #PUMain comment: self puMainEntityComment.
 
-	puProcedure := self
-		newClassNamed: #PUProcedure
-		comment: self puProcedureEntityComment.
+	puProcedure := self newClassNamed: #PUProcedure comment: self puProcedureEntityComment.
 
-	puSubroutine := self
-		newClassNamed: #PUSubroutine
-		comment: self puSubroutineEntityComment.
+	puSubroutine := self newClassNamed: #PUSubroutine comment: self puSubroutineEntityComment.
 
-	statementFunction := self
-		newClassNamed: #StatementFunction
-		comment: self statementFunctionEntityComment.
+	statementFunction := self newClassNamed: #StatementFunction comment: self statementFunctionEntityComment.
 
 	type := self newClassNamed: #Type comment: self typeComment.
 
-	typeIntrinsic := self
-		                 newClassNamed: #TypeIntrinsic
-		                 comment: self typeIntrinsicComment.
+	typeIntrinsic := self newClassNamed: #TypeIntrinsic comment: self typeIntrinsicComment.
 
-	typeUnknown := self
-		               newClassNamed: #TypeUnknown
-		               comment: self typeIntrinsicComment.
+	typeUnknown := self newClassNamed: #TypeUnknown comment: self typeIntrinsicComment.
 
-	variable := self
-		            newClassNamed: #Variable
-		            comment: self variableEntityComment.
+	variable := self newClassNamed: #Variable comment: self variableEntityComment.
 
-	unknownVariable := self
-		            newClassNamed: #UnknownVariable
-		            comment: 'Variable used but not resolved'.
+	unknownVariable := self newClassNamed: #UnknownVariable comment: 'Variable used but not resolved'.
 
 ]
 
@@ -196,6 +155,8 @@ FamixFortran77Generator >> defineHierarchy [
 
 	access --|> #TAccess.
 	access --|> #TEntityMetaLevelDependency.
+	
+	entityTyping --|> #TEntityTyping.
 
 	externalDeclaration --|> namedEntity.
 	externalDeclaration --|> #TInvocable.

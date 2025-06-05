@@ -29,6 +29,7 @@ a fortran file
 | Name | Type | Default value | Comment |
 |---|
 | `filename` | `String` | nil | Fortran name of the file|
+| `name` | `String` | nil | Basic name of the entity, not full reference.|
 | `version` | `String` | nil | Fortran version of the file|
 
 "
