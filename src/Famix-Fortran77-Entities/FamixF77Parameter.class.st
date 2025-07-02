@@ -30,6 +30,7 @@ a formal parameter
 
 | Name | Type | Default value | Comment |
 |---|
+| `isEsope` | `Boolean` | false | Is it an Esope pointer ?|
 | `isStub` | `Boolean` | false | Flag true if the entity attributes are incomplete, either because the entity is missing or not imported.|
 | `name` | `String` | nil | Basic name of the entity, not full reference.|
 
@@ -39,6 +40,9 @@ Class {
 	#superclass : 'FamixF77Entity',
 	#traits : 'FamixTParameter',
 	#classTraits : 'FamixTParameter classTrait',
+	#instVars : [
+		'#isEsope => FMProperty defaultValue: false'
+	],
 	#category : 'Famix-Fortran77-Entities-Entities',
 	#package : 'Famix-Fortran77-Entities',
 	#tag : 'Entities'
@@ -51,4 +55,19 @@ FamixF77Parameter class >> annotation [
 	<package: #'Famix-Fortran77-Entities'>
 	<generated>
 	^ self
+]
+
+{ #category : 'accessing' }
+FamixF77Parameter >> isEsope [
+
+	<FMProperty: #isEsope type: #Boolean defaultValue: false>
+	<generated>
+	<FMComment: 'Is it an Esope pointer ?'>
+	^ isEsope ifNil: [ isEsope := false ]
+]
+
+{ #category : 'accessing' }
+FamixF77Parameter >> isEsope: anObject [
+	<generated>
+	isEsope := anObject
 ]

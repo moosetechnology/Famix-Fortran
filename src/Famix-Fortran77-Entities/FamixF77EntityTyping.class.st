@@ -1,5 +1,5 @@
 "
-to fix declaredTYpe
+see https://modularmoose.org/blog/2025-05-07-parametrics-next-generation/
 
 ## Relations
 ======================

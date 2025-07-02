@@ -268,6 +268,9 @@ FamixFortran77Generator >> defineProperties [
 	(variable property: #isEsope type: #Boolean defaultValue: false) 
 		comment: 'Is it an Esope pointer ?'.
 
+	(parameter property: #isEsope type: #Boolean defaultValue: false) 
+		comment: 'Is it an Esope pointer ?'.
+
 ]
 
 { #category : 'definition' }
