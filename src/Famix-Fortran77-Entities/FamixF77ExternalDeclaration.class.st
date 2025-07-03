@@ -30,8 +30,8 @@ Class {
 	#traits : 'FamixTInvocable + FamixTSourceEntity + TEntityMetaLevelDependency',
 	#classTraits : 'FamixTInvocable classTrait + FamixTSourceEntity classTrait + TEntityMetaLevelDependency classTrait',
 	#instVars : [
-		'#externalProcedure => FMOne type: #FamixF77PUProcedure opposite: #externalUses',
-		'#programUnit => FMOne type: #FamixF77ProgramUnit opposite: #externalDeclarations'
+		'#programUnit => FMOne type: #FamixF77ProgramUnit opposite: #externalDeclarations',
+		'#externalProcedure => FMOne type: #FamixF77PUProcedure opposite: #externalUses'
 	],
 	#category : 'Famix-Fortran77-Entities-Entities',
 	#package : 'Famix-Fortran77-Entities',

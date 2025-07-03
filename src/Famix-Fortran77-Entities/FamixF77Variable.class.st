@@ -37,7 +37,7 @@ a local variable of a program unit
 "
 Class {
 	#name : 'FamixF77Variable',
-	#superclass : 'FamixF77Entity',
+	#superclass : 'FamixF77NamedEntity',
 	#traits : 'FamixTLocalVariable',
 	#classTraits : 'FamixTLocalVariable classTrait',
 	#instVars : [
@@ -51,7 +51,7 @@ Class {
 { #category : 'meta' }
 FamixF77Variable class >> annotation [
 
-	<FMClass: #Variable super: #FamixF77Entity>
+	<FMClass: #Variable super: #FamixF77NamedEntity>
 	<package: #'Famix-Fortran77-Entities'>
 	<generated>
 	^ self

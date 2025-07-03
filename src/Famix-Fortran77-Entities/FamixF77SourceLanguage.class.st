@@ -28,13 +28,3 @@ FamixF77SourceLanguage class >> annotation [
 	<generated>
 	^ self
 ]
-
-{ #category : 'accessing' }
-FamixF77SourceLanguage >> name [
-
-	<FMProperty: #name type: #String> 
-	<derived>
-	<FMComment: 'The name of the language'>
-	
-	^'Fortran-77'
-]

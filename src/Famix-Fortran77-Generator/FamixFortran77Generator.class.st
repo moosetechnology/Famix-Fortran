@@ -177,8 +177,6 @@ FamixFortran77Generator >> defineHierarchy [
 	includedFile --|> #TWithTypes.
 	includedFile --|> tWithStatements.
 
-	parameter --|> #TParameter.
-
 	programFile --|> namedEntity.
 	programFile inheritsFromTrait: #TSourceEntity without: { #sourceText }.
 	programFile --|> #TWithComments.
@@ -231,8 +229,13 @@ FamixFortran77Generator >> defineHierarchy [
 
 	typeUnknown --|> type.
 
+	variable --|> namedEntity.
 	variable --|> #TLocalVariable.
 
+	parameter --|> variable.
+	parameter --|> #TParameter.
+
+	unknownVariable  --|> variable.
 	unknownVariable  --|> #TUnknownVariable
 ]
 
@@ -266,9 +269,6 @@ FamixFortran77Generator >> defineProperties [
 		comment: 'Is it an Esope function (segini,...) ?'.
 
 	(variable property: #isEsope type: #Boolean defaultValue: false) 
-		comment: 'Is it an Esope pointer ?'.
-
-	(parameter property: #isEsope type: #Boolean defaultValue: false) 
 		comment: 'Is it an Esope pointer ?'.
 
 ]
