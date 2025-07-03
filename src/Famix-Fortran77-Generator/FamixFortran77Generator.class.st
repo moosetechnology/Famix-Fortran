@@ -58,7 +58,8 @@ Class {
 		'tWithStatements',
 		'unknownVariable',
 		'intrinsicRoutine',
-		'entityTyping'
+		'entityTyping',
+		'structuralEntity'
 	],
 	#category : 'Famix-Fortran77-Generator',
 	#package : 'Famix-Fortran77-Generator'
@@ -135,6 +136,8 @@ FamixFortran77Generator >> defineClasses [
 	puSubroutine := self newClassNamed: #PUSubroutine comment: self puSubroutineEntityComment.
 
 	statementFunction := self newClassNamed: #StatementFunction comment: self statementFunctionEntityComment.
+
+	structuralEntity := self newClassNamed: #StructuralEntity comment: 'abstract class for all kind of variable'.
 
 	type := self newClassNamed: #Type comment: self typeComment.
 
@@ -229,13 +232,15 @@ FamixFortran77Generator >> defineHierarchy [
 
 	typeUnknown --|> type.
 
-	variable --|> namedEntity.
+	structuralEntity --|> namedEntity.
+	
+	variable --|> structuralEntity.
 	variable --|> #TLocalVariable.
 
-	parameter --|> variable.
+	parameter --|> structuralEntity.
 	parameter --|> #TParameter.
 
-	unknownVariable  --|> variable.
+	unknownVariable  --|> structuralEntity.
 	unknownVariable  --|> #TUnknownVariable
 ]
 
@@ -268,7 +273,7 @@ FamixFortran77Generator >> defineProperties [
 	(puFunction property: #isEsope type: #Boolean defaultValue: false) 
 		comment: 'Is it an Esope function (segini,...) ?'.
 
-	(variable property: #isEsope type: #Boolean defaultValue: false) 
+	(structuralEntity property: #isEsope type: #Boolean defaultValue: false) 
 		comment: 'Is it an Esope pointer ?'.
 
 ]

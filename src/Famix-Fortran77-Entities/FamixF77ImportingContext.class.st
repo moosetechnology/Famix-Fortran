@@ -158,6 +158,13 @@ FamixF77ImportingContext >> importStatementFunction [
 ]
 
 { #category : 'importing' }
+FamixF77ImportingContext >> importStructuralEntity [
+
+	<generated>
+	^ self importConcreteEntity: (self class fm3ClassNamed: #StructuralEntity)
+]
+
+{ #category : 'importing' }
 FamixF77ImportingContext >> importType [
 
 	<generated>
@@ -330,6 +337,13 @@ FamixF77ImportingContext >> shouldImportStatementFunction [
 
 	<generated>
 	^ self shouldImport: #StatementFunction
+]
+
+{ #category : 'testing' }
+FamixF77ImportingContext >> shouldImportStructuralEntity [
+
+	<generated>
+	^ self shouldImport: #StructuralEntity
 ]
 
 { #category : 'testing' }

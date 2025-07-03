@@ -238,6 +238,20 @@ FamixF77TEntityCreator >> newStatementFunctionNamed: aName [
 ]
 
 { #category : 'entity creation' }
+FamixF77TEntityCreator >> newStructuralEntity [
+
+	<generated>
+	^ self add: FamixF77StructuralEntity new
+]
+
+{ #category : 'entity creation' }
+FamixF77TEntityCreator >> newStructuralEntityNamed: aName [
+
+	<generated>
+	^ self add: (FamixF77StructuralEntity named: aName)
+]
+
+{ #category : 'entity creation' }
 FamixF77TEntityCreator >> newType [
 
 	<generated>
