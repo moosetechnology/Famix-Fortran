@@ -31,7 +31,7 @@ Variable used but not resolved
 "
 Class {
 	#name : 'FamixF77UnknownVariable',
-	#superclass : 'FamixF77Entity',
+	#superclass : 'FamixF77StructuralEntity',
 	#traits : 'FamixTUnknownVariable',
 	#classTraits : 'FamixTUnknownVariable classTrait',
 	#category : 'Famix-Fortran77-Entities-Entities',
@@ -42,7 +42,7 @@ Class {
 { #category : 'meta' }
 FamixF77UnknownVariable class >> annotation [
 
-	<FMClass: #UnknownVariable super: #FamixF77Entity>
+	<FMClass: #UnknownVariable super: #FamixF77StructuralEntity>
 	<package: #'Famix-Fortran77-Entities'>
 	<generated>
 	^ self

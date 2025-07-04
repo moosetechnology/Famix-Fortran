@@ -36,7 +36,7 @@ a formal parameter
 "
 Class {
 	#name : 'FamixF77Parameter',
-	#superclass : 'FamixF77Entity',
+	#superclass : 'FamixF77StructuralEntity',
 	#traits : 'FamixTParameter',
 	#classTraits : 'FamixTParameter classTrait',
 	#category : 'Famix-Fortran77-Entities-Entities',
@@ -47,7 +47,7 @@ Class {
 { #category : 'meta' }
 FamixF77Parameter class >> annotation [
 
-	<FMClass: #Parameter super: #FamixF77Entity>
+	<FMClass: #Parameter super: #FamixF77StructuralEntity>
 	<package: #'Famix-Fortran77-Entities'>
 	<generated>
 	^ self

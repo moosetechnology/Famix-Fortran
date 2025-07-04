@@ -52,6 +52,13 @@ FamixF77Entity >> isBehavioural [
 ]
 
 { #category : 'testing' }
+FamixF77Entity >> isComment [
+
+	<generated>
+	^ false
+]
+
+{ #category : 'testing' }
 FamixF77Entity >> isFileAnchor [
 
 	<generated>

@@ -30,19 +30,15 @@ a local variable of a program unit
 
 | Name | Type | Default value | Comment |
 |---|
-| `isEsope` | `Boolean` | false | Is it an Esope pointer ?|
 | `isStub` | `Boolean` | false | Flag true if the entity attributes are incomplete, either because the entity is missing or not imported.|
 | `name` | `String` | nil | Basic name of the entity, not full reference.|
 
 "
 Class {
 	#name : 'FamixF77Variable',
-	#superclass : 'FamixF77Entity',
+	#superclass : 'FamixF77StructuralEntity',
 	#traits : 'FamixTLocalVariable',
 	#classTraits : 'FamixTLocalVariable classTrait',
-	#instVars : [
-		'#isEsope => FMProperty defaultValue: false'
-	],
 	#category : 'Famix-Fortran77-Entities-Entities',
 	#package : 'Famix-Fortran77-Entities',
 	#tag : 'Entities'
@@ -51,23 +47,8 @@ Class {
 { #category : 'meta' }
 FamixF77Variable class >> annotation [
 
-	<FMClass: #Variable super: #FamixF77Entity>
+	<FMClass: #Variable super: #FamixF77StructuralEntity>
 	<package: #'Famix-Fortran77-Entities'>
 	<generated>
 	^ self
-]
-
-{ #category : 'accessing' }
-FamixF77Variable >> isEsope [
-
-	<FMProperty: #isEsope type: #Boolean defaultValue: false>
-	<generated>
-	<FMComment: 'Is it an Esope pointer ?'>
-	^ isEsope ifNil: [ isEsope := false ]
-]
-
-{ #category : 'accessing' }
-FamixF77Variable >> isEsope: anObject [
-	<generated>
-	isEsope := anObject
 ]
