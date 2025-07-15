@@ -59,7 +59,8 @@ Class {
 		'unknownVariable',
 		'intrinsicRoutine',
 		'entityTyping',
-		'structuralEntity'
+		'structuralEntity',
+		'commonGroup'
 	],
 	#category : 'Famix-Fortran77-Generator',
 	#package : 'Famix-Fortran77-Generator'
@@ -103,6 +104,8 @@ FamixFortran77Generator >> defineClasses [
 	access := self newClassNamed: #Access comment: self accessEntityComment.
 
 	comment comment: self fCommentEntityComment.
+
+	commonGroup := self newClassNamed: #CommonGroup comment: 'A COMMON group of variables'.
 
 	entityTyping := self newClassNamed: #EntityTyping comment: 'see https://modularmoose.org/blog/2025-05-07-parametrics-next-generation/'.
 
@@ -158,7 +161,11 @@ FamixFortran77Generator >> defineHierarchy [
 
 	access --|> #TAccess.
 	access --|> #TEntityMetaLevelDependency.
-	
+
+	commonGroup --|> structuralEntity.
+	commonGroup --|> #TStructuralEntity.
+	commonGroup --|> #TWithLocalVariables.
+
 	entityTyping --|> #TEntityTyping.
 
 	externalDeclaration --|> namedEntity.

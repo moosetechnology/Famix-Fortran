@@ -35,6 +35,20 @@ FamixF77TEntityCreator >> newComment [
 ]
 
 { #category : 'entity creation' }
+FamixF77TEntityCreator >> newCommonGroup [
+
+	<generated>
+	^ self add: FamixF77CommonGroup new
+]
+
+{ #category : 'entity creation' }
+FamixF77TEntityCreator >> newCommonGroupNamed: aName [
+
+	<generated>
+	^ self add: (FamixF77CommonGroup named: aName)
+]
+
+{ #category : 'entity creation' }
 FamixF77TEntityCreator >> newEntityTyping [
 
 	<generated>
