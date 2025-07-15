@@ -163,7 +163,7 @@ FamixFortran77Generator >> defineHierarchy [
 	access --|> #TEntityMetaLevelDependency.
 
 	commonGroup --|> structuralEntity.
-	commonGroup --|> #TStructuralEntity.
+	commonGroup --|> #TLocalVariable.
 	commonGroup --|> #TWithLocalVariables.
 
 	entityTyping --|> #TEntityTyping.

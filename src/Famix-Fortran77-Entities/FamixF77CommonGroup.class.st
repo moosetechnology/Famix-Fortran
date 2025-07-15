@@ -4,6 +4,11 @@ A COMMON group of variables
 ## Relations
 ======================
 
+### Parents
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `parentBehaviouralEntity` | `FamixTLocalVariable` | `localVariables` | `FamixTWithLocalVariables` | Behavioural entity declaring this local variable. belongsTo implementation|
+
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
@@ -37,8 +42,8 @@ A COMMON group of variables
 Class {
 	#name : 'FamixF77CommonGroup',
 	#superclass : 'FamixF77StructuralEntity',
-	#traits : 'FamixTStructuralEntity + FamixTWithLocalVariables',
-	#classTraits : 'FamixTStructuralEntity classTrait + FamixTWithLocalVariables classTrait',
+	#traits : 'FamixTLocalVariable + FamixTWithLocalVariables',
+	#classTraits : 'FamixTLocalVariable classTrait + FamixTWithLocalVariables classTrait',
 	#category : 'Famix-Fortran77-Entities-Entities',
 	#package : 'Famix-Fortran77-Entities',
 	#tag : 'Entities'
