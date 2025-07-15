@@ -32,6 +32,13 @@ FamixF77ImportingContext >> importComment [
 ]
 
 { #category : 'importing' }
+FamixF77ImportingContext >> importCommonGroup [
+
+	<generated>
+	^ self importConcreteEntity: (self class fm3ClassNamed: #CommonGroup)
+]
+
+{ #category : 'importing' }
 FamixF77ImportingContext >> importEntityTyping [
 
 	<generated>
@@ -211,6 +218,13 @@ FamixF77ImportingContext >> shouldImportComment [
 
 	<generated>
 	^ self shouldImport: #Comment
+]
+
+{ #category : 'testing' }
+FamixF77ImportingContext >> shouldImportCommonGroup [
+
+	<generated>
+	^ self shouldImport: #CommonGroup
 ]
 
 { #category : 'testing' }
