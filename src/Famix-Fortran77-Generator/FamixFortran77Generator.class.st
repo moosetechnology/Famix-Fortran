@@ -60,7 +60,7 @@ Class {
 		'intrinsicRoutine',
 		'entityTyping',
 		'structuralEntity',
-		'commonGroup'
+		'commonBlock'
 	],
 	#category : 'Famix-Fortran77-Generator',
 	#package : 'Famix-Fortran77-Generator'
@@ -105,7 +105,7 @@ FamixFortran77Generator >> defineClasses [
 
 	comment comment: self fCommentEntityComment.
 
-	commonGroup := self newClassNamed: #CommonGroup comment: 'A COMMON group of variables'.
+	commonBlock := self newClassNamed: #CommonBlock comment: 'A COMMON group of variables'.
 
 	entityTyping := self newClassNamed: #EntityTyping comment: 'see https://modularmoose.org/blog/2025-05-07-parametrics-next-generation/'.
 
@@ -162,10 +162,10 @@ FamixFortran77Generator >> defineHierarchy [
 	access --|> #TAccess.
 	access --|> #TEntityMetaLevelDependency.
 
-	commonGroup --|> #TSourceEntity.
-	commonGroup --|> #TNamedEntity.
-	commonGroup --|> #TWithLocalVariables.
-	commonGroup --|> #TEntityMetaLevelDependency.
+	commonBlock --|> #TSourceEntity.
+	commonBlock --|> #TNamedEntity.
+	commonBlock --|> #TWithLocalVariables.
+	commonBlock --|> #TEntityMetaLevelDependency.
 
 	entityTyping --|> #TEntityTyping.
 
@@ -303,7 +303,7 @@ FamixFortran77Generator >> defineRelations [
 		 'All inclusions made by this programUnits').
 
 	(externalDeclaration property: #externalProcedure) *- (puProcedure property: #externalUses).
-	(programUnit property: #commonGroups) <>-* (commonGroup property: #parentBehaviouralEntity).
+	(programUnit property: #commonBlocks) <>-* (commonBlock property: #parentBehaviouralEntity).
 
 	((tWithStatements property: #statementFunctions)
 		comment: 'Statement functions defined in the body')

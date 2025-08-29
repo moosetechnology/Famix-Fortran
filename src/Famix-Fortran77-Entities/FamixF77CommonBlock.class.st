@@ -7,7 +7,7 @@ A COMMON group of variables
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `parentBehaviouralEntity` | `FamixF77CommonGroup` | `commonGroups` | `FamixF77ProgramUnit` | |
+| `parentBehaviouralEntity` | `FamixF77CommonBlock` | `commonBlocks` | `FamixF77ProgramUnit` | |
 
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
@@ -29,12 +29,12 @@ A COMMON group of variables
 
 "
 Class {
-	#name : 'FamixF77CommonGroup',
+	#name : 'FamixF77CommonBlock',
 	#superclass : 'FamixF77Entity',
 	#traits : 'FamixTNamedEntity + FamixTSourceEntity + FamixTWithLocalVariables + TEntityMetaLevelDependency',
 	#classTraits : 'FamixTNamedEntity classTrait + FamixTSourceEntity classTrait + FamixTWithLocalVariables classTrait + TEntityMetaLevelDependency classTrait',
 	#instVars : [
-		'#parentBehaviouralEntity => FMOne type: #FamixF77ProgramUnit opposite: #commonGroups'
+		'#parentBehaviouralEntity => FMOne type: #FamixF77ProgramUnit opposite: #commonBlocks'
 	],
 	#category : 'Famix-Fortran77-Entities-Entities',
 	#package : 'Famix-Fortran77-Entities',
@@ -42,17 +42,17 @@ Class {
 }
 
 { #category : 'meta' }
-FamixF77CommonGroup class >> annotation [
+FamixF77CommonBlock class >> annotation [
 
-	<FMClass: #CommonGroup super: #FamixF77Entity>
+	<FMClass: #CommonBlock super: #FamixF77Entity>
 	<package: #'Famix-Fortran77-Entities'>
 	<generated>
 	^ self
 ]
 
 { #category : 'accessing' }
-FamixF77CommonGroup >> parentBehaviouralEntity [
-	"Relation named: #parentBehaviouralEntity type: #FamixF77ProgramUnit opposite: #commonGroups"
+FamixF77CommonBlock >> parentBehaviouralEntity [
+	"Relation named: #parentBehaviouralEntity type: #FamixF77ProgramUnit opposite: #commonBlocks"
 
 	<generated>
 	<container>
@@ -60,14 +60,14 @@ FamixF77CommonGroup >> parentBehaviouralEntity [
 ]
 
 { #category : 'accessing' }
-FamixF77CommonGroup >> parentBehaviouralEntity: anObject [
+FamixF77CommonBlock >> parentBehaviouralEntity: anObject [
 
 	<generated>
 	parentBehaviouralEntity := anObject
 ]
 
 { #category : 'navigation' }
-FamixF77CommonGroup >> parentBehaviouralEntityGroup [
+FamixF77CommonBlock >> parentBehaviouralEntityGroup [
 	<generated>
 	<navigation: 'ParentBehaviouralEntity'>
 	^ MooseSpecializedGroup with: self parentBehaviouralEntity

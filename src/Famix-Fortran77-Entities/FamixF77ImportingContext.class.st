@@ -32,10 +32,10 @@ FamixF77ImportingContext >> importComment [
 ]
 
 { #category : 'importing' }
-FamixF77ImportingContext >> importCommonGroup [
+FamixF77ImportingContext >> importCommonBlock [
 
 	<generated>
-	^ self importConcreteEntity: (self class fm3ClassNamed: #CommonGroup)
+	^ self importConcreteEntity: (self class fm3ClassNamed: #CommonBlock)
 ]
 
 { #category : 'importing' }
@@ -221,10 +221,10 @@ FamixF77ImportingContext >> shouldImportComment [
 ]
 
 { #category : 'testing' }
-FamixF77ImportingContext >> shouldImportCommonGroup [
+FamixF77ImportingContext >> shouldImportCommonBlock [
 
 	<generated>
-	^ self shouldImport: #CommonGroup
+	^ self shouldImport: #CommonBlock
 ]
 
 { #category : 'testing' }
