@@ -14,14 +14,25 @@ A COMMON group of variables
 |---|
 | `localVariables` | `FamixTWithLocalVariables` | `parentBehaviouralEntity` | `FamixTLocalVariable` | Variables locally defined by this behaviour.|
 
+### Other
+| Relation | Origin | Opposite | Type | Comment |
+|---|
+| `sourceAnchor` | `FamixTSourceEntity` | `element` | `FamixTSourceAnchor` | SourceAnchor entity linking to the original source code for this entity|
 
+
+## Properties
+======================
+
+| Name | Type | Default value | Comment |
+|---|
+| `name` | `String` | nil | Basic name of the entity, not full reference.|
 
 "
 Class {
 	#name : 'FamixF77CommonGroup',
-	#superclass : 'FamixF77NamedEntity',
-	#traits : 'FamixTWithLocalVariables',
-	#classTraits : 'FamixTWithLocalVariables classTrait',
+	#superclass : 'FamixF77Entity',
+	#traits : 'FamixTNamedEntity + FamixTSourceEntity + FamixTWithLocalVariables + TEntityMetaLevelDependency',
+	#classTraits : 'FamixTNamedEntity classTrait + FamixTSourceEntity classTrait + FamixTWithLocalVariables classTrait + TEntityMetaLevelDependency classTrait',
 	#instVars : [
 		'#parentBehaviouralEntity => FMOne type: #FamixF77ProgramUnit opposite: #commonGroups'
 	],
@@ -33,7 +44,7 @@ Class {
 { #category : 'meta' }
 FamixF77CommonGroup class >> annotation [
 
-	<FMClass: #CommonGroup super: #FamixF77NamedEntity>
+	<FMClass: #CommonGroup super: #FamixF77Entity>
 	<package: #'Famix-Fortran77-Entities'>
 	<generated>
 	^ self

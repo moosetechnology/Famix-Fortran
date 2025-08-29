@@ -162,8 +162,10 @@ FamixFortran77Generator >> defineHierarchy [
 	access --|> #TAccess.
 	access --|> #TEntityMetaLevelDependency.
 
-	commonGroup --|> namedEntity.
+	commonGroup --|> #TSourceEntity.
+	commonGroup --|> #TNamedEntity.
 	commonGroup --|> #TWithLocalVariables.
+	commonGroup --|> #TEntityMetaLevelDependency.
 
 	entityTyping --|> #TEntityTyping.
 
