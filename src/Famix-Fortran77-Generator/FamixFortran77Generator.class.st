@@ -164,7 +164,6 @@ FamixFortran77Generator >> defineHierarchy [
 
 	commonBlock --|> #TSourceEntity.
 	commonBlock --|> #TNamedEntity.
-	commonBlock --|> #TWithLocalVariables.
 	commonBlock --|> #TEntityMetaLevelDependency.
 
 	entityTyping --|> #TEntityTyping.
@@ -304,6 +303,7 @@ FamixFortran77Generator >> defineRelations [
 
 	(externalDeclaration property: #externalProcedure) *- (puProcedure property: #externalUses).
 	(programUnit property: #commonBlocks) <>-* (commonBlock property: #parentBehaviouralEntity).
+	(commonBlock property: #variables) <>-* (variable property: #commonBlock).
 
 	((tWithStatements property: #statementFunctions)
 		comment: 'Statement functions defined in the body')

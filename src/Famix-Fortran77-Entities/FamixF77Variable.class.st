@@ -7,6 +7,7 @@ a local variable of a program unit
 ### Parents
 | Relation | Origin | Opposite | Type | Comment |
 |---|
+| `commonBlock` | `FamixF77Variable` | `variables` | `FamixF77CommonBlock` | |
 | `parentBehaviouralEntity` | `FamixTLocalVariable` | `localVariables` | `FamixTWithLocalVariables` | Behavioural entity declaring this local variable. belongsTo implementation|
 
 ### Outgoing dependencies
@@ -39,6 +40,9 @@ Class {
 	#superclass : 'FamixF77StructuralEntity',
 	#traits : 'FamixTLocalVariable',
 	#classTraits : 'FamixTLocalVariable classTrait',
+	#instVars : [
+		'#commonBlock => FMOne type: #FamixF77CommonBlock opposite: #variables'
+	],
 	#category : 'Famix-Fortran77-Entities-Entities',
 	#package : 'Famix-Fortran77-Entities',
 	#tag : 'Entities'
@@ -51,4 +55,27 @@ FamixF77Variable class >> annotation [
 	<package: #'Famix-Fortran77-Entities'>
 	<generated>
 	^ self
+]
+
+{ #category : 'accessing' }
+FamixF77Variable >> commonBlock [
+	"Relation named: #commonBlock type: #FamixF77CommonBlock opposite: #variables"
+
+	<generated>
+	<container>
+	^ commonBlock
+]
+
+{ #category : 'accessing' }
+FamixF77Variable >> commonBlock: anObject [
+
+	<generated>
+	commonBlock := anObject
+]
+
+{ #category : 'navigation' }
+FamixF77Variable >> commonBlockGroup [
+	<generated>
+	<navigation: 'CommonBlock'>
+	^ MooseSpecializedGroup with: self commonBlock
 ]

@@ -12,7 +12,7 @@ A COMMON group of variables
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `localVariables` | `FamixTWithLocalVariables` | `parentBehaviouralEntity` | `FamixTLocalVariable` | Variables locally defined by this behaviour.|
+| `variables` | `FamixF77CommonBlock` | `commonBlock` | `FamixF77Variable` | |
 
 ### Other
 | Relation | Origin | Opposite | Type | Comment |
@@ -31,10 +31,11 @@ A COMMON group of variables
 Class {
 	#name : 'FamixF77CommonBlock',
 	#superclass : 'FamixF77Entity',
-	#traits : 'FamixTNamedEntity + FamixTSourceEntity + FamixTWithLocalVariables + TEntityMetaLevelDependency',
-	#classTraits : 'FamixTNamedEntity classTrait + FamixTSourceEntity classTrait + FamixTWithLocalVariables classTrait + TEntityMetaLevelDependency classTrait',
+	#traits : 'FamixTNamedEntity + FamixTSourceEntity + TEntityMetaLevelDependency',
+	#classTraits : 'FamixTNamedEntity classTrait + FamixTSourceEntity classTrait + TEntityMetaLevelDependency classTrait',
 	#instVars : [
-		'#parentBehaviouralEntity => FMOne type: #FamixF77ProgramUnit opposite: #commonBlocks'
+		'#parentBehaviouralEntity => FMOne type: #FamixF77ProgramUnit opposite: #commonBlocks',
+		'#variables => FMMany type: #FamixF77Variable opposite: #commonBlock'
 	],
 	#category : 'Famix-Fortran77-Entities-Entities',
 	#package : 'Famix-Fortran77-Entities',
@@ -48,6 +49,12 @@ FamixF77CommonBlock class >> annotation [
 	<package: #'Famix-Fortran77-Entities'>
 	<generated>
 	^ self
+]
+
+{ #category : 'adding' }
+FamixF77CommonBlock >> addVariable: anObject [
+	<generated>
+	^ self variables add: anObject
 ]
 
 { #category : 'accessing' }
@@ -71,4 +78,27 @@ FamixF77CommonBlock >> parentBehaviouralEntityGroup [
 	<generated>
 	<navigation: 'ParentBehaviouralEntity'>
 	^ MooseSpecializedGroup with: self parentBehaviouralEntity
+]
+
+{ #category : 'accessing' }
+FamixF77CommonBlock >> variables [
+	"Relation named: #variables type: #FamixF77Variable opposite: #commonBlock"
+
+	<generated>
+	<derived>
+	^ variables
+]
+
+{ #category : 'accessing' }
+FamixF77CommonBlock >> variables: anObject [
+
+	<generated>
+	variables value: anObject
+]
+
+{ #category : 'navigation' }
+FamixF77CommonBlock >> variablesGroup [
+	<generated>
+	<navigation: 'Variables'>
+	^ MooseSpecializedGroup withAll: self variables asSet
 ]
