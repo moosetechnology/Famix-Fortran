@@ -162,8 +162,7 @@ FamixFortran77Generator >> defineHierarchy [
 	access --|> #TAccess.
 	access --|> #TEntityMetaLevelDependency.
 
-	commonGroup --|> structuralEntity.
-	commonGroup --|> #TLocalVariable.
+	commonGroup --|> namedEntity.
 	commonGroup --|> #TWithLocalVariables.
 
 	entityTyping --|> #TEntityTyping.
@@ -302,6 +301,7 @@ FamixFortran77Generator >> defineRelations [
 		 'All inclusions made by this programUnits').
 
 	(externalDeclaration property: #externalProcedure) *- (puProcedure property: #externalUses).
+	(programUnit property: #commonGroups) <>-* (commonGroup property: #parentBehaviouralEntity).
 
 	((tWithStatements property: #statementFunctions)
 		comment: 'Statement functions defined in the body')

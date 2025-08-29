@@ -13,6 +13,7 @@ a program unit
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `comments` | `FamixTWithComments` | `commentedEntity` | `FamixTComment` | List of comments for the entity|
+| `commonGroups` | `FamixF77ProgramUnit` | `parentBehaviouralEntity` | `FamixF77CommonGroup` | |
 | `externalDeclarations` | `FamixF77ProgramUnit` | `programUnit` | `FamixF77ExternalDeclaration` | |
 | `localVariables` | `FamixTWithLocalVariables` | `parentBehaviouralEntity` | `FamixTLocalVariable` | Variables locally defined by this behaviour.|
 
@@ -35,9 +36,10 @@ Class {
 	#traits : 'FamixTSourceEntity + FamixTWithComments + FamixTWithLocalVariables + TEntityMetaLevelDependency',
 	#classTraits : 'FamixTSourceEntity classTrait + FamixTWithComments classTrait + FamixTWithLocalVariables classTrait + TEntityMetaLevelDependency classTrait',
 	#instVars : [
-		'#programFile => FMOne type: #FamixF77ProgramFile opposite: #programUnits',
+		'#commonGroups => FMMany type: #FamixF77CommonGroup opposite: #parentBehaviouralEntity',
 		'#externalDeclarations => FMMany type: #FamixF77ExternalDeclaration opposite: #programUnit',
-		'#includes => FMMany type: #FamixF77Include opposite: #includedBy'
+		'#includes => FMMany type: #FamixF77Include opposite: #includedBy',
+		'#programFile => FMOne type: #FamixF77ProgramFile opposite: #programUnits'
 	],
 	#category : 'Famix-Fortran77-Entities-Entities',
 	#package : 'Famix-Fortran77-Entities',
@@ -62,6 +64,12 @@ FamixF77ProgramUnit class >> isAbstract [
 ]
 
 { #category : 'adding' }
+FamixF77ProgramUnit >> addCommonGroup: anObject [
+	<generated>
+	^ self commonGroups add: anObject
+]
+
+{ #category : 'adding' }
 FamixF77ProgramUnit >> addExternalDeclaration: anObject [
 	<generated>
 	^ self externalDeclarations add: anObject
@@ -71,6 +79,29 @@ FamixF77ProgramUnit >> addExternalDeclaration: anObject [
 FamixF77ProgramUnit >> addInclude: anObject [
 	<generated>
 	^ self includes add: anObject
+]
+
+{ #category : 'accessing' }
+FamixF77ProgramUnit >> commonGroups [
+	"Relation named: #commonGroups type: #FamixF77CommonGroup opposite: #parentBehaviouralEntity"
+
+	<generated>
+	<derived>
+	^ commonGroups
+]
+
+{ #category : 'accessing' }
+FamixF77ProgramUnit >> commonGroups: anObject [
+
+	<generated>
+	commonGroups value: anObject
+]
+
+{ #category : 'navigation' }
+FamixF77ProgramUnit >> commonGroupsGroup [
+	<generated>
+	<navigation: 'CommonGroups'>
+	^ MooseSpecializedGroup withAll: self commonGroups asSet
 ]
 
 { #category : 'accessing' }
