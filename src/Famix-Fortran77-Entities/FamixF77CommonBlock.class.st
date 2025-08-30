@@ -12,7 +12,7 @@ A COMMON group of variables
 ### Children
 | Relation | Origin | Opposite | Type | Comment |
 |---|
-| `variables` | `FamixF77CommonBlock` | `commonBlock` | `FamixF77Variable` | |
+| `variables` | `FamixF77CommonBlock` | `parentCommonBlock` | `FamixF77Variable` | |
 
 ### Other
 | Relation | Origin | Opposite | Type | Comment |
@@ -31,11 +31,11 @@ A COMMON group of variables
 Class {
 	#name : 'FamixF77CommonBlock',
 	#superclass : 'FamixF77Entity',
-	#traits : 'FamixTNamedEntity + FamixTSourceEntity + TEntityMetaLevelDependency',
-	#classTraits : 'FamixTNamedEntity classTrait + FamixTSourceEntity classTrait + TEntityMetaLevelDependency classTrait',
+	#traits : 'FamixTNamedEntity + FamixTSourceEntity',
+	#classTraits : 'FamixTNamedEntity classTrait + FamixTSourceEntity classTrait',
 	#instVars : [
 		'#parentBehaviouralEntity => FMOne type: #FamixF77ProgramUnit opposite: #commonBlocks',
-		'#variables => FMMany type: #FamixF77Variable opposite: #commonBlock'
+		'#variables => FMMany type: #FamixF77Variable opposite: #parentCommonBlock'
 	],
 	#category : 'Famix-Fortran77-Entities-Entities',
 	#package : 'Famix-Fortran77-Entities',
@@ -82,7 +82,7 @@ FamixF77CommonBlock >> parentBehaviouralEntityGroup [
 
 { #category : 'accessing' }
 FamixF77CommonBlock >> variables [
-	"Relation named: #variables type: #FamixF77Variable opposite: #commonBlock"
+	"Relation named: #variables type: #FamixF77Variable opposite: #parentCommonBlock"
 
 	<generated>
 	<derived>
