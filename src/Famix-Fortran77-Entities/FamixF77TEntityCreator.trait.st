@@ -35,17 +35,17 @@ FamixF77TEntityCreator >> newComment [
 ]
 
 { #category : 'entity creation' }
-FamixF77TEntityCreator >> newCommonGroup [
+FamixF77TEntityCreator >> newCommonBlock [
 
 	<generated>
-	^ self add: FamixF77CommonGroup new
+	^ self add: FamixF77CommonBlock new
 ]
 
 { #category : 'entity creation' }
-FamixF77TEntityCreator >> newCommonGroupNamed: aName [
+FamixF77TEntityCreator >> newCommonBlockNamed: aName [
 
 	<generated>
-	^ self add: (FamixF77CommonGroup named: aName)
+	^ self add: (FamixF77CommonBlock named: aName)
 ]
 
 { #category : 'entity creation' }

@@ -8,6 +8,7 @@ a local variable of a program unit
 | Relation | Origin | Opposite | Type | Comment |
 |---|
 | `parentBehaviouralEntity` | `FamixTLocalVariable` | `localVariables` | `FamixTWithLocalVariables` | Behavioural entity declaring this local variable. belongsTo implementation|
+| `parentCommonBlock` | `FamixF77Variable` | `variables` | `FamixF77CommonBlock` | |
 
 ### Outgoing dependencies
 | Relation | Origin | Opposite | Type | Comment |
@@ -39,6 +40,9 @@ Class {
 	#superclass : 'FamixF77StructuralEntity',
 	#traits : 'FamixTLocalVariable',
 	#classTraits : 'FamixTLocalVariable classTrait',
+	#instVars : [
+		'#parentCommonBlock => FMOne type: #FamixF77CommonBlock opposite: #variables'
+	],
 	#category : 'Famix-Fortran77-Entities-Entities',
 	#package : 'Famix-Fortran77-Entities',
 	#tag : 'Entities'
@@ -51,4 +55,27 @@ FamixF77Variable class >> annotation [
 	<package: #'Famix-Fortran77-Entities'>
 	<generated>
 	^ self
+]
+
+{ #category : 'accessing' }
+FamixF77Variable >> parentCommonBlock [
+	"Relation named: #parentCommonBlock type: #FamixF77CommonBlock opposite: #variables"
+
+	<generated>
+	<container>
+	^ parentCommonBlock
+]
+
+{ #category : 'accessing' }
+FamixF77Variable >> parentCommonBlock: anObject [
+
+	<generated>
+	parentCommonBlock := anObject
+]
+
+{ #category : 'navigation' }
+FamixF77Variable >> parentCommonBlockGroup [
+	<generated>
+	<navigation: 'ParentCommonBlock'>
+	^ MooseSpecializedGroup with: self parentCommonBlock
 ]
