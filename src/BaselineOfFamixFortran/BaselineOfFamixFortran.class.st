@@ -10,21 +10,18 @@ BaselineOfFamixFortran >> baseline: spec [
 
 	<baseline>
 	spec for: #common do: [
-		spec description: 'Famix Fortran'.
-		self defineDependencies: spec.
-		self definePackages: spec.
-		self defineGroups: spec ]
+			spec description: 'Famix Fortran'.
+
+			spec for: #NeedsFamix do: [ self famix: spec ].
+			self definePackages: spec.
+			self defineGroups: spec ]
 ]
 
-{ #category : 'baselines' }
-BaselineOfFamixFortran >> defineDependencies: spec [
+{ #category : 'accessing' }
+BaselineOfFamixFortran >> customProjectAttributes [
 
-	spec
-		baseline: 'Famix'
-		with: [ 
-			spec
-				loads: #( 'Core' 'Minimal' 'Basic' );
-				repository: 'github://moosetechnology/Famix' ]
+	'BaselineOfFamix' asPackageIfAbsent: [ ^ #( #NeedsFamix ) ].
+	^ #(  )
 ]
 
 { #category : 'baselines' }
@@ -40,9 +37,30 @@ BaselineOfFamixFortran >> defineGroups: spec [
 BaselineOfFamixFortran >> definePackages: spec [
 
 	spec
-		package: 'Famix-Fortran77-Entities' with: [ spec requires: #( Famix ) ];
-		package: 'Famix-Fortran77-Generator' with: [ spec requires: #( Famix ) ];
-		package: 'Famix-Fortran77-Tests' with: [ spec requires: #( 'Famix-Fortran77-Entities' ) ];
-		package: 'Famix-FortranUDT-Entities' with: [ spec requires: #( Famix ) ];
-		package: 'Famix-FortranUDT-Generator' with: [ spec requires: #( Famix ) ]
+		package: 'Famix-Fortran77-Entities';
+		package: 'Famix-Fortran77-Generator';
+		package: 'Famix-Fortran77-Tests'
+		with: [ spec requires: #( 'Famix-Fortran77-Entities' ) ];
+		package: 'Famix-FortranUDT-Entities';
+		package: 'Famix-FortranUDT-Generator'.
+
+	spec for: #NeedsFamix do: [
+			spec
+				package: 'Famix-Fortran77-Entities'
+				with: [ spec requires: #( Famix ) ];
+				package: 'Famix-Fortran77-Generator'
+				with: [ spec requires: #( Famix ) ];
+				package: 'Famix-FortranUDT-Entities'
+				with: [ spec requires: #( Famix ) ];
+				package: 'Famix-FortranUDT-Generator'
+				with: [ spec requires: #( Famix ) ] ]
+]
+
+{ #category : 'baselines' }
+BaselineOfFamixFortran >> famix: spec [
+
+	spec baseline: 'Famix' with: [
+			spec
+				loads: #( 'Core' 'Minimal' 'Basic' );
+				repository: 'github://moosetechnology/Famix' ]
 ]
